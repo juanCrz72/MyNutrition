@@ -1,4 +1,4 @@
-import { db } from "../db/connection.js"; // Importa la conexión a la base de datos
+import { db } from "../db/ConexionPrueba.js"; // Importa la conexión a la base de datos
 
 // Controlador para obtener todos los datos de los pacientes de la base de datos
 export const getPaciente = async(req, res) => {

@@ -1,4 +1,4 @@
-import { db } from "../db/ConexionPrueba.js";
+import { db } from "../db/connection.js";
 
 // GET países
 export const getPaises = async (req, res) => {
