@@ -1,0 +1,153 @@
+/* ==================== ESTILOS PRINCIPALES DEL SIDEBAR ==================== */
+.sidebar {
+    width: 280px;                    /* Ancho fijo del sidebar */
+    background: white;               /* Fondo blanco */
+    box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08); /* Sombra sutil */
+    display: flex;                   /* Layout flexible */
+    flex-direction: column;          /* Organización vertical */
+    height: calc(100vh - 56px);      /* Altura ajustada al viewport menos navbar */
+    position: fixed;                 /* Posición fija */
+    top: 56px;                       /* Separación desde arriba (altura navbar) */
+    left: 0;                         /* Alineado a la izquierda */
+    transition: transform 0.3s;      /* Transición para animación */
+    z-index: 900;                    /* Profundidad (debajo del navbar) */
+  }
+
+  
+  
+  /* Estado cerrado del sidebar (se oculta) */
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+  
+  /* ==================== ENCABEZADO DEL SIDEBAR ==================== */
+  .sidebar-header {
+    padding: 20px;                   /* Espaciado interno */
+    border-bottom: 1px solid #f1f1f1; /* Borde inferior sutil */
+  }
+  
+  .logo {
+    font-weight: 700;                /* Texto en negrita */
+    color: var(--dark);              /* Color oscuro */
+    font-size: 1.25rem;              /* Tamaño de fuente */
+  }
+  
+  .text-primary {
+    color: var(--primary);           /* Color primario para parte del texto */
+  }
+  
+  /* ==================== MENÚ PRINCIPAL ==================== */
+  .sidebar-menu {
+    padding: 15px 0;                 /* Espaciado vertical */
+    flex-grow: 1;                    /* Ocupa todo el espacio disponible */
+    overflow-y: auto;                /* Scroll vertical si es necesario */
+  }
+  
+  /* Items del menú principal */
+  .menu-item {
+    display: flex;                   /* Layout flexible */
+    align-items: center;             /* Centrado vertical */
+    padding: 12px 20px;              /* Espaciado interno */
+    cursor: pointer;                 /* Cursor tipo pointer */
+    transition: all 0.3s;            /* Transición para efectos hover */
+    color: #6c757d;                  /* Color gris para texto */
+    position: relative;              /* Posición relativa para elementos hijos */
+  }
+  
+  /* Efecto hover */
+  .menu-item:hover {
+    background-color: var(--primary-light); /* Fondo claro del color primario */
+    color: var(--primary);           /* Color primario para texto */
+  }
+  
+  /* Estado activo */
+  .menu-item.active {
+    background-color: var(--primary-light); /* Igual que hover */
+    color: var(--primary);           /* Color primario */
+  }
+  
+  /* Iconos del menú */
+  .menu-icon {
+    margin-right: 12px;              /* Espacio a la derecha */
+    font-size: 16px;                 /* Tamaño del icono */
+  }
+  
+  /* Texto del menú */
+  .menu-text {
+    font-size: 14px;                 /* Tamaño de fuente */
+    font-weight: 500;                /* Grosor medio */
+    flex-grow: 1;                    /* Ocupa espacio disponible */
+  }
+  
+  /* Flecha indicadora */
+  .menu-arrow {
+    font-size: 12px;                 /* Tamaño pequeño */
+  }
+  
+  /* ==================== SUBMENÚS ==================== */
+  .submenu {
+    background-color: rgba(245, 247, 250, 0.5); /* Fondo semitransparente */
+  }
+  
+  /* Items del submenú */
+  .submenu-item {
+    padding: 10px 20px 10px 60px;    /* Espaciado interno (mayor izquierda) */
+    cursor: pointer;                 /* Cursor tipo pointer */
+    transition: all 0.3s;            /* Transición para hover */
+    display: flex;                   /* Layout flexible */
+    align-items: center;             /* Centrado vertical */
+    font-size: 13px;                 /* Tamaño de fuente pequeño */
+  }
+  
+  /* Efecto hover en subitems */
+  .submenu-item:hover {
+    background-color: rgba(94, 114, 228, 0.1); /* Fondo semitransparente */
+    color: var(--primary);           /* Color primario */
+  }
+  
+  /* Iconos del submenú */
+  .submenu-icon {
+    margin-right: 10px;              /* Espacio a la derecha */
+    font-size: 14px;                 /* Tamaño del icono */
+  }
+  
+  /* ==================== DISEÑO RESPONSIVE ==================== */
+  @media (max-width: 992px) {
+    /* Sidebar oculto por defecto en móviles */
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    
+    /* Sidebar visible cuando está abierto */
+    .sidebar.open {
+      transform: translateX(0);
+    }
+  }
+
+  /* Quitar subrayado y color azul de los links */
+.sidebar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Opcional: asegurarse que los links se comporten como los divs normales del menú */
+.menu-item,
+.submenu-item {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item:hover,
+.submenu-item:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Si querés forzar que el link activo tenga un color especial */
+.menu-item.active,
+.submenu-item.active {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}

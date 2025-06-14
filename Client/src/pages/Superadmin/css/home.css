@@ -1,0 +1,484 @@
+/* ====================================================
+   VARIABLES Y ESTILOS GLOBALES
+   ==================================================== */
+   :root {
+    --primary: #5e72e4;
+    --primary-light: #ebf0ff;
+    --secondary: #f7fafc;
+    --success: #2dce89;
+    --danger: #f5365c;
+    --warning: #fb6340;
+    --dark: #172b4d;
+    --light: #f8f9fe;
+    --purple: #825ee4;
+    --teal: #2dce89;
+    --indigo: #5e72e4;
+    --orange: #fb6340;
+  }
+  
+  .custom-dashboard {
+    padding: 20px;
+    background-color: var(--light);
+  }
+  
+  .custom-page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: var(--dark);
+  }
+  
+  /* ==================== ESTADÍSTICAS ==================== */
+  .custom-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .custom-stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+  }
+  
+  .custom-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 12px;
+    background-color: rgba(94, 114, 228, 0.1);
+  }
+  
+  .custom-stat-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--dark);
+  }
+  
+  .custom-stat-info p {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  .custom-stat-trend {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .custom-stat-trend.up {
+    color: var(--success);
+  }
+  
+  .custom-stat-trend.down {
+    color: var(--danger);
+  }
+  
+  /* ==================== TARJETAS ==================== */
+  .custom-dashboard-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  @media (min-width: 992px) {
+    .custom-dashboard-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .custom-dashboard-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .custom-card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .custom-card-header h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--dark);
+  }
+  
+  .custom-card-body {
+    padding: 15px;
+  }
+  
+  /* ==================== CITAS ==================== */
+  .custom-appointment-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .custom-appointment-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .custom-appointment-time {
+    font-weight: 600;
+    color: var(--dark);
+    min-width: 70px;
+    font-size: 14px;
+  }
+  
+  .custom-appointment-details {
+    flex-grow: 1;
+    margin: 0 12px;
+  }
+  
+  .custom-appointment-details h5 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--dark);
+  }
+  
+  .custom-appointment-details p {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  .custom-appointment-status {
+    margin-left: auto;
+  }
+  
+  .custom-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .custom-status-badge.confirmada {
+    background-color: rgba(45, 206, 137, 0.1);
+    color: var(--success);
+  }
+  
+  .custom-status-badge.pendiente {
+    background-color: rgba(251, 99, 64, 0.1);
+    color: var(--warning);
+  }
+  
+  /* ==================== BOTONES ==================== */
+  .custom-btn-sm {
+    padding: 5px 15px;
+    font-size: 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .custom-btn-sm:hover {
+    background-color: #4a5bd1;
+  }
+  
+  /* ==================== VENTAS ==================== */
+  .custom-sale-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s;
+    margin-bottom: 10px;
+  }
+  
+  .custom-sale-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .custom-sale-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .custom-sale-client {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .custom-sale-client h5 {
+    font-size: 14px;
+    margin: 0 0 4px 0;
+    color: var(--dark);
+  }
+  
+  .custom-sale-client p {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  .custom-sale-info {
+    text-align: right;
+    margin-left: 15px;
+  }
+  
+  .custom-sale-amount {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 14px;
+    display: block;
+  }
+  
+  .custom-sale-date {
+    font-size: 11px;
+    color: #6c757d;
+  }
+  
+  .custom-sale-status {
+    margin-left: 15px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .custom-sale-status.pending {
+    background-color: rgba(251, 99, 64, 0.1);
+    color: var(--warning);
+  }
+  
+  .custom-sale-status.liquidado {
+    background-color: rgba(45, 206, 137, 0.1);
+    color: var(--success);
+  }
+  
+  /* ==================== INVENTARIO ==================== */
+  .custom-inventory-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    margin-bottom: 12px;
+    transition: all 0.3s;
+  }
+  
+  .custom-inventory-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .custom-inventory-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .custom-inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .custom-inventory-header h5 {
+    font-size: 14px;
+    margin: 0;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-low-stock-alert {
+    width: 18px;
+    height: 18px;
+    background-color: var(--danger);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 8px;
+  }
+  
+  .custom-inventory-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .custom-inventory-stats .custom-total {
+    color: var(--dark);
+  }
+  
+  .custom-inventory-stats .custom-low-stock {
+    color: var(--danger);
+  }
+  
+  .custom-progress-bar {
+    height: 6px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .custom-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  
+  /* ==================== ACCESO RÁPIDO ==================== */
+  .custom-quick-access-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+  }
+  
+  .custom-quick-access-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  
+  .custom-quick-access-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-quick-access-icon {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: var(--primary);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-size: 18px;
+  }
+  
+  .custom-quick-access-item span {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 768px) {
+    .custom-stats-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .custom-quick-access-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    
+    .custom-sale-item {
+      flex-wrap: wrap;
+    }
+    
+    .custom-sale-client, .custom-sale-info {
+      margin-bottom: 8px;
+    }
+    
+    .custom-sale-status {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+    
+    .custom-dashboard {
+      padding: 15px;
+    }
+    
+    .custom-card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .custom-btn-sm {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .custom-stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .custom-dashboard-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .custom-appointment-item {
+      flex-wrap: wrap;
+    }
+    
+    .custom-appointment-time, .custom-appointment-details {
+      margin-bottom: 5px;
+    }
+    
+    .custom-appointment-status {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+    
+    .custom-sale-item, .custom-appointment-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .custom-sale-info, .custom-appointment-status {
+      margin-left: 0;
+      margin-top: 8px;
+      align-self: flex-end;
+    }
+  }
+

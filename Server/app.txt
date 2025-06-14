@@ -1,0 +1,79 @@
+import express from "express";
+import cors from "cors";
+
+import indexRoutes from "./routes/index.Routes.js";
+
+
+//---------------------------------- IMPORTACIÓN DE RUTAS --------------------------------------------
+import pacienteRoutes from "./routes/Paciente.Routes.js";
+import optometristaRoutes from "./routes/Optometrista.Routes.js";
+
+//Inventarios 
+import inventarioRoutes from "./routes/Inventario.Routes.js";
+import MaterialRoutes from "./routes/Material.Routes.js";
+import TratamientosRoutes from "./routes/Tratamientos.Routes.js";
+import TipoLenteRoutes from "./routes/TipoLente.Routes.js";
+import LentesContactoRoutes from "./routes/LentesContacto.Routes.js";
+
+//Paquetes
+import PaqueteRoutes from "./routes/Paquete.Routes.js";
+import PaqueteDetalleRoutes from "./routes/PaqueteDetalle.Routes.js";
+
+//Historial Clinico
+import HistorialClinicoRoutes from "./routes/HistorialClinico.Routes.js";
+import ExamenVistaRoutes from "./routes/ExamenVista.Routes.js";
+import RecetaRoutes from "./routes/Receta.Routes.js";
+
+//Ventas
+import preciosRoutes from "./routes/Precios.Routes.js";
+import CotizacionRoutes from "./routes/Cotizacion.Routes.js";
+import PedidosRoutes from "./routes/Pedido.Routes.js";
+import PedidosTratamientosRoutes from "./routes/PedidosTratamientos.Routes.js";
+import VentasRoutes from "./routes/Venta.Routes.js";
+
+//Citas
+import CitasRoutes from "./routes/Cita.Routes.js";
+
+
+//---------------------------------- CREACIÓN DE LA APLICACIÓN --------------------------------------------
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// Rutas
+app.use("/",indexRoutes);
+
+
+//--------------------------------------------- RUTAS -----------------------------------------
+app.use("/Paciente", pacienteRoutes); // Rutas para Paciente para la api (front)
+app.use("/Optometrista", optometristaRoutes);
+
+// Inventarios
+app.use("/Inventario", inventarioRoutes);
+app.use("/Tratamientos", TratamientosRoutes);
+app.use("/Material", MaterialRoutes);
+app.use("/TipoLente", TipoLenteRoutes);
+app.use("/LentesContacto", LentesContactoRoutes);
+
+//Paquetes
+app.use("/Paquete", PaqueteRoutes);
+app.use("/PaqueteDetalle", PaqueteDetalleRoutes);
+
+//Historial Clinico
+app.use("/HistorialClinico", HistorialClinicoRoutes);
+app.use("/ExamenVista", ExamenVistaRoutes);
+app.use("/Receta", RecetaRoutes);
+
+//Ventas
+app.use("/Precios", preciosRoutes);
+app.use("/Cotizacion", CotizacionRoutes);
+app.use("/Pedidos", PedidosRoutes);
+app.use("/Ventas", VentasRoutes);
+app.use("/PedidosTratamientos", PedidosTratamientosRoutes);
+
+//Citas
+app.use("/Citas", CitasRoutes);
+
+export default app;

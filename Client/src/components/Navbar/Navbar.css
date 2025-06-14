@@ -1,0 +1,116 @@
+/* ===================== NAVBAR PERSONALIZADO ===================== */
+.navbar-custom {
+  height: 56px;
+  background: rgba(52,73,94,255);
+  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.user-profile {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  font-size: 24px; /* Ajusta el tamaño si lo deseas */
+  margin-right: 8px;
+}
+
+
+/* --- Sección izquierda --- */
+.navbar-left, .navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botón toggle sidebar */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+  position: relative;
+}
+.search-bar input {
+  border: none;
+  background: #f5f7fa;
+  border-radius: 20px;
+  padding: 8px 15px 8px 35px;
+  width: 320px;
+  outline: none;
+  transition: all 0.3s;
+}
+.search-bar input:focus {
+  box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.16);
+  background: white;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+/* --- Sección derecha --- */
+.notifications {
+  position: relative;
+  color: #6c757d;
+  cursor: pointer;
+}
+.notifications .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Perfil de usuario */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-avatar {
+  font-size: 1.5rem;
+  color: #0d6efd;
+}
+.user-name {
+  font-weight: 500;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .search-bar input {
+    width: 180px;
+  }
+  .user-name {
+    display: none;
+  }
+}
+
+
