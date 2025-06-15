@@ -33,7 +33,7 @@ const Sidebar = ({ isOpen }) => {
       name: 'Alimentación', 
       icon: <FaBoxes />,
       submenu: [
-        { id: 'inventario', name: 'Catálogo de Alimentos', icon: <FaCarrot  />, path: '/inventario' }
+        { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaCarrot  />, path: '/Alimentos' }
       ]
     },
 
