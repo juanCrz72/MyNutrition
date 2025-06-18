@@ -19,34 +19,47 @@ export const AlimentoCRUD = ({
   const [paises, setPaises] = useState([]);
   const [loadingPaises, setLoadingPaises] = useState(true);
 
-  // Cargar países al montar el componente
-  useEffect(() => {
-    const fetchPaises = async () => {
-      try {
-        const response = await getPaises();
-        
-        // Manejar diferentes estructuras de respuesta
-        let paisesData;
-        if (Array.isArray(response)) {
-          paisesData = response;
-        } else if (response && Array.isArray(response.data)) {
+  // Función optimizada para cargar países
+  const cargarPaises = async () => {
+    setLoadingPaises(true);
+    try {
+      const response = await getPaises();
+      
+      // Depuración: Verifica la estructura completa de la respuesta
+      console.log("Respuesta completa de la API:", response);
+      
+      // Manejo flexible de la respuesta
+      let paisesData = [];
+      
+      if (Array.isArray(response)) {
+        paisesData = response; // Si la respuesta es directamente un array
+      } else if (response?.data) {
+        // Si la respuesta tiene propiedad data
+        if (Array.isArray(response.data)) {
           paisesData = response.data;
-        } else {
-          console.error("Formato de respuesta inesperado:", response);
-          return;
+        } else if (response.data.paises) {
+          paisesData = response.data.paises; // Si está dentro de data.paises
         }
-        
-        // Filtrar solo países activos (activo === 1)
-        const paisesActivos = paisesData.filter(pais => pais.activo === 1);
-        setPaises(paisesActivos);
-      } catch (error) {
-        console.error("Error al cargar países:", error);
-      } finally {
-        setLoadingPaises(false);
       }
-    };
-    
-    fetchPaises();
+      
+      // Validación final
+      if (!Array.isArray(paisesData)) {
+        console.error("Formato de países no reconocido");
+        paisesData = [];
+      }
+      
+      setPaises(paisesData);
+      console.log("Países cargados:", paisesData); // Para verificar los datos
+    } catch (error) {
+      console.error("Error al cargar países:", error);
+      setPaises([]);
+    } finally {
+      setLoadingPaises(false);
+    }
+  };
+
+  useEffect(() => {
+    cargarPaises();
   }, []);
 
   // -------------------------- Campos del formulario --------------------------
@@ -177,17 +190,21 @@ export const AlimentoCRUD = ({
       placeholder: "Ej: 2.4",
       col: 4
     },
-  {
-  label: "Países asociados",
-  name: "idPais",
-  value: alimentoData.idPais || [],
-  setter: (value) => setAlimentoData(prev => ({...prev, idPais: Array.isArray(value) ? value : [value]})),
-  type: "checkboxgroup", // Cambiamos de "multiselect" a "checkboxgroup"
-  options: paises.map(pais => pais.idPais),
-  optionLabels: paises.map(pais => pais.nombre_pais),
-  col: 12,
-  loading: loadingPaises
-}
+   {
+      label: "Países asociados",
+      name: "idPais",
+      value: alimentoData.idPais || [],
+      setter: (value) => setAlimentoData(prev => ({
+        ...prev, 
+        idPais: Array.isArray(value) ? value : [value]
+      })),
+      type: "checkboxgroup",
+      options: paises.map(pais => pais.idPais),
+      optionLabels: paises.map(pais => pais.nombre_pais),
+      col: 12,
+      loading: loadingPaises,
+      error: paises.length === 0 && !loadingPaises
+    }
   ];
 
 const renderField = (field) => (

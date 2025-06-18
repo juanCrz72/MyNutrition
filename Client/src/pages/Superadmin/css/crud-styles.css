@@ -410,3 +410,136 @@
   flex: 1;
 }
 
+/* Estilos para la bitácora */
+.nutrient-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.nutrient-info .badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Ajustes para la tabla de bitácora */
+.crud-table th {
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0;
+}
+
+/* Estilos generales */
+.text-gradient-primary {
+  background: linear-gradient(90deg, #4e73df 0%, #224abe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Tarjeta de información del paciente */
+.patient-info-card {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+}
+
+/* Secciones de comidas */
+.meal-section {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.meal-section:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.meal-section .card-header {
+  padding: 1rem 1.5rem;
+  border-radius: 12px 12px 0 0 !important;
+  transition: all 0.3s ease;
+}
+
+.meal-section .card-header:hover {
+  background-color: #f8f9fa;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.small-summary .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Tarjetas de nutrientes */
+.nutrition-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  height: 100%;
+}
+
+.bg-primary-bg {
+  background-color: rgba(78, 115, 223, 0.1);
+}
+
+.bg-success-bg {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.bg-warning-bg {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-danger-bg {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-info-card .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .meal-section .card-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .nutrition-card {
+    padding: 1rem;
+  }
+  
+  .small-summary {
+    display: none !important;
+  }
+}
+
+/* Selector de fecha */
+.date-picker-container {
+  max-width: 220px;
+}
+
+.date-picker-container .form-control {
+  border-left: none;
+}
+
+.date-picker-container .input-group-text {
+  border-right: none;
+  background-color: white;
+}

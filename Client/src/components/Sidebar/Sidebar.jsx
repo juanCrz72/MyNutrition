@@ -21,7 +21,8 @@ const Sidebar = ({ isOpen }) => {
       name: 'Gestión de Pacientes', 
       icon: <FaAddressBook />,
       submenu: [
-        { id: 'pacientes', name: 'Pacientes', icon: <FaUsersCog />, path: '/pacientes' },
+       /*  { id: 'pacientes', name: 'Pacientes', icon: <FaUsersCog />, path: '/pacientes' }, */
+         { id: 'personas', name: 'Pacientes', icon: <FaUsersCog />, path: '/personas' },
         { id: 'recetas', name: 'Registro de Comidas', icon: <FaClipboardList />, path: '/receta' },
        /*  { id: 'gestionPacientes', name: 'Gestión Pacientes', icon: <FaClipboardList />, path: '/gestionPacientes' } */
       ]

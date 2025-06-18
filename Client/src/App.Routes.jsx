@@ -4,6 +4,8 @@ import Home from './pages/Superadmin/home.jsx';
 
 // -------------------- Gestión Pacientes -------------------- //
 import Paciente from './pages/Superadmin/Paciente';
+import Persona from './pages/Superadmin/Persona.jsx';
+import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
 
 // -------------------- Gestión Alimentos -------------------- //
 import Pais from './pages/Superadmin/Paises.jsx';
@@ -22,6 +24,9 @@ export default function AppRoutes() {
       <Route path="/pacientes" element={<Paciente />} />
       <Route path="/paises" element={<Pais />} />
       <Route path="/Alimentos" element={<Alimentos />} />
+      <Route path="/personas" element={<Persona />} />
+      {/* <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} /> */}
+       <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} />
       
       
       {/* Ruta para manejar 404 Not Found */}
