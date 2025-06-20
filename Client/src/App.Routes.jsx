@@ -10,6 +10,7 @@ import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
 // -------------------- Gestión Alimentos -------------------- //
 import Pais from './pages/Superadmin/Paises.jsx';
 import Alimentos from './pages/Superadmin/Alimentos.jsx';
+import Plan from './pages/Superadmin/Plan.jsx'
 
 // -------------------- Gestión de Usuarios -------------------- //
 import NotFound from './pages/Superadmin/NotFound.jsx';
@@ -27,6 +28,8 @@ export default function AppRoutes() {
       <Route path="/personas" element={<Persona />} />
       {/* <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} /> */}
        <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} />
+       <Route path="/plan" element={<Plan />} />
+
       
       
       {/* Ruta para manejar 404 Not Found */}

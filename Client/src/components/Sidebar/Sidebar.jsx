@@ -43,7 +43,7 @@ const Sidebar = ({ isOpen }) => {
       name: 'Configuración', 
       icon: <FaCog />,
       submenu: [
-      { id: 'listaPrecios', name: 'Planes', icon: <FaClipboardList  />, path: '/precios' },    
+      { id: 'Plan', name: 'Planes', icon: <FaClipboardList  />, path: '/plan' },    
       { id: 'paises', name: 'Países', icon: <FaGlobeAmericas  />, path: '/paises' }
         //{ id: 'paqueteDetalle', name: 'Paquetes Detalles', icon: <FaBoxes />, path: '/paqueteDetalle' }, 
       ]

@@ -193,7 +193,7 @@ function Persona() {
                         onClick={() => navigate(`/personaBitacora/${persona.idpersona}`)}
                         title="Bitácora de Comidas"
                       >
-                        <FaUtensils size={12} /> {/* Necesitarás importar FaUtensils de react-icons/fa */}
+                        <FaUtensils size={12} />
                       </button>
 
                      <button
@@ -285,6 +285,14 @@ function Persona() {
                       </td>
                       <td>
                         <div className="d-flex gap-1 flex-wrap">
+                          
+                      <button
+                        className="crud-btn crud-btn-primary btn-action-optimized"
+                        onClick={() => navigate(`/personaBitacora/${persona.idpersona}`)}
+                        title="Bitácora de Comidas"
+                      >
+                        <FaUtensils size={12} />
+                      </button>
                                                  
                       <button
                         className="crud-btn crud-btn-info btn-action-optimized"

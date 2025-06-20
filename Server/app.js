@@ -12,6 +12,7 @@ import paisesRoutes from "./routes/Paises.Routes.js";
 import dietas from "./routes/Dietas.Routes.js";
 import bitacoraRoutes from "./routes/Bitacora.Routes.js";
 
+import Cat_planRoutes from "./routes/Plan.Routes.js";
 //----------------------------------- ALIMENTOS -----------------------------------
 import alimentosRoutes from "./routes/Alimentos.Routes.js";
 
@@ -31,5 +32,6 @@ app.use("/Alimentos", alimentosRoutes); // Rutas para Alimentos para la api (fro
 app.use("/Personas", personasRoutes); // Rutas para Personas para la api (front)
 app.use("/Dietas", dietas); // Rutas para Dietas para la api (front)
 app.use("/Bitacora", bitacoraRoutes); // Rutas para Bitácora para la api (front)
+app.use("/Cat_plan", Cat_planRoutes); // Rutas para Planes para la api (front)
 
 export default app;
