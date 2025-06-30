@@ -2,7 +2,7 @@
 .navbar-custom {
   height: 56px;
   background: rgba(52,73,94,255);
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: 0 0 28px 0 rgba(8, 113, 36, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;

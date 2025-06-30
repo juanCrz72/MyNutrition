@@ -54,7 +54,9 @@ export const getBitacoraComidas = async (req, res) => {
         sa.Energia_kcal,
         sa.Proteina_g,
         sa.Grasa_g,
+        sa.Unidad,
         sa.Carbohidratos_g,
+        sa.Peso_Neto_g AS peso,
 
         -- Datos de la dieta personalizada
         pd.calorias,

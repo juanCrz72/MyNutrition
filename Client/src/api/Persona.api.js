@@ -12,6 +12,17 @@ export const getPersonas = async () => {
   }
 };
 
+export const getPersonaById = async (idpersona) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/Personas/${idpersona}`);
+    return response.data.data; // Retorna solo el objeto de la persona
+  } catch (error) {
+    console.error(`Error al obtener la persona con ID ${idpersona}:`, error.response?.data || error.message);
+    throw new Error('Error al obtener la persona por ID');
+  }
+};
+
+
 // Crear una nueva persona
 export const createPersona = async (personaData) => {
   try {

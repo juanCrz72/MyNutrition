@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Form, Spinner, Alert, Tab, Tabs, Badge } from 'react-bootstrap';
-import { FaSearch, FaUtensils, FaFire, FaHistory, FaStar, FaInfoCircle } from 'react-icons/fa';
+import { FaSearch, FaUtensils, FaHistory, FaStar, FaInfoCircle, FaImage, FaHamburger, FaAppleAlt, FaDrumstickBite, FaEgg, FaBreadSlice } from 'react-icons/fa';
+import { GiFruitBowl, GiMeal, GiChickenOven, GiSodaCan } from 'react-icons/gi';
 import { createBitacoraComidajs, getBitacoraComidasjs } from '../../assets/js/Bitacora.js';
 import { getAlimentos } from '../../api/Alimentos.api.js';
 import { getBitacoraComidas } from '../../api/Bitacora.api.js';
+import { obtenerTodasLasImagenesAlimentos } from '../../api/DocumentosAlimentos.api.js';
 import Swal from 'sweetalert2';
 import './css/AlimentosCRUD.css';
 
@@ -20,11 +22,13 @@ const PersonaBitacoraCRUD = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAlimento, setSelectedAlimento] = useState(null);
   const [contador, setContador] = useState(1);
+  const [gramaje, setGramaje] = useState(100);
+  const [inputMode, setInputMode] = useState('porciones');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
+  const [imagenesMap, setImagenesMap] = useState({});
 
-  // Función para formatear la fecha de manera segura
   const formatDate = (date) => {
     try {
       const d = date instanceof Date ? date : new Date(date);
@@ -34,22 +38,64 @@ const PersonaBitacoraCRUD = ({
     }
   };
 
+  const handleImageError = (id) => {
+    setImagenesMap(prev => ({
+      ...prev,
+      [id]: null // Usaremos null para indicar que no hay imagen disponible
+    }));
+  };
+
+  const getCategoryIcon = (category) => {
+    if (!category) return <FaUtensils size={24} />;
+    
+    switch(category.toLowerCase()) {
+      case 'frutas':
+        return <GiFruitBowl size={24} />;
+      case 'verduras':
+        return <FaAppleAlt size={24} />;
+      case 'carnes':
+        return <FaDrumstickBite size={24} />;
+      case 'lácteos':
+      case 'lacteos':
+        return <FaEgg size={24} />;
+      case 'comida rápida':
+      case 'comida rapida':
+        return <FaHamburger size={24} />;
+      case 'comidas preparadas':
+        return <GiMeal size={24} />;
+      case 'aves':
+        return <GiChickenOven size={24} />;
+      case 'panes y cereales':
+      case 'pan':
+        return <FaBreadSlice size={24} />;
+      case 'bebidas':
+        return <GiSodaCan size={24} />;
+      default:
+        return <FaUtensils size={24} />;
+    }
+  };
+
   useEffect(() => {
     if (show) {
       setLoading(true);
       setError(null);
-      fetchAlimentos();
-      fetchMostUsedAlimentos();
+      fetchData();
     }
   }, [show]);
 
-  const fetchAlimentos = async () => {
+  const fetchData = async () => {
     try {
-      const data = await getAlimentos();
-      const mapped = data.map(item => ({
+      const [alimentosData, imagenesData] = await Promise.all([
+        getAlimentos(),
+        obtenerTodasLasImagenesAlimentos()
+      ]);
+
+      const mappedAlimentos = alimentosData.map(item => ({
         id: item.id,
         nombre: item.Alimento,
+        Unidad: item.Unidad || 'N/A',
         porcion: item.Cantidad_Sugerida || 'N/A',
+        porcionGramos: parseFloat(item.Peso_Neto_g) || 100,
         energia_kcal: parseFloat(item.Energia_kcal) || 0,
         proteina_g: parseFloat(item.Proteina_g) || 0,
         carbohidratos_g: parseFloat(item.Carbohidratos_g) || 0,
@@ -59,10 +105,20 @@ const PersonaBitacoraCRUD = ({
         azucar_g: parseFloat(item.Azucar_g) || 0,
         sodio_mg: parseFloat(item.Sodio_mg) || 0
       }));
-      setAlimentos(mapped);
+
+      const imagenesMap = {};
+      imagenesData.forEach(img => {
+        if (!imagenesMap[img.idAlimento]) {
+          imagenesMap[img.idAlimento] = img.localizacion;
+        }
+      });
+
+      setAlimentos(mappedAlimentos);
+      setImagenesMap(imagenesMap);
+      await fetchMostUsedAlimentos();
     } catch (err) {
       console.error(err);
-      setError('Error al cargar los alimentos');
+      setError('Error al cargar los datos');
     } finally {
       setLoading(false);
     }
@@ -92,6 +148,19 @@ const PersonaBitacoraCRUD = ({
     }
   };
 
+  const calculateNutrition = (value) => {
+    if (!selectedAlimento) return 0;
+    
+    let factor;
+    if (inputMode === 'porciones') {
+      factor = contador;
+    } else {
+      factor = gramaje / selectedAlimento.porcionGramos;
+    }
+    
+    return (parseFloat(value) * factor).toFixed(2);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -101,12 +170,19 @@ const PersonaBitacoraCRUD = ({
     }
     
     try {
+      let porcionesARegistrar;
+      if (inputMode === 'porciones') {
+        porcionesARegistrar = contador;
+      } else {
+        porcionesARegistrar = gramaje / selectedAlimento.porcionGramos;
+      }
+      
       await createBitacoraComidajs(
         idUsuario,
         mealType,
         selectedAlimento.id,
         selectedDate,
-        contador,
+        porcionesARegistrar,
         onHide,
         refreshData
       );
@@ -135,55 +211,69 @@ const PersonaBitacoraCRUD = ({
   const renderNutritionLabel = () => {
     if (!selectedAlimento) return null;
     
-    const totalCalories = selectedAlimento.energia_kcal * contador;
-    const caloriesFromFat = selectedAlimento.grasa_g * contador * 9;
+    const totalCalories = calculateNutrition(selectedAlimento.energia_kcal);
+    const caloriesFromFat = (calculateNutrition(selectedAlimento.grasa_g) * 9).toFixed(0);
     
     return (
-      <div className="nutrition-label">
+      <div className="nutrition-card">
         <div className="nutrition-header">
-          <h5>Información Nutricional</h5>
-          <small>Por {contador} porción(es) de {selectedAlimento.porcion}</small>
+          <div className="nutrition-title">
+            <h4>Información Nutricional</h4>
+            <div className="nutrition-subtitle">
+              {inputMode === 'porciones' ? (
+                <span>{contador} {selectedAlimento.Unidad} ({calculateNutrition(selectedAlimento.porcionGramos)}g)</span>
+              ) : (
+                <span>{gramaje}g ({(gramaje / selectedAlimento.porcionGramos).toFixed(2)} porciones)</span>
+              )}
+            </div>
+          </div>
         </div>
         
-        <div className="nutrition-facts">
-          <div className="nutrition-row main">
-            <span className="nutrition-title">Calorías</span>
-            <span className="nutrition-value">{totalCalories.toFixed(0)}</span>
+        <div className="nutrition-main-fact">
+          <div className="calories-circle">
+            <div className="calories-value">{totalCalories}</div>
+            <div className="calories-label">kcal</div>
           </div>
-          <div className="nutrition-subtext">
-            Calorías de grasa: {caloriesFromFat.toFixed(0)}
+          <div className="calories-detail">
+            <span>Calorías de grasa: {caloriesFromFat}</span>
           </div>
-          
-          <div className="nutrition-divider"></div>
-          
-          <div className="nutrition-row">
-            <span className="nutrition-title">Grasa Total</span>
-            <span className="nutrition-value">{(selectedAlimento.grasa_g * contador).toFixed(1)}g</span>
-          </div>
-          
-          <div className="nutrition-row">
-            <span className="nutrition-title">Carbohidratos Totales</span>
-            <span className="nutrition-value">{(selectedAlimento.carbohidratos_g * contador).toFixed(1)}g</span>
+        </div>
+        
+        <div className="nutrition-macros">
+          <div className="macro-item">
+            <div className="macro-bar protein" style={{ width: `${Math.min(100, selectedAlimento.proteina_g * 10)}%` }}></div>
+            <div className="macro-info">
+              <span className="macro-name">Proteína</span>
+              <span className="macro-value">{calculateNutrition(selectedAlimento.proteina_g)}g</span>
+            </div>
           </div>
           
-          <div className="nutrition-row sub">
-            <span className="nutrition-title">• Azúcares</span>
-            <span className="nutrition-value">{(selectedAlimento.azucar_g * contador).toFixed(1)}g</span>
+          <div className="macro-item">
+            <div className="macro-bar carbs" style={{ width: `${Math.min(100, selectedAlimento.carbohidratos_g * 5)}%` }}></div>
+            <div className="macro-info">
+              <span className="macro-name">Carbohidratos</span>
+              <span className="macro-value">{calculateNutrition(selectedAlimento.carbohidratos_g)}g</span>
+              <div className="macro-subitems">
+                <span>• Azúcares: {calculateNutrition(selectedAlimento.azucar_g)}g</span>
+                <span>• Fibra: {calculateNutrition(selectedAlimento.fibra_g)}g</span>
+              </div>
+            </div>
           </div>
           
-          <div className="nutrition-row sub">
-            <span className="nutrition-title">• Fibra Dietética</span>
-            <span className="nutrition-value">{(selectedAlimento.fibra_g * contador).toFixed(1)}g</span>
+          <div className="macro-item">
+            <div className="macro-bar fat" style={{ width: `${Math.min(100, selectedAlimento.grasa_g * 10)}%` }}></div>
+            <div className="macro-info">
+              <span className="macro-name">Grasa</span>
+              <span className="macro-value">{calculateNutrition(selectedAlimento.grasa_g)}g</span>
+            </div>
           </div>
           
-          <div className="nutrition-row">
-            <span className="nutrition-title">Proteína</span>
-            <span className="nutrition-value">{(selectedAlimento.proteina_g * contador).toFixed(1)}g</span>
-          </div>
-          
-          <div className="nutrition-row">
-            <span className="nutrition-title">Sodio</span>
-            <span className="nutrition-value">{(selectedAlimento.sodio_mg * contador).toFixed(0)}mg</span>
+          <div className="macro-item">
+            <div className="macro-bar sodium" style={{ width: `${Math.min(100, selectedAlimento.sodio_mg / 20)}%` }}></div>
+            <div className="macro-info">
+              <span className="macro-name">Sodio</span>
+              <span className="macro-value">{calculateNutrition(selectedAlimento.sodio_mg)}mg</span>
+            </div>
           </div>
         </div>
         
@@ -193,6 +283,71 @@ const PersonaBitacoraCRUD = ({
       </div>
     );
   };
+
+  const renderAlimentoCard = (alimento) => (
+    <div 
+      key={alimento.id}
+      className={`alimento-card ${selectedAlimento?.id === alimento.id ? 'selected' : ''}`}
+      onClick={() => setSelectedAlimento(alimento)}
+    >
+      <div className="alimento-card-image-container">
+        {imagenesMap[alimento.id] ? (
+          <img 
+            src={`/${imagenesMap[alimento.id]}`}
+            alt={alimento.nombre}
+            className="alimento-card-image"
+            onError={() => handleImageError(alimento.id)}
+          />
+        ) : (
+          <div className="generic-food-icon">
+            {getCategoryIcon(alimento.categoria)}
+            <FaImage className="image-placeholder-icon" />
+          </div>
+        )}
+      </div>
+      <div className="alimento-card-header">
+        <h5 className="alimento-name">{alimento.nombre}</h5>
+        <Badge bg="light" text="dark" className="alimento-category">
+          {alimento.categoria}
+        </Badge>
+      </div>
+      <div className="alimento-portion">
+        {alimento.porcion} {alimento.Unidad} ({alimento.porcionGramos}g)
+      </div>
+      <div className="alimento-macros">
+        <div className="macro-item">
+          <span className="macro-value">{alimento.energia_kcal}</span>
+          <span className="macro-label">kcal</span>
+        </div>
+        <div className="macro-item">
+          <span className="macro-value">{alimento.proteina_g}</span>
+          <span className="macro-label">Proteína</span>
+        </div>
+        <div className="macro-item">
+          <span className="macro-value">{alimento.carbohidratos_g}</span>
+          <span className="macro-label">Carbs</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSelectedAlimentoImage = () => (
+    <div className="selected-alimento-image-container">
+      {imagenesMap[selectedAlimento.id] ? (
+        <img 
+          src={`/${imagenesMap[selectedAlimento.id]}`}
+          alt={selectedAlimento.nombre}
+          className="selected-alimento-image"
+          onError={() => handleImageError(selectedAlimento.id)}
+        />
+      ) : (
+        <div className="generic-food-icon large">
+          {getCategoryIcon(selectedAlimento.categoria)}
+          <span>{selectedAlimento.nombre}</span>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <Modal show={show} onHide={onHide} size="lg" centered className="food-modal">
@@ -249,39 +404,7 @@ const PersonaBitacoraCRUD = ({
             <div className="alimentos-container">
               <div className="alimentos-grid">
                 {getAlimentosByTab().length > 0 ? (
-                  getAlimentosByTab().map(alimento => (
-                    <div 
-                      key={alimento.id}
-                      className={`alimento-card ${selectedAlimento?.id === alimento.id ? 'selected' : ''}`}
-                      onClick={() => setSelectedAlimento(alimento)}
-                    >
-                      <div className="alimento-card-header">
-                        <h5 className="alimento-name">{alimento.nombre}</h5>
-                        <Badge bg="light" text="dark" className="alimento-category">
-                          {alimento.categoria}
-                        </Badge>
-                      </div>
-                      <div className="alimento-portion">{alimento.porcion}</div>
-                      <div className="alimento-macros">
-                        <div className="macro-item">
-                          <span className="macro-value">{alimento.energia_kcal}</span>
-                          <span className="macro-label">kcal</span>
-                        </div>
-                        <div className="macro-item">
-                          <span className="macro-value">{alimento.proteina_g}</span>
-                          <span className="macro-label">Proteína</span>
-                        </div>
-                        <div className="macro-item">
-                          <span className="macro-value">{alimento.carbohidratos_g}</span>
-                          <span className="macro-label">Carbs</span>
-                        </div>
-                        <div className="macro-item">
-                          <span className="macro-value">{alimento.grasa_g}</span>
-                          <span className="macro-label">Grasa</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
+                  getAlimentosByTab().map(renderAlimentoCard)
                 ) : (
                   <div className="no-results">
                     <FaSearch className="no-results-icon" />
@@ -295,19 +418,61 @@ const PersonaBitacoraCRUD = ({
           {selectedAlimento && (
             <div className="selected-alimento-container mt-4">
               <div className="selected-alimento-header">
+                {renderSelectedAlimentoImage()}
                 <h4 className="selected-alimento-title">{selectedAlimento.nombre}</h4>
-                <div className="portion-control">
-                  <Form.Label className="portion-label">Porciones:</Form.Label>
-                  <Form.Control
-                    type="number"
-                    min="0.1"
-                    step="0.1"
-                    value={contador}
-                    onChange={(e) => setContador(parseFloat(e.target.value) || 1)}
-                    className="portion-input"
+                
+                <div className="input-mode-selector mb-3">
+                  <Form.Check
+                    type="radio"
+                    label="Por cantidad de porciones"
+                    name="inputMode"
+                    id="porciones-mode"
+                    checked={inputMode === 'porciones'}
+                    onChange={() => setInputMode('porciones')}
+                    inline
                   />
-                  <span className="portion-size">{selectedAlimento.porcion}</span>
+                  <Form.Check
+                    type="radio"
+                    label="Por gramaje (g)"
+                    name="inputMode"
+                    id="gramaje-mode"
+                    checked={inputMode === 'gramaje'}
+                    onChange={() => setInputMode('gramaje')}
+                    inline
+                  />
                 </div>
+                
+                {inputMode === 'porciones' ? (
+                  <div className="portion-control">
+                    <Form.Label className="portion-label">Porciones:</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="0.1"
+                      step="0.1"
+                      value={contador}
+                      onChange={(e) => setContador(parseFloat(e.target.value) || 1)}
+                      className="portion-input"
+                    />
+                    <span className="portion-size">
+                      ({selectedAlimento.porcionGramos}g cada una)
+                    </span>
+                  </div>
+                ) : (
+                  <div className="portion-control">
+                    <Form.Label className="portion-label">Gramos (g):</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={gramaje}
+                      onChange={(e) => setGramaje(parseFloat(e.target.value) || 100)}
+                      className="portion-input"
+                    />
+                    <span className="portion-size">
+                      (equivale a {(gramaje / selectedAlimento.porcionGramos).toFixed(2)} porciones)
+                    </span>
+                  </div>
+                )}
               </div>
               
               {renderNutritionLabel()}

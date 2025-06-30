@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash, FaPlus, FaSearch, FaList, FaUtensils, FaInfoCircle } from "react-icons/fa";
-
+import './css/crud-styles.css'; // Nuevos estilos CRUD
 import { getAlimentosjs, createAlimentojs, updateAlimentojs, deleteAlimentojs } from '../../assets/js/Alimentos.js';
 import { AlimentoCRUD } from './AlimentosCRUD.jsx';
+
 
 function Alimentos() {
   // Estados para la lista y formulario
@@ -34,6 +35,7 @@ function Alimentos() {
   // Estados para búsqueda y selección
   const [searchText, setSearchText] = useState("");
   const [selectedAlimento, setSelectedAlimento] = useState(null);
+  const [gramaje, setGramaje] = useState(100); // Nuevo estado para el gramaje
 
   // Estados para paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +106,15 @@ function Alimentos() {
   // Mostrar información nutricional
   const showNutritionInfo = (alimento) => {
     setSelectedAlimento(alimento);
+    setGramaje(100); // Resetear a 100g al abrir el modal
     setShowNutritionModal(true);
+  };
+
+  // Calcular valores nutricionales según gramaje
+  const calculateNutrition = (value) => {
+    if (!selectedAlimento) return 0;
+    const factor = gramaje / 100;
+    return (parseFloat(value) * factor).toFixed(2);
   };
 
   return (
@@ -181,6 +191,8 @@ function Alimentos() {
                     <h6 className="card-subtitle mb-2 text-muted">{alimento.Categoria}</h6>
                     <p className="card-text">
                       <strong>Cantidad Sugerida:</strong> {alimento.Cantidad_Sugerida} {alimento.Unidad}<br />
+                      <strong>Peso Bruto:</strong> {alimento.Peso_Bruto_g}g<br />
+                      <strong>Peso Neto:</strong> {alimento.Peso_Neto_g}g<br />
                       <strong>Energía:</strong> {alimento.Energia_kcal} kcal<br />
                       <strong>Estado:</strong> {alimento.activo === 1 ? "ACTIVO" : "INACTIVO"}
                     </p>
@@ -246,6 +258,8 @@ function Alimentos() {
                   <th>Categoría</th>
                   <th>Alimento</th>
                   <th>Cantidad Sugerida</th>
+                  <th>Peso Bruto</th>
+                  <th>Peso Neto</th>
                   <th>Energía (kcal)</th>
                   <th>Estado</th>
                   <th>Acciones</th>
@@ -258,6 +272,8 @@ function Alimentos() {
                       <td>{alimento.Categoria}</td>
                       <td>{alimento.Alimento}</td>
                       <td>{alimento.Cantidad_Sugerida} {alimento.Unidad}</td>
+                      <td>{alimento.Peso_Bruto_g}g</td>
+                      <td>{alimento.Peso_Neto_g}g</td>
                       <td>{alimento.Energia_kcal}</td>
                       <td>{alimento.activo === 1 ? "ACTIVO" : "INACTIVO"}</td>
                       <td>
@@ -308,7 +324,7 @@ function Alimentos() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="text-center py-4 text-muted">
+                    <td colSpan="8" className="text-center py-4 text-muted">
                       No hay alimentos registrados
                     </td>
                   </tr>
@@ -350,190 +366,137 @@ function Alimentos() {
       />
 
       {/* Modal de información nutricional */}
-{selectedAlimento && (
-  <div className={`modal fade ${showNutritionModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ backgroundColor: showNutritionModal ? 'rgba(0,0,0,0.5)' : 'transparent' }}>
-    <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div className="modal-content">
-        {/* Header modificado para usar tus estilos */}
-      <div
-  className="modal-header text-white sticky-top"
-  style={{ backgroundColor: 'rgba(52,73,94,255)' }}
->
-
-        <h5 className="modal-title fw-bold">Información Nutricional</h5>
-          <button
-            type="button"
-            className="btn-close btn-close-white"
-            aria-label="Close"
-            onClick={() => setShowNutritionModal(false)}
-          ></button>
-        </div>
-        
-        {/* Contenido nutricional SIN cambios (igual que antes) */}
-        <div className="modal-body p-0">
-          <div className="nutrition-label p-3">
-            <div className="nutrition-header text-center">
-              <h3 className="mb-1">{selectedAlimento.Alimento}</h3>
-              <p className="text-muted mb-2">{selectedAlimento.Categoria}</p>
-              <hr className="my-2" />
-              <p className="serving-size mb-3">
-                <strong>Tamaño de porción:</strong> {selectedAlimento.Cantidad_Sugerida} {selectedAlimento.Unidad}
-              </p>
-            </div>
-            
-            <div className="nutrition-facts">
-              <div className="nutrition-facts-header border-bottom border-dark border-3 mb-2 pb-1">
-                <h4 className="mb-0 fw-bold">Información Nutricional</h4>
-                <p className="mb-0 small">Por {selectedAlimento.Cantidad_Sugerida} {selectedAlimento.Unidad}</p>
+      {selectedAlimento && (
+        <div className={`modal fade ${showNutritionModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ backgroundColor: showNutritionModal ? 'rgba(0,0,0,0.5)' : 'transparent' }}>
+          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header text-white sticky-top" style={{ backgroundColor: 'rgba(52,73,94,255)' }}>
+                <h5 className="modal-title fw-bold">Información Nutricional</h5>
+                <button
+                  type="button"
+                  className="btn-close btn-close-white"
+                  aria-label="Close"
+                  onClick={() => setShowNutritionModal(false)}
+                ></button>
               </div>
               
-              <div className="nutrition-table">
-                <div className="nutrition-row border-bottom border-dark border-2 fw-bold">
-                  <div className="nutrition-cell">Cantidad por porción</div>
-                  <div className="nutrition-cell text-end">% Valor Diario*</div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Calorías</span> {selectedAlimento.Energia_kcal}
+              <div className="modal-body p-0">
+                <div className="nutrition-label p-3">
+                  <div className="nutrition-header text-center">
+                    <h3 className="mb-1">{selectedAlimento.Alimento}</h3>
+                    <p className="text-muted mb-2">{selectedAlimento.Categoria}</p>
+                    <hr className="my-2" />
+                    <div className="serving-size mb-3">
+                      <div className="row align-items-center">
+                        <div className="col-md-6">
+                          <p className="mb-2 mb-md-0">
+                            <strong>Tamaño de porción:</strong> {selectedAlimento.Cantidad_Sugerida} {selectedAlimento.Unidad}
+                          </p>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="input-group">
+                            <span className="input-group-text">Gramaje (g)</span>
+                            <input 
+                              type="number" 
+                              className="form-control" 
+                              value={gramaje}
+                              onChange={(e) => setGramaje(parseInt(e.target.value) || 0)}
+                              min="1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="nutrition-cell text-end"></div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Grasa Total</span> {selectedAlimento.Grasa_g}g
-                  </div>
-                  <div className="nutrition-cell text-end">
-                    {Math.round((parseFloat(selectedAlimento.Grasa_g || 0) / 65) * 100)}%
-                  </div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Carbohidratos Totales</span> {selectedAlimento.Carbohidratos_g}g
-                  </div>
-                  <div className="nutrition-cell text-end">
-                    {Math.round((parseFloat(selectedAlimento.Carbohidratos_g || 0) / 300) * 100)}%
-                  </div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Azúcares</span> {selectedAlimento.Azucar_g}g
-                  </div>
-                  <div className="nutrition-cell text-end"></div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Proteína</span> {selectedAlimento.Proteina_g}g
-                  </div>
-                  <div className="nutrition-cell text-end"></div>
-                </div>
-                
-                <div className="nutrition-row border-bottom">
-                  <div className="nutrition-cell">
-                    <span className="fw-bold">Fibra Dietética</span> {selectedAlimento.Fibra_g}g
-                  </div>
-                  <div className="nutrition-cell text-end">
-                    {Math.round((parseFloat(selectedAlimento.Fibra_g || 0) / 25) * 100)}%
+                  
+                  <div className="nutrition-facts">
+                    <div className="nutrition-facts-header border-bottom border-dark border-3 mb-2 pb-1">
+                      <h4 className="mb-0 fw-bold">Información Nutricional</h4>
+                      <p className="mb-0 small">Por {gramaje}g</p>
+                    </div>
+                    
+                    <div className="nutrition-table">
+                      <div className="nutrition-row border-bottom border-dark border-2 fw-bold">
+                        <div className="nutrition-cell">Cantidad por porción</div>
+                        <div className="nutrition-cell text-end">% Valor Diario*</div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Calorías</span> {calculateNutrition(selectedAlimento.Energia_kcal)}
+                        </div>
+                        <div className="nutrition-cell text-end"></div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Grasa Total</span> {calculateNutrition(selectedAlimento.Grasa_g)}g
+                        </div>
+                        <div className="nutrition-cell text-end">
+                          {Math.round((parseFloat(calculateNutrition(selectedAlimento.Grasa_g)) / 65) * 100)}%
+                        </div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Carbohidratos Totales</span> {calculateNutrition(selectedAlimento.Carbohidratos_g)}g
+                        </div>
+                        <div className="nutrition-cell text-end">
+                          {Math.round((parseFloat(calculateNutrition(selectedAlimento.Carbohidratos_g)) / 300) * 100)}%
+                        </div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Azúcares</span> {calculateNutrition(selectedAlimento.Azucar_g)}g
+                        </div>
+                        <div className="nutrition-cell text-end"></div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Proteína</span> {calculateNutrition(selectedAlimento.Proteina_g)}g
+                        </div>
+                        <div className="nutrition-cell text-end"></div>
+                      </div>
+                      
+                      <div className="nutrition-row border-bottom">
+                        <div className="nutrition-cell">
+                          <span className="fw-bold">Fibra Dietética</span> {calculateNutrition(selectedAlimento.Fibra_g)}g
+                        </div>
+                        <div className="nutrition-cell text-end">
+                          {Math.round((parseFloat(calculateNutrition(selectedAlimento.Fibra_g)) / 25) * 100)}%
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="nutrition-footer mt-3">
+                      <p className="small mb-1">
+                        * Los porcentajes de valores diarios están basados en una dieta de 2,000 calorías. 
+                        Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas.
+                      </p>
+                      <p className="small mb-0">
+                        <strong>Peso Bruto:</strong> {calculateNutrition(selectedAlimento.Peso_Bruto_g)}g | 
+                        <strong> Peso Neto:</strong> {calculateNutrition(selectedAlimento.Peso_Neto_g)}g
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <div className="nutrition-footer mt-3">
-                <p className="small mb-1">
-                  * Los porcentajes de valores diarios están basados en una dieta de 2,000 calorías. 
-                  Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas.
-                </p>
-                <p className="small mb-0">
-                  <strong>Peso Bruto:</strong> {selectedAlimento.Peso_Bruto_g}g | 
-                  <strong> Peso Neto:</strong> {selectedAlimento.Peso_Neto_g}g
-                </p>
+              <div className="modal-footer sticky-bottom bg-light">
+                <button
+                  type="button"
+                  className="crud-btn crud-btn-primary"
+                  onClick={() => setShowNutritionModal(false)}
+                >
+                  Cerrar
+                </button>
               </div>
             </div>
           </div>
         </div>
-        
-        {/* Footer con botón de cerrar usando tus estilos */}
-        <div className="modal-footer sticky-bottom bg-light">
-          <button
-            type="button"
-            className="crud-btn crud-btn-primary"
-            onClick={() => setShowNutritionModal(false)}
-          >
-            Cerrar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* Estilos (se mantienen igual) */}
-<style jsx>{`
-  .nutrition-label {
-    border: 2px solid black;
-    padding: 15px;
-    max-width: 400px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    background-color: white;
-  }
-  
-  @media (max-width: 768px) {
-    .nutrition-label {
-      max-width: 100%;
-      border: none;
-      padding: 10px;
-    }
-    
-    .modal-dialog {
-      margin: 0;
-      max-width: 100%;
-      height: 100vh;
-    }
-    
-    .modal-content {
-      height: 100%;
-      border-radius: 0;
-    }
-    
-    .modal-body {
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  
-  .nutrition-header h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .nutrition-facts-header h4 {
-    font-size: 1.25rem;
-  }
-  
-  .nutrition-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-  }
-  
-  .nutrition-cell {
-    padding: 0.25rem 0;
-  }
-  
-  .serving-size {
-    font-size: 0.9rem;
-  }
-  
-  .small {
-    font-size: 0.75rem;
-  }
-`}</style>
-
+      )}
     </div>
   );
 }

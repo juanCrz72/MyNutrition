@@ -166,3 +166,43 @@ export const deletePersona = async (req, res) => {
     res.status(500).json({ message: "Error al eliminar", error: error.message });
   }
 };
+
+
+// Obtener una persona por su ID
+export const getPersonaById = async (req, res) => {
+  try {
+    const { idpersona } = req.params;
+
+    const [rows] = await db.query(`
+      SELECT 
+        p.idpersona,
+        p.nombre,
+        p.apellidos,
+        p.fecha_nacimiento,
+        p.sexo,
+        p.edad,
+        p.altura,
+        p.peso,
+        p.img_perfil,
+        p.tipo_persona,
+        p.idPais,
+        pais.nombre_pais,
+        p.idPlan,
+        plan.plan_nombre,
+        p.activo
+      FROM persona p
+      JOIN cat_paises pais ON p.idPais = pais.idPais
+      LEFT JOIN cat_planes plan ON p.idPlan = plan.idPlan
+      WHERE p.idpersona = ?
+    `, [idpersona]);
+
+    if (rows.length > 0) {
+      res.json({ message: "Persona encontrada", data: rows[0] });
+    } else {
+      res.status(404).json({ message: "Persona no encontrada" });
+    }
+  } catch (error) {
+    console.error("Error al obtener la persona por ID:", error);
+    res.status(500).json({ message: "Error interno", error: error.message });
+  }
+};

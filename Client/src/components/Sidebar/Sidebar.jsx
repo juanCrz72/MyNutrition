@@ -24,7 +24,11 @@ const Sidebar = ({ isOpen }) => {
        /*  { id: 'pacientes', name: 'Pacientes', icon: <FaUsersCog />, path: '/pacientes' }, */
          { id: 'personas', name: 'Pacientes', icon: <FaUsersCog />, path: '/personas' },
         { id: 'recetas', name: 'Registro de Comidas', icon: <FaClipboardList />, path: '/receta' },
-       /*  { id: 'gestionPacientes', name: 'Gestión Pacientes', icon: <FaClipboardList />, path: '/gestionPacientes' } */
+        { id: 'dieta', name: 'Dietas', icon: <FaClipboardList />, path: '/dieta' },
+        { id: 'personaPlan', name: 'Planes Pacientes', icon: <FaFileInvoiceDollar />, path: '/personaPlan' },
+        { id: 'DocumentosPersonas', name: 'Documentos Pacientes', icon: <FaFileInvoiceDollar />, path: '/DocumentosPersonas' },
+        { id: 'PersonaImage', name: 'Imágenes Pacientes', icon: <FaUsersCog />, path: '/PersonaImage' },
+        /*  { id: 'gestionPacientes', name: 'Gestión Pacientes', icon: <FaClipboardList />, path: '/gestionPacientes' } */
       ]
     },
     
@@ -34,7 +38,9 @@ const Sidebar = ({ isOpen }) => {
       name: 'Alimentación', 
       icon: <FaBoxes />,
       submenu: [
-        { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaCarrot  />, path: '/Alimentos' }
+        { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaCarrot  />, path: '/Alimentos' }, 
+        { id: 'DocumentosAlimentos', name: 'Documentos Alimentos', icon: <FaFileInvoiceDollar />, path: '/DocumentosAlimentos' }, 
+        { id: 'AlimentosImages', name: 'Imágenes Alimentos', icon: <FaUsersCog />, path: '/AlimentosImages' }
       ]
     },
 
@@ -61,7 +67,7 @@ const Sidebar = ({ isOpen }) => {
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         <h3 className="logo">
-          <span className="text-primary">Nutrition</span> Admin 
+          <span className="text-info">Nutrition</span> Admin 
         </h3>
       </div>
 

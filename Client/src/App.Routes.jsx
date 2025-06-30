@@ -6,11 +6,18 @@ import Home from './pages/Superadmin/home.jsx';
 import Paciente from './pages/Superadmin/Paciente';
 import Persona from './pages/Superadmin/Persona.jsx';
 import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
+import Dieta from './pages/Superadmin/Dieta.jsx';
+import PersonaPlan from './pages/Superadmin/PersonaPlan.jsx';
 
 // -------------------- Gestión Alimentos -------------------- //
 import Pais from './pages/Superadmin/Paises.jsx';
 import Alimentos from './pages/Superadmin/Alimentos.jsx';
 import Plan from './pages/Superadmin/Plan.jsx'
+import GestionPacientes from './pages/Superadmin/GestionPaciente.jsx';
+import DocumentosPersonas from './pages/Superadmin/DocumentosPersonas.jsx';
+import DocumentosAlimentos from './pages/Superadmin/DocumentosAlimentos.jsx';
+import PersonaImage from './pages/Superadmin/PersonaImage.jsx';
+import AlimentosImages from './pages/Superadmin/AlimentosImages.jsx';
 
 // -------------------- Gestión de Usuarios -------------------- //
 import NotFound from './pages/Superadmin/NotFound.jsx';
@@ -29,6 +36,13 @@ export default function AppRoutes() {
       {/* <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} /> */}
        <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} />
        <Route path="/plan" element={<Plan />} />
+       <Route path="/gestionPacientes" element={<GestionPacientes />} />
+      <Route path="/dieta" element={<Dieta />} />
+      <Route path="/personaPlan" element={<PersonaPlan />} />
+      <Route path="/DocumentosPersonas" element={<DocumentosPersonas />} />
+      <Route path="/DocumentosAlimentos" element={<DocumentosAlimentos />} />
+      <Route path="/PersonaImage" element={<PersonaImage />} />
+      <Route path="/AlimentosImages" element={<AlimentosImages />} />
 
       
       

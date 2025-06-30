@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPaises } from "../../api/Paises.api.js";
 
+
 export const PersonaCRUD = ({
   formData: {
     nombre, setNombre,

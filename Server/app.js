@@ -11,6 +11,10 @@ import personasRoutes from "./routes/Persona.Routes.js";
 import paisesRoutes from "./routes/Paises.Routes.js";
 import dietas from "./routes/Dietas.Routes.js";
 import bitacoraRoutes from "./routes/Bitacora.Routes.js";
+import PersonaPlanRoutes from "./routes/PersonaPlan.Routes.js"; // Rutas para Persona Plan
+import DocumentosPersonasRoutes from "./routes/DocumentosPersonas.Routes.js";
+import DocumentosAlimentosRoutes from "./routes/DocumentosAlimentos.Routes.js";
+import PersonaImageRoutes from "./routes/PersonaImage.Routes.js"; // Rutas para subir imagenes de personas
 
 import Cat_planRoutes from "./routes/Plan.Routes.js";
 //----------------------------------- ALIMENTOS -----------------------------------
@@ -33,5 +37,9 @@ app.use("/Personas", personasRoutes); // Rutas para Personas para la api (front)
 app.use("/Dietas", dietas); // Rutas para Dietas para la api (front)
 app.use("/Bitacora", bitacoraRoutes); // Rutas para Bitácora para la api (front)
 app.use("/Cat_plan", Cat_planRoutes); // Rutas para Planes para la api (front)
+app.use("/PersonaPlan", PersonaPlanRoutes); // Rutas para Persona Plan para la api (front)
+app.use("/DocumentosPersonas", DocumentosPersonasRoutes); // Rutas para Documentos Personas para la api (front)
+app.use("/DocumentosAlimentos", DocumentosAlimentosRoutes); // Rutas para Documentos Alimentos para la api (front)
+app.use("/PersonaImage", PersonaImageRoutes); // Rutas para subir imagenes de personas para la api (front)
 
 export default app;

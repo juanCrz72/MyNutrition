@@ -196,13 +196,13 @@ function Persona() {
                         <FaUtensils size={12} />
                       </button>
 
-                     <button
-                        className="crud-btn crud-btn-info btn-action-optimized"
-                        onClick={() => navigate(`/gestionPacientes?idPaciente=${persona.idpersona}`)}
-                        title="Historial"
-                      >
-                        <FaIdCard size={12} />
-                      </button>
+                    <button
+                      className="crud-btn crud-btn-info btn-action-optimized"
+                      onClick={() => navigate(`/gestionPacientes?idpersona=${persona.idpersona}`)}
+                      title="Historial"
+                    >
+                      <FaIdCard size={12} />
+                    </button>
                         
                       <button 
                         className="crud-btn btn-warning text-white btn-action-optimized"
@@ -294,14 +294,14 @@ function Persona() {
                         <FaUtensils size={12} />
                       </button>
                                                  
-                      <button
-                        className="crud-btn crud-btn-info btn-action-optimized"
-                        onClick={() => navigate(`/gestionPacientes?idPaciente=${persona.idpersona}`)}
-                        title="Historial"
-                      >
-                        <FaIdCard size={12} />
-                      </button>
-
+                   <button
+                      className="crud-btn crud-btn-info btn-action-optimized"
+                      onClick={() => navigate(`/gestionPacientes?idpersona=${persona.idpersona}`)}
+                      title="Historial"
+                    >
+                      <FaIdCard size={12} />
+                    </button>
+                    
                           <button 
                             className="crud-btn btn-warning text-white btn-sm"
                             onClick={() => {

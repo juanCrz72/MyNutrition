@@ -16,13 +16,19 @@ import {
   FaHamburger,
   FaMoon,
   FaCookie,
-  FaWineBottle
+  FaWeightHanging,
+  FaFire, 
+  FaDumbbell, 
+  FaBreadSlice, 
+  FaListAlt, 
+  FaBalanceScale
 } from 'react-icons/fa';
 import { getBitacoraComidasjs, deleteBitacoraComidajs } from '../../assets/js/Bitacora.js';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/crud-styles.css';
 import PersonaBitacoraCRUD from './PersonaBitacoraCRUD';
+import './css/Bitacora.css';
 
 export const PacienteBitacora = () => {
   const { idpersona } = useParams();
@@ -35,8 +41,7 @@ export const PacienteBitacora = () => {
     DESAYUNO: true,
     COMIDA: true,
     CENA: true,
-    SNACK: true,
-    ADEREZO: true
+    SNACK: true
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState('');
@@ -128,19 +133,22 @@ export const PacienteBitacora = () => {
       calorias: 0,
       carbohidratos: 0,
       grasas: 0,
-      proteinas: 0
+      proteinas: 0,
+      pesoTotal: 0
     };
 
     filtered.forEach(item => {
       const mealType = item.tipo_comida;
       const contador = parseFloat(item.contador) || 1;
+      const peso = parseFloat(item.peso) || 0;
       
       if (!mealTotals[mealType]) {
         mealTotals[mealType] = {
           calorias: 0,
           carbohidratos: 0,
           grasas: 0,
-          proteinas: 0
+          proteinas: 0,
+          pesoTotal: 0
         };
       }
 
@@ -148,11 +156,13 @@ export const PacienteBitacora = () => {
       mealTotals[mealType].carbohidratos += (parseFloat(item.Carbohidratos_g) || 0) * contador;
       mealTotals[mealType].grasas += (parseFloat(item.Grasa_g) || 0) * contador;
       mealTotals[mealType].proteinas += (parseFloat(item.Proteina_g) || 0) * contador;
+      mealTotals[mealType].pesoTotal += peso * contador;
 
       daily.calorias += (parseFloat(item.Energia_kcal) || 0) * contador;
       daily.carbohidratos += (parseFloat(item.Carbohidratos_g) || 0) * contador;
       daily.grasas += (parseFloat(item.Grasa_g) || 0) * contador;
       daily.proteinas += (parseFloat(item.Proteina_g) || 0) * contador;
+      daily.pesoTotal += peso * contador;
     });
 
     return {
@@ -171,15 +181,14 @@ export const PacienteBitacora = () => {
     return acc;
   }, {});
 
-  const mealTypes = ['DESAYUNO', 'COMIDA', 'CENA', 'SNACK', 'ADEREZO'];
+  const mealTypes = ['DESAYUNO', 'COMIDA', 'CENA', 'SNACK'];
   
   // Iconos para cada tipo de comida
   const mealIcons = {
     DESAYUNO: <FaCoffee className="meal-icon" />,
     COMIDA: <FaHamburger className="meal-icon" />,
     CENA: <FaMoon className="meal-icon" />,
-    SNACK: <FaCookie className="meal-icon" />,
-    ADEREZO: <FaWineBottle className="meal-icon" />
+    SNACK: <FaCookie className="meal-icon" />
   };
 
   const calculatePercentage = (current, goal) => {
@@ -205,6 +214,170 @@ export const PacienteBitacora = () => {
   const getMealPercentage = (mealType) => {
     if (!mealTypeTotals[mealType] || dailyGoals.calorias === 0) return 0;
     return Math.round((mealTypeTotals[mealType].calorias / dailyGoals.calorias) * 100);
+  };
+
+  const renderMealItems = (mealType) => {
+    if (!groupByMealType[mealType]) {
+      return (
+        <div className="text-center py-4 text-muted empty-meal">
+          <div className="mb-3">
+            <div className="empty-icon">
+              {mealIcons[mealType]}
+            </div>
+          </div>
+          <h5>No hay registros para {mealType.toLowerCase()}</h5>
+          <p className="mb-3">Agrega alimentos para comenzar a registrar</p>
+          <button 
+            className="btn btn-primary rounded-pill px-4 add-meal-btn"
+            onClick={() => handleAddMeal(mealType)}
+          >
+            <FaPlus className="me-1" /> Agregar alimento
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {/* Versión de escritorio (tabla) */}
+        <div className="d-none d-md-block">
+          <div className="table-responsive">
+            <table className="table table-hover mb-0 meal-table">
+              <thead className="table-light">
+                <tr>
+                  <th>Alimento</th>
+                  <th>Categoría</th>
+                  <th>Nutrientes (Total | Por porción)</th>
+                  <th>Peso (Total | Por porción)</th>
+                  <th>Porciones</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupByMealType[mealType].map((item, index) => {
+                  const contador = item.contador || 1;
+                  const pesoTotal = (parseFloat(item.peso) * contador).toFixed(1);
+                  return (
+                    <tr key={`desktop-${index}`}>
+                      <td>
+                        <div className="fw-semibold">{item.Alimento}</div>
+                        <small className="text-muted">{item.porcion}</small>
+                      </td>
+                      <td className="text-capitalize">{item.categoriaAlimento.toLowerCase()}</td>
+                      <td>
+                        <div className="d-flex flex-wrap gap-1 nutrient-badges">
+                          <span className="badge bg-primary-bg text-primary">
+                            {(item.Energia_kcal * contador).toFixed(0)} kcal | {item.Energia_kcal} kcal
+                          </span>
+                          <span className="badge bg-success-bg text-success">
+                            P: {(item.Proteina_g * contador).toFixed(1)}g | {item.Proteina_g}g
+                          </span>
+                          <span className="badge bg-warning-bg text-warning">
+                            C: {(item.Carbohidratos_g * contador).toFixed(1)}g | {item.Carbohidratos_g}g
+                          </span>
+                          <span className="badge bg-danger-bg text-danger">
+                            G: {(item.Grasa_g * contador).toFixed(1)}g | {item.Grasa_g}g
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge bg-info bg-opacity-10 text-info">
+                          {pesoTotal}g | {item.peso}g
+                        </span>
+                      </td>
+                      <td>
+                        <span className="badge bg-secondary">
+                          {contador} porción{contador != 1 ? 'es' : ''}
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          className="btn btn-sm btn-outline-danger rounded-circle delete-btn"
+                          onClick={() => handleDeleteItem(item)}
+                          title="Eliminar"
+                        >
+                          <FaTrash size={14} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+ {/* Versión móvil - Lista mejorada para pacientes */}
+<div className="d-md-none">
+  <div className="list-group meal-list-mobile">
+    {groupByMealType[mealType].map((item, index) => {
+      const contador = item.contador || 1;
+      const pesoTotal = (parseFloat(item.peso) * contador).toFixed(1);
+      
+      return (
+        <div 
+          key={`mobile-${index}`} 
+          className="list-group-item list-group-item-action py-3 meal-list-item"
+        >
+          {/* Header con nombre y acción */}
+          <div className="d-flex justify-content-between align-items-start">
+            <div>
+              <h5 className="mb-1 text-primary">
+                <FaUtensils className="me-2" size={14} />
+                {item.Alimento}
+              </h5>
+              <small className="text-muted d-block">
+                <FaWeightHanging size={12} className="me-1" />
+                {pesoTotal}g ({item.peso}g × {contador} porción{contador !== 1 ? 'es' : ''})
+              </small>
+            </div>
+            <button 
+              className="btn btn-sm btn-link text-danger p-0"
+              onClick={() => handleDeleteItem(item)}
+              title="Eliminar"
+            >
+              <FaTrash size={14} />
+            </button>
+          </div>
+
+          {/* Detalles nutricionales compactos */}
+          <div className="mt-2 d-flex flex-wrap align-items-center">
+            <div className="nutrient-pill me-2 mb-1">
+              <FaFire className="text-danger" />
+              <span>{(item.Energia_kcal * contador).toFixed(0)} kcal</span>
+            </div>
+            
+            <div className="nutrient-pill me-2 mb-1">
+              <FaDumbbell className="text-success" />
+              <span>{(item.Proteina_g * contador).toFixed(1)}g prot.</span>
+            </div>
+            
+            <div className="nutrient-pill me-2 mb-1">
+              <FaBreadSlice className="text-warning" />
+              <span>{(item.Carbohidratos_g * contador).toFixed(1)}g carb.</span>
+            </div>
+          </div>
+
+          {/* Info adicional (solo visible al hacer tap) */}
+          <div className="mt-2 additional-info">
+            <div className="d-flex justify-content-between small">
+              <span>
+                <FaListAlt className="me-1" />
+                {item.categoriaAlimento}
+              </span>
+              <span>
+                <FaBalanceScale className="me-1" />
+                {item.porcion}
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+      </>
+    );
   };
 
   if (loading) return (
@@ -365,82 +538,7 @@ export const PacienteBitacora = () => {
             
             {expandedMeals[mealType] && (
               <div className="card-body p-0">
-                {groupByMealType[mealType] ? (
-                  <div className="table-responsive">
-                    <table className="table table-hover mb-0 meal-table">
-                      <thead className="table-light">
-                        <tr>
-                          <th>Alimento</th>
-                          <th>Categoría</th>
-                          <th>Nutrientes (Total | Por porción)</th>
-                          <th>Porciones</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {groupByMealType[mealType].map((item, index) => {
-                          const contador = item.contador || 1;
-                          return (
-                            <tr key={index}>
-                              <td>
-                                <div className="fw-semibold">{item.Alimento}</div>
-                                <small className="text-muted">{item.porcion}</small>
-                              </td>
-                              <td className="text-capitalize">{item.categoriaAlimento.toLowerCase()}</td>
-                              <td>
-                                <div className="d-flex flex-wrap gap-1 nutrient-badges">
-                                  <span className="badge bg-primary-bg text-primary">
-                                    {(item.Energia_kcal * contador).toFixed(0)} kcal | {item.Energia_kcal} kcal
-                                  </span>
-                                  <span className="badge bg-success-bg text-success">
-                                    P: {(item.Proteina_g * contador).toFixed(1)}g | {item.Proteina_g}g
-                                  </span>
-                                  <span className="badge bg-warning-bg text-warning">
-                                    C: {(item.Carbohidratos_g * contador).toFixed(1)}g | {item.Carbohidratos_g}g
-                                  </span>
-                                  <span className="badge bg-danger-bg text-danger">
-                                    G: {(item.Grasa_g * contador).toFixed(1)}g | {item.Grasa_g}g
-                                  </span>
-                                </div>
-                              </td>
-                              <td>
-                                {/* {new Date(item.fecha_registro).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} */}
-                                <span className="badge bg-secondary ms-2">
-                                  {contador} porción{contador != 1 ? 'es' : ''}
-                                </span>
-                              </td>
-                              <td>
-                                <button 
-                                  className="btn btn-sm btn-outline-danger rounded-circle delete-btn"
-                                  onClick={() => handleDeleteItem(item)}
-                                  title="Eliminar"
-                                >
-                                  <FaTrash size={14} />
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="text-center py-4 text-muted empty-meal">
-                    <div className="mb-3">
-                      <div className="empty-icon">
-                        {mealIcons[mealType]}
-                      </div>
-                    </div>
-                    <h5>No hay registros para {mealType.toLowerCase()}</h5>
-                    <p className="mb-3">Agrega alimentos para comenzar a registrar</p>
-                    <button 
-                      className="btn btn-primary rounded-pill px-4 add-meal-btn"
-                      onClick={() => handleAddMeal(mealType)}
-                    >
-                      <FaPlus className="me-1" /> Agregar alimento
-                    </button>
-                  </div>
-                )}
+                {renderMealItems(mealType)}
               </div>
             )}
           </div>
@@ -572,6 +670,7 @@ export const PacienteBitacora = () => {
         </div>
       </div>
 
+
       {/* Modal para agregar alimentos */}
       <PersonaBitacoraCRUD 
         show={showModal}
@@ -581,311 +680,6 @@ export const PacienteBitacora = () => {
         idUsuario={idpersona}
         refreshData={refreshData}
       />
-
-      {/* CSS Styles */}
-      <style jsx>{`
-        .nutri-dashboard {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          color: #333;
-        }
-        
-        .dashboard-title .text-gradient {
-          background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          font-weight: 600;
-        }
-        
-        .patient-info-card {
-          background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
-          border-radius: 12px !important;
-        }
-        
-        .avatar-circle {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .quick-access {
-          margin-bottom: 2rem;
-        }
-        
-        .meal-circle {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          cursor: pointer;
-          transition: transform 0.2s;
-          width: 90px;
-          position: relative;
-        }
-        
-        .meal-circle:hover {
-          transform: translateY(-5px);
-        }
-        
-        .circle-icon {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 8px;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-          transition: all 0.3s ease;
-          position: relative;
-          z-index: 1;
-        }
-        
-        .circle-icon:hover {
-          transform: scale(1.05);
-          box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        
-        .meal-icon {
-          font-size: 1.5rem;
-        }
-        
-        .meal-label {
-          font-size: 0.85rem;
-          font-weight: 500;
-          text-transform: capitalize;
-          color: #555;
-          position: relative;
-          z-index: 1;
-        }
-        
-        .progress-circle {
-          top: -5px;
-          left: -5px;
-          width: 70px;
-          height: 70px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .progress-ring {
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
-        
-        .progress-ring-circle {
-          fill: none;
-          stroke: rgba(0,0,0,0.1);
-          stroke-width: 4;
-        }
-        
-        .progress-text {
-          font-size: 0.7rem;
-          font-weight: bold;
-          color: #555;
-        }
-        
-        .bg-meal-0 { 
-          background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-          .progress-ring-circle { stroke: #ff9a9e; }
-        }
-        .bg-meal-1 { 
-          background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-          .progress-ring-circle { stroke: #a1c4fd; }
-        }
-        .bg-meal-2 { 
-          background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-          .progress-ring-circle { stroke: #ffecd2; }
-        }
-        .bg-meal-3 { 
-          background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-          .progress-ring-circle { stroke: #84fab0; }
-        }
-        .bg-meal-4 { 
-          background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%);
-          .progress-ring-circle { stroke: #a6c1ee; }
-        }
-        
-        .meal-section {
-          border-radius: 12px !important;
-          overflow: hidden;
-          transition: box-shadow 0.3s ease;
-        }
-        
-        .meal-section:hover {
-          box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-        }
-        
-        .meal-header {
-          padding: 1rem 1.5rem;
-          transition: background-color 0.2s;
-        }
-        
-        .meal-header:hover {
-          background-color: #f8f9fa !important;
-        }
-        
-        .meal-type-icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: rgba(0,0,0,0.05);
-        }
-        
-        .meal-totals {
-          font-size: 0.85rem;
-        }
-        
-        .add-meal-btn {
-          transition: all 0.2s;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-        }
-        
-        .add-meal-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .meal-table {
-          margin-bottom: 0;
-        }
-        
-        .meal-table th {
-          font-weight: 600;
-          color: #555;
-          background-color: #f8f9fa !important;
-          white-space: nowrap;
-        }
-        
-        .meal-table td {
-          vertical-align: middle;
-        }
-        
-        .nutrient-badges .badge {
-          font-size: 0.75rem;
-          padding: 0.35em 0.65em;
-          font-weight: 500;
-          white-space: nowrap;
-        }
-        
-        .empty-meal {
-          padding: 2rem;
-        }
-        
-        .empty-icon {
-          width: 80px;
-          height: 80px;
-          margin: 0 auto;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: rgba(0,0,0,0.05);
-          color: #6c757d;
-        }
-        
-        .empty-icon .meal-icon {
-          font-size: 2rem;
-        }
-        
-        .delete-btn {
-          transition: all 0.2s;
-          width: 30px;
-          height: 30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .delete-btn:hover {
-          transform: scale(1.1);
-          background-color: #dc3545 !important;
-          color: white !important;
-        }
-        
-        .nutrition-summary {
-          border-radius: 12px !important;
-        }
-        
-        .daily-goals {
-          background-color: #f8f9fa !important;
-          border-radius: 10px !important;
-        }
-        
-        .warning-alert {
-          border-radius: 8px !important;
-          border-left: 4px solid #ffc107;
-        }
-        
-        .nutrition-cards .nutrition-card {
-          padding: 1.25rem;
-          border-radius: 10px;
-          height: 100%;
-          transition: transform 0.3s ease;
-        }
-        
-        .nutrition-cards .nutrition-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .bg-primary-bg { background-color: rgba(75, 108, 183, 0.1); }
-        .bg-success-bg { background-color: rgba(40, 167, 69, 0.1); }
-        .bg-warning-bg { background-color: rgba(255, 193, 7, 0.1); }
-        .bg-danger-bg { background-color: rgba(220, 53, 69, 0.1); }
-        
-        .back-button {
-          transition: all 0.2s;
-        }
-        
-        .back-button:hover {
-          background-color: #4b6cb7 !important;
-          color: white !important;
-        }
-        
-        @media (max-width: 768px) {
-          .quick-access {
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            justify-content: flex-start;
-          }
-          
-          .meal-circle {
-            min-width: 70px;
-          }
-          
-          .nutrition-cards .col-md-3 {
-            margin-bottom: 1rem;
-          }
-          
-          .meal-totals {
-            display: none;
-          }
-          
-          .meal-table {
-            display: block;
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-          }
-          
-          .nutrient-badges {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };
