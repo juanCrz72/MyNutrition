@@ -19,6 +19,7 @@ import PersonaImageRoutes from "./routes/PersonaImage.Routes.js"; // Rutas para 
 import Cat_planRoutes from "./routes/Plan.Routes.js";
 //----------------------------------- ALIMENTOS -----------------------------------
 import alimentosRoutes from "./routes/Alimentos.Routes.js";
+import authRoutes from "./routes/Auth.Routes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(express.json());
 
 // Rutas
 app.use("/",indexRoutes);
+app.use("/auth", authRoutes); // Rutas de autenticación
 
 //--------------------------------------------- RUTAS -----------------------------------------
 app.use("/Paciente", pacienteRoutes); // Rutas para Paciente para la api (front)
@@ -41,5 +43,6 @@ app.use("/PersonaPlan", PersonaPlanRoutes); // Rutas para Persona Plan para la a
 app.use("/DocumentosPersonas", DocumentosPersonasRoutes); // Rutas para Documentos Personas para la api (front)
 app.use("/DocumentosAlimentos", DocumentosAlimentosRoutes); // Rutas para Documentos Alimentos para la api (front)
 app.use("/PersonaImage", PersonaImageRoutes); // Rutas para subir imagenes de personas para la api (front)
+
 
 export default app;

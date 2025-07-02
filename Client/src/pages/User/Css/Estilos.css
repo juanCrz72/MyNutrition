@@ -1,0 +1,115 @@
+/* Personalizaciones adicionales para el dashboard */
+.user-dashboard {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.summary-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px !important;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.calories-card {
+    border-left: 4px solid #fd7e14;
+}
+
+.water-card {
+    border-left: 4px solid #0dcaf0;
+}
+
+.weight-card {
+    border-left: 4px solid #6f42c1;
+}
+
+.activity-card {
+    border-left: 4px solid #ffc107;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-badge {
+    position: absolute;
+    left: -30px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.timeline-panel {
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-left: 3px solid #28a745;
+}
+
+.next-meal .timeline-panel {
+    border-left-color: #17a2b8;
+    background-color: #f8f9fa;
+}
+
+.timeline-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.macro-progress {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.motivational-message {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-left: 4px solid #2196f3;
+}
+
+.action-btn {
+    min-width: 220px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+}
+
+.text-orange {
+    color: #fd7e14;
+}
+
+.text-purple {
+    color: #6f42c1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .action-btn {
+        min-width: 100%;
+    }
+}

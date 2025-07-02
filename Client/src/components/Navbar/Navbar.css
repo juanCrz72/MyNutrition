@@ -114,3 +114,86 @@
 }
 
 
+/* Estilos existentes... */
+
+.user-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.user-profile:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.user-name {
+  color: white;
+  font-weight: 500;
+}
+
+.user-dropdown {
+  position: relative;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.logout-button svg {
+  font-size: 1rem;
+}
+
+/* Opcional: Menú desplegable más elaborado */
+/*
+.user-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #2c3e50;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.user-profile:hover .user-dropdown-content {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #34495e;
+}
+*/

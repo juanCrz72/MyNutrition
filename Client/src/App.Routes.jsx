@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from  './pages/Superadmin/ProtectedRoute.jsx';
 
 import Home from './pages/Superadmin/home.jsx';
+import Login from './pages/Superadmin/Login.jsx';
+import Register from './pages/Superadmin/Register.jsx';
 
 // -------------------- Gestión Pacientes -------------------- //
 import Paciente from './pages/Superadmin/Paciente';
@@ -19,37 +22,112 @@ import DocumentosAlimentos from './pages/Superadmin/DocumentosAlimentos.jsx';
 import PersonaImage from './pages/Superadmin/PersonaImage.jsx';
 import AlimentosImages from './pages/Superadmin/AlimentosImages.jsx';
 
+// --------------------  Usuarios -------------------- //
+import Usuarios from './pages/User/User.jsx';
+
 // -------------------- Gestión de Usuarios -------------------- //
 import NotFound from './pages/Superadmin/NotFound.jsx';
-//import Login from './pages/Login/Login.jsx';
 
 export default function AppRoutes() {
   return (
     <Routes>
-{/*       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} /> */}
-      <Route path="/" element={<Home />} />
-      <Route path="/pacientes" element={<Paciente />} />
-      <Route path="/paises" element={<Pais />} />
-      <Route path="/Alimentos" element={<Alimentos />} />
-      <Route path="/personas" element={<Persona />} />
-      {/* <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} /> */}
-       <Route path="/personaBitacora/:idpersona" element={<PersonaBitacora />} />
-       <Route path="/plan" element={<Plan />} />
-       <Route path="/gestionPacientes" element={<GestionPacientes />} />
-      <Route path="/dieta" element={<Dieta />} />
-      <Route path="/personaPlan" element={<PersonaPlan />} />
-      <Route path="/DocumentosPersonas" element={<DocumentosPersonas />} />
-      <Route path="/DocumentosAlimentos" element={<DocumentosAlimentos />} />
-      <Route path="/PersonaImage" element={<PersonaImage />} />
-      <Route path="/AlimentosImages" element={<AlimentosImages />} />
-
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       
+      {/* Rutas protegidas para Superadmin (rol 1) */}
+      <Route path="/" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Home />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/pacientes" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Paciente />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/paises" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Pais />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/Alimentos" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Alimentos />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/personas" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Persona />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/personaBitacora/:idpersona" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <PersonaBitacora />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/plan" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Plan />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/gestionPacientes" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <GestionPacientes />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/dieta" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Dieta />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/personaPlan" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <PersonaPlan />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/DocumentosPersonas" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <DocumentosPersonas />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/DocumentosAlimentos" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <DocumentosAlimentos />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/PersonaImage" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <PersonaImage />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/AlimentosImages" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <AlimentosImages />
+        </ProtectedRoute>
+      } />
+
+      {/* Ruta para Usuarios normales (rol 2) */}
+      <Route path="/usuarios" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <Usuarios />
+        </ProtectedRoute>
+      } />
       
       {/* Ruta para manejar 404 Not Found */}
       <Route path="*" element={<NotFound />} />
-      
     </Routes>
   );
 }
-
