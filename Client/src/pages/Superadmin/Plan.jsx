@@ -148,10 +148,10 @@ function Cat_plan() {
                   <h5 className="card-title">{plan.plan_nombre}</h5>
                   <p><strong>Duración:</strong> {plan.plan_duracion} días</p>
                   <p><strong>Estado:</strong> {plan.plan_estado === 1 ? "ACTIVO" : "INACTIVO"}</p>
-                  <div className="d-flex justify-content-end gap-2">
-                    <button className="btn btn-info btn-sm text-white" onClick={() => showPlanInfo(plan)}><FaInfoCircle /></button>
+                  <div className="d-flex gap-2">
+                    <button className="crud-btn btn-info btn-sm text-white" onClick={() => showPlanInfo(plan)}><FaInfoCircle /></button>
                     <button className="btn btn-warning btn-sm text-white" onClick={() => { setSelectedPlan(plan); setCatPlanData(plan); setShowEditModal(true); }}><FaEdit /></button>
-                    <button className="btn btn-danger btn-sm" onClick={() => { setSelectedPlan(plan); setShowDeleteModal(true); }}><FaTrash /></button>
+                    <button className="crud-btn btn-warning text-white btn-sm" onClick={() => { setSelectedPlan(plan); setShowDeleteModal(true); }}><FaTrash /></button>
                   </div>
                 </div>
               </div>

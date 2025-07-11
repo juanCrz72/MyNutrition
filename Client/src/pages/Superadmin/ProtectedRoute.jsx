@@ -12,8 +12,10 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         return <Navigate to="/login" replace />;
     }
     
-    if (allowedRoles && !allowedRoles.includes(user.perfil)) {
-        return <Navigate to="/" replace />;
+   if (!allowedRoles.includes(user.id_perfil)) {
+        // Redirigir a la página por defecto según el rol
+        const defaultRoute = user.id_perfil === 1 ? '/' : '/usuarios';
+        return <Navigate to={defaultRoute} replace />;
     }
     
     return children;

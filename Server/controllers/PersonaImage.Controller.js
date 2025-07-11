@@ -2,6 +2,7 @@ import { db } from "../db/connection.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { httpServer, io } from './../server.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -122,6 +123,10 @@ export const createPersona = async (req, res) => {
       ]
     );
 
+      // Emitir evento de nuevo usuario
+    io.emit('new-person', { nombre, apellidos });
+
+
     res.status(201).json({
       message: "Persona creada correctamente",
       idPersona: result.insertId,
@@ -192,6 +197,9 @@ export const updatePersona = async (req, res) => {
         imgPath, tipo_persona, idPais, idPlan, activo, idpersona
       ]
     );
+
+    // Emitir evento de actualización de persona
+    io.emit('update-person', { idpersona, nombre, apellidos });
 
     if (result.affectedRows > 0) {
       res.json({ message: "Persona actualizada correctamente" });

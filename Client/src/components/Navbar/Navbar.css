@@ -1,8 +1,39 @@
+:root {
+  /* Colores principales */
+  --primary-dark: rgb(12, 31, 49);
+  --primary-shadow: rgba(13, 82, 31, 0.08);
+  --secondary-color: rgb(182, 101, 25);
+  
+  /* Colores de texto */
+  --text-white: #ffffff;
+  --text-light: #f7fafc;
+  --text-muted: #a0aec0;
+  --text-dark: #4a5568;
+  
+  /* Colores de fondo */
+  --bg-notification: rgba(6, 77, 135, 0.1);
+  --bg-hover: rgba(255, 255, 255, 0.1);
+  --bg-dropdown: rgb(12, 31, 49);
+  
+  /* Colores de bordes */
+  --border-light: #4a5568;
+  --border-accent: #2e9895;
+  
+  /* Colores de iconos */
+  --icon-user: #4c51bf;
+  --icon-person: #38a169;
+  --icon-danger: #dc3545;
+  
+  /* Colores de estados */
+  --unread-bg: rgba(6, 77, 135, 0.1);
+  --hover-danger: rgba(255, 0, 0, 0.2);
+}
+
 /* ===================== NAVBAR PERSONALIZADO ===================== */
 .navbar-custom {
   height: 56px;
-  background: rgba(52,73,94,255);
-  box-shadow: 0 0 28px 0 rgba(8, 113, 36, 0.08);
+  background: var(--primary-dark);
+  box-shadow: 0 0 28px 0 var(--primary-shadow);  
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,16 +46,15 @@
 }
 
 .user-profile {
-  color: white;
+  color: var(--text-white);
   display: flex;
   align-items: center;
 }
 
 .user-avatar {
-  font-size: 24px; /* Ajusta el tamaño si lo deseas */
+  font-size: 24px;
   margin-right: 8px;
 }
-
 
 /* --- Sección izquierda --- */
 .navbar-left, .navbar-right {
@@ -38,7 +68,7 @@
   background: none;
   border: none;
   font-size: 1.25rem;
-  color: #ffffff;
+  color: var(--text-white);
   cursor: pointer;
 }
 
@@ -77,7 +107,7 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #dc3545;
+  background: var(--icon-danger);
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -113,7 +143,6 @@
   }
 }
 
-
 /* Estilos existentes... */
 
 .user-profile {
@@ -128,16 +157,16 @@
 }
 
 .user-profile:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-hover);
 }
 
 .user-avatar {
   font-size: 1.5rem;
-  color: #ffffff;
+  color: var(--text-white);
 }
 
 .user-name {
-  color: white;
+  color: var(--text-white);
   font-weight: 500;
 }
 
@@ -148,7 +177,7 @@
 .logout-button {
   background: none;
   border: none;
-  color: white;
+  color: var(--text-white);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -159,41 +188,422 @@
 }
 
 .logout-button:hover {
-  background-color: rgba(255, 0, 0, 0.2);
+  background-color: var(--hover-danger);
 }
 
 .logout-button svg {
   font-size: 1rem;
 }
 
-/* Opcional: Menú desplegable más elaborado */
-/*
-.user-dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background-color: #2c3e50;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  border-radius: 4px;
-  overflow: hidden;
+/* Dropdown mejorado */
+.dropdown-menu {
+  animation: fadeIn 0.2s ease-in-out;
 }
 
-.user-profile:hover .user-dropdown-content {
-  display: block;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-item {
-  padding: 12px 16px;
-  color: white;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.3s;
+  transition: all 0.2s;
+  border-radius: 4px;
+  margin: 2px 5px;
+  width: auto;
 }
 
-.dropdown-item:hover {
-  background-color: #34495e;
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: var(--bg-hover) !important;
+  color: var(--text-white) !important;
 }
-*/
+
+.dropdown-header {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Efecto de hover para el perfil */
+.user-profile {
+  transition: all 0.3s;
+  padding: 5px 10px;
+  border-radius: 50px;
+}
+
+.user-profile:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Responsive */
+.dropdown-menu {
+  transform: translate3d(0px, 38px, 0px) !important;
+  top: 100% !important;
+  left: auto !important;
+  right: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    transform: translate3d(0px, 38px, 0px) !important;
+    right: 10px !important;
+    left: auto !important;
+  }
+}
+
+/* Navbar fijo */
+.navbar-custom.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+/* Mejoras para las notificaciones */
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 350px;
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: var(--text-white);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform-origin: top right;
+  animation: scaleIn 0.15s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.notification-header {
+  background-color: #f8f9fa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.notification-item {
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+  background-color: var(--unread-bg);
+}
+
+.unread-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #0d6efd;
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.notification-icon-type {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-white);
+}
+
+.notification-icon-type.user {
+  background-color: var(--icon-user);
+}
+
+.notification-icon-type.person {
+  background-color: var(--icon-person);
+}
+
+.notification-footer {
+  background-color: #f8f9fa;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.hover-effect {
+  transition: transform 0.2s;
+}
+
+.hover-effect:hover {
+  transform: scale(1.1);
+}
+
+.hover-item:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Navbar principal */
+.navbar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-dark);
+  color: var(--text-white);
+  height: 60px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-custom.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.navbar-left, .navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-toggle {
+  color: var(--text-white);
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.user-profile {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.user-profile:hover {
+  background-color: var(--bg-hover);
+}
+
+.user-avatar {
+  font-size: 1.5rem;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Notificaciones */
+.notification-wrapper {
+  display: inline-block;
+}
+
+.notification-icon {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.notification-icon:hover {
+  background-color: var(--bg-hover);
+}
+
+.notification-icon .text-white {
+  color: var(--text-white) !important;
+}
+
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 380px;
+  max-height: 500px;
+  overflow-y: auto;
+  background: var(--primary-dark);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 1050;
+  color: var(--text-light);
+  border: 1px solid var(--border-light);
+  transform-origin: top right;
+  animation: scaleIn 0.2s ease-out;
+}
+
+.notification-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-accent);
+  background: var(--primary-dark);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.notification-header h5 {
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.btn-icon {
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 4px;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  color: var(--text-light);
+  transform: scale(1.1);
+}
+
+.icon-sm {
+  font-size: 14px;
+}
+
+.notification-list {
+  padding: 8px 0;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border-bottom: 1px solid #cbc5c5;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.notification-item.unread {
+  background: var(--unread-bg);
+}
+
+.notification-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.icon-user {
+  color: var(--text-white);
+  background: var(--icon-user);
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.icon-person {
+  color: var(--text-white);
+  background: var(--icon-person);
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-content strong {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.notification-content small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.notification-content p {
+  margin: 4px 0 0;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.empty-notifications {
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.empty-notifications p {
+  margin: 0;
+}
+
+.notification-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  background: var(--primary-dark);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.btn-clear-all {
+  background: transparent;
+  border: 1px solid #4d684a;
+  color: var(--text-muted);
+  padding: 4px 16px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.btn-clear-all:hover {
+  background: var(--border-light);
+  color: var(--text-light);
+}
+
+/* Barra de desplazamiento */
+.notification-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+  background: #2d3748;
+  border-radius: 0 12px 12px 0;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 3px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}

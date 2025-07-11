@@ -158,3 +158,80 @@ export const verifyToken = async (req, res) => {
         });
     }
 };
+
+
+
+// ------------------------------------ PERSONA Y USUARIO ------------------------------------
+export const completeRegister = async (req, res) => {
+    try {
+        const { persona, usuario } = req.body;
+
+        // Validar datos de persona
+        if (!persona.nombre || !persona.apellidos || !persona.sexo || 
+            !persona.edad || !persona.altura || !persona.peso || !persona.idPais) {
+            return res.status(400).json({ message: 'Faltan campos requeridos en datos personales' });
+        }
+
+        // Validar datos de usuario
+        if (!usuario.usuario || !usuario.correo || !usuario.contrasenia || !usuario.id_perfil) {
+            return res.status(400).json({ message: 'Faltan campos requeridos en credenciales' });
+        }
+
+        // Verificar si el usuario ya existe
+        const [existingUser] = await db.query('SELECT * FROM usuarios WHERE usuario = ? OR correo = ?', 
+            [usuario.usuario, usuario.correo]);
+        if (existingUser.length > 0) {
+            return res.status(400).json({ message: 'El usuario o correo ya está registrado' });
+        }
+
+        // Iniciar transacción
+        await db.query('START TRANSACTION');
+
+        try {
+            // Insertar persona
+            const [personaResult] = await db.query(
+                `INSERT INTO persona (
+                    nombre, apellidos, fecha_nacimiento, sexo, edad, altura, peso, 
+                    img_perfil, tipo_persona, idPais, idPlan, activo
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    persona.nombre, persona.apellidos, persona.fecha_nacimiento || null, 
+                    persona.sexo, persona.edad, persona.altura, persona.peso,
+                    persona.img_perfil || '', persona.tipo_persona || 0, 
+                    persona.idPais, persona.idPlan || 0, persona.activo || 1
+                ]
+            );
+
+            const idPersona = personaResult.insertId;
+
+            // Encriptar contraseña
+            const hashedPassword = await bcrypt.hash(usuario.contrasenia, 10);
+
+            // Insertar usuario
+            await db.query(
+                'INSERT INTO usuarios (nombre, usuario, correo, contrasenia, idPersona, id_perfil, activo) VALUES (?, ?, ?, ?, ?, ?, 1)',
+                [usuario.nombre || `${persona.nombre} ${persona.apellidos}`, usuario.usuario, 
+                 usuario.correo, hashedPassword, idPersona, usuario.id_perfil]
+            );
+
+            // Confirmar transacción
+            await db.query('COMMIT');
+
+            res.status(201).json({ 
+                success: true,
+                message: 'Registro completado exitosamente'
+            });
+        } catch (error) {
+            // Revertir transacción en caso de error
+            await db.query('ROLLBACK');
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error en registro completo:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Error en el servidor al completar el registro',
+            error: error.message
+        });
+    }
+};

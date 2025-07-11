@@ -1,4 +1,6 @@
 import { db } from "../db/connection.js";
+import { httpServer, io } from './../server.js';
+
 
 // Obtener todas las personas con sus países y planes
 export const getPersonas = async (req, res) => {
@@ -79,6 +81,10 @@ export const createPersona = async (req, res) => {
     const query = `INSERT INTO persona (${campos.join(", ")}) VALUES (${campos.map(() => "?").join(", ")})`;
     const [result] = await db.query(query, valores);
 
+     // Emitir evento de nuevo usuario
+    io.emit('new-person', { nombre, apellidos });
+
+
     res.status(201).json({
       message: "Persona creada correctamente",
       idPersona: result.insertId,
@@ -135,6 +141,9 @@ export const updatePersona = async (req, res) => {
 
     const query = `UPDATE persona SET ${campos.join(", ")} WHERE idpersona = ?`;
     const [result] = await db.query(query, valores);
+
+    // Emitir evento de actualización de persona
+    io.emit('update-person', { nombre, apellidos });
 
     if (result.affectedRows > 0) {
       res.json({ message: "Persona actualizada correctamente" });

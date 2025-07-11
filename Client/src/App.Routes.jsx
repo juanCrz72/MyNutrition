@@ -5,12 +5,17 @@ import Home from './pages/Superadmin/home.jsx';
 import Login from './pages/Superadmin/Login.jsx';
 import Register from './pages/Superadmin/Register.jsx';
 
+// -------------------- Gestión de Usuarios -------------------- //
+import PerfilPage from './pages/Superadmin/PerfilPage.jsx';
+import CambiarContrasena from './pages/Superadmin/CambiarContrasenaPage.jsx';
+
 // -------------------- Gestión Pacientes -------------------- //
 import Paciente from './pages/Superadmin/Paciente';
 import Persona from './pages/Superadmin/Persona.jsx';
 import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
 import Dieta from './pages/Superadmin/Dieta.jsx';
 import PersonaPlan from './pages/Superadmin/PersonaPlan.jsx';
+import Perfiles from './pages/Superadmin/Perfiles.jsx';
 
 // -------------------- Gestión Alimentos -------------------- //
 import Pais from './pages/Superadmin/Paises.jsx';
@@ -21,6 +26,8 @@ import DocumentosPersonas from './pages/Superadmin/DocumentosPersonas.jsx';
 import DocumentosAlimentos from './pages/Superadmin/DocumentosAlimentos.jsx';
 import PersonaImage from './pages/Superadmin/PersonaImage.jsx';
 import AlimentosImages from './pages/Superadmin/AlimentosImages.jsx';
+import GestionUsuarios from './pages/Superadmin/Usuarios.jsx';
+import Reportes from './pages/Superadmin/registroComidas.jsx'; 
 
 // --------------------  Usuarios -------------------- //
 import Usuarios from './pages/User/User.jsx';
@@ -38,6 +45,18 @@ export default function AppRoutes() {
       <Route path="/" element={
         <ProtectedRoute allowedRoles={[1]}>
           <Home />
+        </ProtectedRoute>
+      } />
+
+        <Route path="/CambiarContrasena" element={
+        <ProtectedRoute allowedRoles={[1,2]}>
+          <CambiarContrasena />
+        </ProtectedRoute>
+      } />
+
+        <Route path="/Perfil" element={
+        <ProtectedRoute allowedRoles={[1,2]}>
+          <PerfilPage />
         </ProtectedRoute>
       } />
       
@@ -118,6 +137,26 @@ export default function AppRoutes() {
           <AlimentosImages />
         </ProtectedRoute>
       } />
+
+         <Route path="/reportes" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Reportes />
+        </ProtectedRoute>
+      } />
+
+
+           <Route path="/Perfiles" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Perfiles />
+        </ProtectedRoute>
+      } />
+
+    <Route path="/GestionUsuarios" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <GestionUsuarios />
+        </ProtectedRoute>
+      } />
+
 
       {/* Ruta para Usuarios normales (rol 2) */}
       <Route path="/usuarios" element={

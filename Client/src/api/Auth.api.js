@@ -18,3 +18,13 @@ export const register = async (userData) => {
     throw error.response?.data || { message: "Error al registrar usuario" };
   }
 };
+
+// En tu auth.api.js
+export const completeRegister = async (registrationData) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/complete-register`, registrationData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Error al completar el registro" };
+  }
+};

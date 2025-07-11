@@ -91,7 +91,7 @@ function Persona() {
           >
             <FaList className="me-1" /> <span className="d-none d-sm-inline">Lista</span>
           </button>
-          <button 
+        <button 
             className="crud-btn crud-btn-success text-white flex-grow-1 flex-sm-grow-0"
             onClick={() => {
               setNombre(""); 
@@ -107,8 +107,8 @@ function Persona() {
               setShowModal(true);
             }}
           >
-            <FaPlus className="me-1" /> <span className="d-none d-sm-inline">Nueva Persona</span>
-          </button>
+            <FaPlus className="me-1" /> <span className="d-none d-sm-inline"> Persona</span>
+          </button> 
         </div>
       </div>
 
@@ -151,28 +151,28 @@ function Persona() {
                   <div className="crud-card-body p-2 p-md-3 d-flex flex-column">
                     <div className="optimized-info-grid flex-grow-1">
                       <div className="info-row-optimized">
-                        <FaRulerVertical className="info-icon-optimized text-primary flex-shrink-0" />
+                        <FaRulerVertical className="info-icon-optimized text-turquoise flex-shrink-0" />
                         <span className="info-text-optimized">
                           Altura: {persona.altura} cm
                         </span>
                       </div>
                       
                       <div className="info-row-optimized">
-                        <FaWeight className="info-icon-optimized text-primary flex-shrink-0" />
+                        <FaWeight className="info-icon-optimized text-turquoise flex-shrink-0" />
                         <span className="info-text-optimized">
                           Peso: {persona.peso} kg
                         </span>
                       </div>
                       
                       <div className="info-row-optimized">
-                        <FaGlobeAmericas className="info-icon-optimized text-primary flex-shrink-0" />
+                        <FaGlobeAmericas className="info-icon-optimized text-turquoise flex-shrink-0" />
                         <span className="info-text-optimized text-truncate" title={persona.nombre_pais}>
                           {persona.nombre_pais}
                         </span>
                       </div>
 
                       <div className="info-row-optimized">
-                        <FaIdCard className="info-icon-optimized text-primary flex-shrink-0" />
+                        <FaIdCard className="info-icon-optimized text-turquoise flex-shrink-0" />
                         <span className="info-text-optimized text-truncate" title={persona.plan_nombre}>
                           Plan: {persona.plan_nombre}
                         </span>
@@ -204,7 +204,7 @@ function Persona() {
                       <FaIdCard size={12} />
                     </button>
                         
-                      <button 
+                   {/*    <button 
                         className="crud-btn btn-warning text-white btn-action-optimized"
                         onClick={() => {
                           setShowEditModal(true);
@@ -222,7 +222,7 @@ function Persona() {
                         title="Editar"
                       >
                         <FaEdit size={12} />
-                      </button>
+                      </button> */}
                       <button 
                         className="crud-btn crud-btn-danger btn-action-optimized"
                         onClick={() => {
@@ -302,7 +302,7 @@ function Persona() {
                       <FaIdCard size={12} />
                     </button>
                     
-                          <button 
+                        {/*   <button 
                             className="crud-btn btn-warning text-white btn-sm"
                             onClick={() => {
                               setShowEditModal(true);
@@ -320,7 +320,7 @@ function Persona() {
                             title="Editar"
                           >
                             <FaEdit size={12} />
-                          </button>
+                          </button> */}
                           <button 
                             className="crud-btn btn-danger btn-sm"
                             onClick={() => {

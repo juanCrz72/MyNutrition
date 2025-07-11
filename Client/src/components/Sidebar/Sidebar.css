@@ -1,4 +1,10 @@
 /* ==================== ESTILOS PRINCIPALES DEL SIDEBAR ==================== */
+:root {
+  --primary: #35b0ab;
+  --primary-light: #e0f7f6; /* Un tono más claro opcional */
+  --dark: #212529; /* Si no está definido aún */
+}
+
 .sidebar {
     width: 280px;                    /* Ancho fijo del sidebar */
     background: white;               /* Fondo blanco */
@@ -151,3 +157,4 @@
   background-color: var(--primary-light);
   color: var(--primary);
 }
+

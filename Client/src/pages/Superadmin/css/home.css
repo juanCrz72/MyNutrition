@@ -2,7 +2,7 @@
    VARIABLES Y ESTILOS GLOBALES
    ==================================================== */
    :root {
-    --primary: #5e72e4;
+    --primary: #acbd86;
     --primary-light: #ebf0ff;
     --secondary: #f7fafc;
     --success: #2dce89;
@@ -11,7 +11,7 @@
     --dark: #172b4d;
     --light: #f8f9fe;
     --purple: #825ee4;
-    --teal: #2dce89;
+    --teal: #acbd86;
     --indigo: #5e72e4;
     --orange: #fb6340;
   }
@@ -211,7 +211,7 @@
   }
   
   .custom-btn-sm:hover {
-    background-color: #4a5bd1;
+    background-color: #35b0ab;
   }
   
   /* ==================== VENTAS ==================== */
@@ -482,3 +482,129 @@
     }
   }
 
+ .custom-patients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+          }
+          
+          .custom-patient-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+          
+          .custom-patient-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          }
+          
+          .custom-patient-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+          }
+          
+          .custom-patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+          }
+          
+          .custom-patient-name h5 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--dark);
+          }
+          
+          .custom-patient-name span {
+            font-size: 0.8rem;
+            color: var(--gray);
+          }
+          
+          .custom-patient-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+          }
+          
+          .custom-patient-stat {
+            text-align: center;
+          }
+          
+          .stat-label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+          }
+          
+          .stat-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+          }
+          
+          .stat-value.bajo-peso { color: var(--blue); }
+          .stat-value.normal { color: var(--green); }
+          .stat-value.sobrepeso { color: var(--orange); }
+          .stat-value.obesidad { color: var(--red); }
+          
+          .custom-patient-progress {
+            margin-bottom: 15px;
+          }
+          
+          .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+          }
+          
+          .custom-patient-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+          }
+          
+          .diet-badge {
+            background-color: var(--light-purple);
+            color: var(--purple);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+          }
+          
+          .last-visit {
+            color: var(--gray);
+          }
+          
+          .custom-new-badge {
+            background-color: var(--green);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+          }
+          
+          .custom-inventory-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+          }
+          
+          .custom-inventory-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+          }

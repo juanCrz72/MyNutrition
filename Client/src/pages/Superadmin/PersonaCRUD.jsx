@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPaises } from "../../api/Paises.api.js";
-
+/* import { getCat_plan } from "../../api/Plan.api.js"; */
 
 export const PersonaCRUD = ({
   formData: {
