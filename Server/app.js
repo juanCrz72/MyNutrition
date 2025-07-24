@@ -15,6 +15,7 @@ import PersonaPlanRoutes from "./routes/PersonaPlan.Routes.js"; // Rutas para Pe
 import DocumentosPersonasRoutes from "./routes/DocumentosPersonas.Routes.js";
 import DocumentosAlimentosRoutes from "./routes/DocumentosAlimentos.Routes.js";
 import PersonaImageRoutes from "./routes/PersonaImage.Routes.js"; // Rutas para subir imagenes de personas
+import cuestionarioRoutes from "./routes/Cuestionario.Routes.js"; // Rutas para Cuestionario
 
 import Cat_planRoutes from "./routes/Plan.Routes.js";
 import Cat_perfilesRoutes from "./routes/Perfiles.Routes.js"; // Rutas para Perfiles
@@ -47,6 +48,6 @@ app.use("/DocumentosAlimentos", DocumentosAlimentosRoutes); // Rutas para Docume
 app.use("/PersonaImage", PersonaImageRoutes); // Rutas para subir imagenes de personas para la api (front)
 app.use("/Cat_perfiles", Cat_perfilesRoutes); // Rutas para Perfiles para la api (front)
 app.use("/Usuarios", Usuarios); // Rutas para Usuarios para la api (front)
-
+app.use("/Cuestionario", cuestionarioRoutes); // Rutas para Cuestionario para la api (front)
 
 export default app;

@@ -1,0 +1,356 @@
+:root {
+  /* Colores principales */
+  --color-primary: #ff7e5f;
+  --color-primary-light: #feb47b;
+  --color-primary-dark: #ff6a4d;
+  --color-primary-darker: #fea366;
+  
+  /* Colores de fondo */
+  --bg-white: white;
+  --bg-light: #f8f8f8;
+  --bg-light-accent: #fff5f2;
+  
+  /* Colores de texto */
+  --text-dark: #333;
+  --text-medium: #555;
+  --text-light: #666;
+  --text-white: white;
+  
+  /* Bordes */
+  --border-light: #f0f0f0;
+  
+  /* Sombras */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-primary: rgba(255, 126, 95, 0.3);
+  
+  /* Overlay */
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos base */
+.navigation-panel {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  height: 100vh;
+  background: var(--bg-white);
+  box-shadow: 0 0 20px var(--shadow-light);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.navigation-panel.closed {
+  width: 80px;
+}
+
+.navigation-panel.open {
+  width: 250px;
+}
+
+.panel-header {
+  padding: 25px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.brand-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  color: var(--text-dark);
+}
+
+.panel-menu {
+  flex: 1;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item-wrapper {
+  margin-bottom: 5px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  color: var(--text-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.nav-btn:hover {
+  background-color: var(--bg-light);
+}
+
+.nav-btn.active {
+  background-color: var(--bg-light-accent);
+}
+
+.nav-btn.highlight {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  transition: all 0.2s ease;
+}
+
+.active-nav-icon {
+  color: var(--color-primary);
+}
+
+.nav-btn.active .nav-icon,
+.nav-btn.highlight .nav-icon {
+  color: var(--color-primary);
+}
+
+.nav-label {
+  margin-left: 15px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.submenu-container {
+  padding-left: 20px;
+  margin-top: 5px;
+  animation: fadeIn 0.3s ease;
+}
+
+.submenu-btn {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px 10px 35px;
+  color: var(--text-medium);
+  text-decoration: none;
+  border-radius: 6px;
+  margin: 2px 10px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.submenu-btn:hover {
+  background-color: var(--bg-light);
+}
+
+.submenu-btn.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.submenu-icon {
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+.panel-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border-light);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  margin-right: 10px;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-dark);
+  z-index: 999;
+}
+
+/* Estilo especial para el botón de añadir */
+.add-post-btn {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-white);
+  font-size: 1rem;
+  box-shadow: 0 4px 10px var(--shadow-primary);
+  transition: all 0.3s ease;
+}
+
+.add-post-btn:hover {
+  transform: scale(1.05);
+}
+
+.special-btn .add-post-btn {
+  margin: 0 auto;
+}
+
+.special-desktop-btn .nav-btn {
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--text-white);
+  margin: 10px 20px;
+  padding: 12px;
+}
+
+.special-desktop-btn .nav-btn:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-darker));
+}
+
+/* Estilos para móvil */
+.mobile-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-white);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px var(--shadow-light);
+  z-index: 1000;
+}
+
+.mobile-nav-btn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-item {
+  padding: 10px;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.mobile-nav-item.active {
+  color: var(--color-primary);
+}
+
+.mobile-nav-item .nav-icon {
+  font-size: 1.3rem;
+  margin-bottom: 3px;
+}
+
+.special-btn {
+  position: relative;
+  top: -20px;
+}
+
+.special-btn .add-post-btn {
+  width: 50px;
+  height: 50px;
+  font-size: 1.2rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navigation-panel {
+    display: none;
+  }
+  
+  .sidebar-backdrop {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav-bar {
+    display: none;
+  }
+}
+
+/* Añade esto para asegurar que el sidebar esté siempre por encima */
+.navigation-panel {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  height: calc(100vh - 56px); /* Ajuste para que no cubra el header */
+  background: var(--bg-white);
+  box-shadow: 0 0 20px var(--shadow-light);
+  transition: all 0.3s ease;
+  z-index: 1001; /* Aumentado para asegurar que esté por encima */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Asegúrate que el backdrop tenga un z-index menor */
+.sidebar-backdrop {
+  position: fixed;
+  top: 56px; /* Para que no cubra el header */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-dark);
+  z-index: 1000; /* Menor que el sidebar */
+}
+
+/* Estilos para el icono de manzana */
+.apple-icon {
+  display: flex;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+/* Asegúrate que el contenido principal no se solape */
+
+
+.navigation-panel.closed + .main-content {
+  margin-left: 80px; /* Cuando el sidebar está cerrado */
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+  }
+}

@@ -16,6 +16,7 @@ import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
 import Dieta from './pages/Superadmin/Dieta.jsx';
 import PersonaPlan from './pages/Superadmin/PersonaPlan.jsx';
 import Perfiles from './pages/Superadmin/Perfiles.jsx';
+import Cuestionario from './pages/Superadmin/Cuestionario.jsx';
 
 // -------------------- Gestión Alimentos -------------------- //
 import Pais from './pages/Superadmin/Paises.jsx';
@@ -31,6 +32,12 @@ import Reportes from './pages/Superadmin/registroComidas.jsx';
 
 // --------------------  Usuarios -------------------- //
 import Usuarios from './pages/User/User.jsx';
+import CuestionarioUser from './pages/User/CuestionarioUser.jsx';
+import PersonaUser from './pages/User/PersonaUser.jsx';
+import BitacoraUser from './pages/User/BitacoraUser.jsx';
+import DietaUser from './pages/User/DietaUser.jsx';
+import PlanUser from './pages/User/PlanUser.jsx';
+import DocumentosPersonasUser from './pages/User/PersonaDocumentosUser.jsx'; 
 
 // -------------------- Gestión de Usuarios -------------------- //
 import NotFound from './pages/Superadmin/NotFound.jsx';
@@ -158,14 +165,58 @@ export default function AppRoutes() {
       } />
 
 
-      {/* Ruta para Usuarios normales (rol 2) */}
+      <Route path="/Cuestionario" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <Cuestionario />
+        </ProtectedRoute>
+      } />
+
+
+      {/* ---------------------------------------------- Ruta para Usuarios normales (rol 2) -------------------------------------------------------------------------------*/}
       <Route path="/usuarios" element={
         <ProtectedRoute allowedRoles={[2]}>
           <Usuarios />
         </ProtectedRoute>
       } />
+
+      <Route path="/vistaCuestionario" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <CuestionarioUser />
+        </ProtectedRoute>
+      } />
+
+  <Route path="/PersonaUser" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <PersonaUser />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/bitacoraUser" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <BitacoraUser />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/dietaUser" element={
+        <ProtectedRoute allowedRoles={[2]}> 
+          <DietaUser />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/planUser" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <PlanUser />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/DocumentosUser" element={
+        <ProtectedRoute allowedRoles={[2]}>
+          <DocumentosPersonasUser />
+        </ProtectedRoute> 
+      } />
+
       
-      {/* Ruta para manejar 404 Not Found */}
+      {/* ---------------------------------------------- Ruta para manejar 404 Not Found ---------------------------------------------- */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

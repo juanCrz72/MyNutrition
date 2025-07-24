@@ -5,8 +5,12 @@ import {
   FaArrowLeft, FaCalendarAlt, FaUser, FaWeight, FaRulerVertical, 
   FaGlobe, FaVenusMars, FaUtensils, FaPlus, FaSearch, FaEdit, 
   FaTrash, FaInfoCircle, FaFileUpload, FaTimes, FaIdCard, FaList,
-  FaFire, FaBreadSlice, FaEgg, FaCheese, FaChartLine, FaHistory
+  FaFire, FaBreadSlice, FaEgg, FaCheese, FaChartLine, FaHistory,
+  FaRunning, FaAllergies, FaBullseye, FaHeartbeat, FaExclamationTriangle
 } from 'react-icons/fa';
+import { GiHealthNormal } from 'react-icons/gi';
+import { MdOutlineMedicalServices } from 'react-icons/md';
+import { RiMentalHealthLine } from 'react-icons/ri';
 import { Tab, Tabs, Alert, Spinner, ButtonGroup, Button, Badge, Modal } from 'react-bootstrap';
 import { 
   getPersonasDietasjs, 
@@ -24,6 +28,7 @@ import {
 import { getPersonasPlanesjs, createPersonaPlanjs, updatePersonaPlanjs, deactivatePlanjs, deletePersonaPlanjs } from '../../assets/js/PersonaPlan.js';
 import { PersonaPlanCRUD } from './PersonaPlanCRUD.jsx';
 import { getCat_plan } from '../../api/Plan.api.js';
+import { getQuestionariosjs } from '../../assets/js/Cuestionario.js';
 import './css/Kardex.css'; // Archivo CSS adicional para estilos personalizados
 
 const NutritionDashboard = () => {
@@ -75,6 +80,10 @@ const NutritionDashboard = () => {
   const [showConfirmDeleteImage, setShowConfirmDeleteImage] = useState(false);
   const [imageToDelete, setImageToDelete] = useState(null);
 
+  // Estados para el cuestionario de salud
+  const [questionarios, setQuestionarios] = useState([]);
+  const [cuestionarioPaciente, setCuestionarioPaciente] = useState(null);
+
   // Obtener el ID de la URL
   const searchParams = new URLSearchParams(location.search);
   const idpersona = searchParams.get('idpersona');
@@ -84,6 +93,39 @@ const NutritionDashboard = () => {
     if (!peso || !altura) return null;
     const alturaMetros = altura / 100;
     return (peso / (alturaMetros * alturaMetros)).toFixed(1);
+  };
+
+  // Formatear respuestas Sí/No
+  const formatSiNo = (value) => value === '1' ? 'Sí' : 'No';
+
+  // Obtener descripción de actividad física
+  const getActividadDescripcion = (nivel) => {
+    switch(nivel) {
+      case 'sedentario':
+        return 'Trabaja en una oficina, muy poca actividad física (sedentario)';
+      case 'ligero':
+        return 'Trabaja en una oficina, pero lleva mascota a pasear algunos días, o toma algunas escaleras';
+      case 'moderado':
+        return 'Moderadamente activo, algo de ejercicio y algunas actividades físicas adicionales';
+      case 'activo':
+        return 'Camarera a tiempo completo, enfermera, agente de bienes raíces y algo de ejercicio';
+      case 'intenso':
+        return 'Trabajo de alta intensidad como trabajador de construcción, o un atleta que hace ejercicio dos veces al día';
+      default:
+        return 'No especificado';
+    }
+  };
+
+  // Estilo para nivel de actividad
+  const getActivityLevelStyle = (level) => {
+    const styles = {
+      sedentario: 'bg-secondary',
+      ligero: 'bg-info',
+      moderado: 'bg-primary',
+      activo: 'bg-warning text-dark',
+      intenso: 'bg-danger'
+    };
+    return styles[level] || 'bg-light text-dark';
   };
 
   // Cargar imágenes del paciente
@@ -117,6 +159,23 @@ const NutritionDashboard = () => {
       setLoadingPlanes(false);
     }
   };
+
+  // Cargar cuestionarios de salud
+  const cargarCuestionarios = async () => {
+  try {
+    const data = await getQuestionariosjs(setQuestionarios);
+    
+    console.log('Datos recibidos:', data); // Verifica esto
+    
+    // Filtrar cuestionario del paciente actual
+    const cuestionario = data.find(q => q.id_persona == idpersona);
+    console.log('Cuestionario del paciente:', cuestionario);
+    
+    setCuestionarioPaciente(cuestionario || null);
+  } catch (error) {
+    console.error('Error al cargar cuestionarios:', error);
+  }
+};
 
   // Manejar subida de imagen
   const handleSubirImagen = async (e) => {
@@ -216,6 +275,9 @@ const NutritionDashboard = () => {
         
         // Cargar imágenes del paciente
         await cargarImagenes();
+        
+        // Cargar cuestionarios de salud
+        await cargarCuestionarios();
         
         // Setear el idPersona en dietaData
         setDietaData(prev => ({
@@ -470,6 +532,101 @@ const NutritionDashboard = () => {
                       </li>
                     </ul>
                   </div>
+
+                  {/* Información de Salud */}
+{cuestionarioPaciente && (
+  <div className="card border-0 shadow-sm mt-4">
+    {/* Header con icono y título */}
+    <div className="card-header bg-white border-0 pb-0 d-flex align-items-center">
+      <GiHealthNormal className=" me-2" />
+      <h5 className="card-title mb-0 fw-semibold">Información de Salud</h5>
+    </div>
+    
+    <div className="card-body pt-3">
+      {/* Nivel de Actividad - Compacto con badge */}
+      <div className="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+        <div className="d-flex align-items-center">
+          <span className="badge bg-primary bg-opacity-10 text-primary p-2 me-3">
+            <FaRunning className="fs-5" />
+          </span>
+          <div>
+            <h6 className="mb-0 fw-semibold">Nivel de Actividad</h6>
+            <small className="text-muted">{getActividadDescripcion(cuestionarioPaciente.act_fisica)}</small>
+          </div>
+        </div>
+        <span className={`badge ${getActivityLevelStyle(cuestionarioPaciente.act_fisica)} py-2 px-3`}>
+          {cuestionarioPaciente.act_fisica}
+        </span>
+      </div>
+
+      {/* Sección de 2 columnas con gutters pequeños */}
+      <div className="row g-2">
+        {/* Columna izquierda - Historial Médico */}
+        <div className="col-md-6">
+          <div className="h-100 border rounded p-3">
+            <div className="d-flex align-items-center mb-3">
+              <span className="badge bg-danger bg-opacity-10 text-danger p-2 me-3">
+                <MdOutlineMedicalServices className="fs-5" />
+              </span>
+              <h6 className="mb-0 fw-semibold">Historial Médico</h6>
+            </div>
+            
+            <div className="list-group list-group-flush">
+              {[
+                { key: 'diabetes', label: 'Diabetes' },
+                { key: 'hipertension', label: 'Hipertensión' },
+                { key: 'otra_enfermedad', label: 'Otras condiciones' }
+              ].map((item) => (
+                <div key={item.key} className={`list-group-item border-0 px-0 py-2 d-flex justify-content-between align-items-center ${cuestionarioPaciente[item.key] === '1' ? 'bg-light rounded' : ''}`}>
+                  <span>{item.label}</span>
+                  <span className={`badge ${cuestionarioPaciente[item.key] === '1' ? (item.key === 'otra_enfermedad' ? 'bg-warning text-dark' : 'bg-danger') : 'bg-secondary'} rounded-pill`}>
+                    {formatSiNo(cuestionarioPaciente[item.key])}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {cuestionarioPaciente.otra_enfermedad === '1' && cuestionarioPaciente.otra_enfermedad_desc && (
+              <div className="alert alert-light mt-3 py-2 small d-flex align-items-start">
+                <FaInfoCircle className="text-muted mt-1 me-2 flex-shrink-0" />
+                <div>{cuestionarioPaciente.otra_enfermedad_desc}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Columna derecha - Alergias y Metas */}
+        <div className="col-md-6">
+          {/* Alergias */}
+          <div className="border rounded p-3 mb-3">
+            <div className="d-flex align-items-center mb-2">
+              <span className="badge bg-warning bg-opacity-10 text-warning p-2 me-3">
+                <FaAllergies className="fs-5" />
+              </span>
+              <h6 className="mb-0 fw-semibold">Alergias</h6>
+            </div>
+            <p className={`mb-0 ${cuestionarioPaciente.alergias ? 'text-dark' : 'text-muted'}`}>
+              {cuestionarioPaciente.alergias || 'No registra alergias'}
+            </p>
+          </div>
+
+          {/* Metas de Salud */}
+          <div className="border rounded p-3">
+            <div className="d-flex align-items-center mb-2">
+              <span className="badge bg-info bg-opacity-10 text-info p-2 me-3">
+                <FaBullseye className="fs-5" />
+              </span>
+              <h6 className="mb-0 fw-semibold">Metas de Salud</h6>
+            </div>
+            <p className={`mb-0 ${cuestionarioPaciente.metas ? 'text-dark' : 'text-muted'}`}>
+              {cuestionarioPaciente.metas || 'No definidas'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
                 </div>
                 
                 <div className="col-md-6">
@@ -496,16 +653,28 @@ const NutritionDashboard = () => {
                       </li>
                     </ul>
                   </div>
+
+                  {/* Información adicional si no hay cuestionario */}
+                  {!cuestionarioPaciente && (
+                    <div className="info-card mt-4">
+                      <h4 className="card-title">
+                        <GiHealthNormal className="me-2" /> Información de Salud
+                      </h4>
+                      <Alert variant="info" className="mb-0">
+                        No se ha completado el cuestionario de salud para este paciente.
+                      </Alert>
+                    </div>
+                  )}
                 </div>
               </div>
               
               <div className="d-flex justify-content-end mt-4">
-            {/*     <button 
-                  className="btn btn-edit"
-                  onClick={() => navigate(`/editar-paciente?idpersona=${paciente.idpersona}`)}
-                >
-                  <FaEdit className="me-2" /> Editar Paciente
-                </button> */}
+                {/*     <button 
+                      className="btn btn-edit"
+                      onClick={() => navigate(`/editar-paciente?idpersona=${paciente.idpersona}`)}
+                    >
+                      <FaEdit className="me-2" /> Editar Paciente
+                    </button> */}
               </div>
             </div>
           )}

@@ -607,3 +607,100 @@
 .notification-dropdown::-webkit-scrollbar-thumb:hover {
   background: #718096;
 }
+
+
+/* Estilos para notificaciones responsive */
+.notification-dropdown {
+  position: fixed;
+  top: 60px;
+  right: 15px;
+  width: calc(100% - 30px);
+  max-width: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 1050;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .notification-dropdown {
+    position: absolute;
+    width: 400px;
+  }
+}
+
+.notification-list {
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.notification-item.unread {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.notification-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-content p {
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-notifications {
+  padding: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.empty-notifications .empty-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.notification-footer {
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-clear-all {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-clear-all:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

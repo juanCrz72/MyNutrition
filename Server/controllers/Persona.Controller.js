@@ -3,7 +3,7 @@ import { httpServer, io } from './../server.js';
 
 
 // Obtener todas las personas con sus países y planes
-export const getPersonas = async (req, res) => {
+/* export const getPersonas = async (req, res) => {
   try {
     const [rows] = await db.query(`
       SELECT 
@@ -38,6 +38,59 @@ export const getPersonas = async (req, res) => {
     res.status(500).json({ message: "Error interno", error: error.message });
   }
 };
+ */
+
+
+export const getPersonas = async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT 
+        p.idpersona,
+        p.nombre,
+        p.apellidos,
+        p.fecha_nacimiento,
+        p.sexo,
+        p.edad,
+        p.altura,
+        p.peso,
+        p.img_perfil,
+        p.tipo_persona,
+        p.idPais,
+        pais.nombre_pais,
+        p.idPlan,
+        plan.plan_nombre,
+        p.activo,
+
+        q.act_fisica,
+        q.diabetes,
+        q.hipertension,
+        q.otra_enfermedad,
+        q.toma_medicamento,
+        q.medicamento_descrip,
+        q.consumo_calorias,
+        q.calorias_descrip,
+        q.alergias,
+        q.metas,
+        q.date_add AS cuestionario_fecha
+
+      FROM persona p
+      JOIN cat_paises pais ON p.idPais = pais.idPais
+      LEFT JOIN cat_planes plan ON p.idPlan = plan.idPlan
+      LEFT JOIN persona_questionario q ON p.idpersona = q.id_persona
+      ORDER BY p.idpersona DESC
+    `);
+    
+    if (rows.length > 0) {
+      res.json({ message: "Personas obtenidas correctamente", data: rows });
+    } else {
+      res.status(404).json({ message: "No se encontraron personas" });
+    }
+  } catch (error) {
+    console.error("Error al obtener personas:", error);
+    res.status(500).json({ message: "Error interno", error: error.message });
+  }
+};
+
 
 // Crear una nueva persona
 export const createPersona = async (req, res) => {

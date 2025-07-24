@@ -113,3 +113,671 @@
         min-width: 100%;
     }
 }
+
+
+
+
+.user-dashboard {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: #333;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.welcome-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.welcome-message h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.highlight-text {
+  color: #3498db;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.water-tracker, .calories-tracker {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.water-tracker {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: fit-content;
+}
+
+.water-icon {
+  background: #e3f2fd;
+  padding: 1rem;
+  border-radius: 50%;
+  color: #2196f3;
+}
+
+.water-progress h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.progress-container {
+  background: #ecf0f1;
+  border-radius: 20px;
+  height: 8px;
+  width: 180px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #64b5f6, #2196f3);
+  border-radius: 20px;
+}
+
+.calories-tracker {
+  width: 100%;
+}
+
+.calories-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.calories-numbers {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.consumed {
+  color: #2ecc71;
+}
+
+.goal {
+  color: #3498db;
+}
+
+.separator {
+  margin: 0 0.3rem;
+  color: #95a5a6;
+}
+
+.unit {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-left: 0.3rem;
+}
+
+.macros-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.macro-item {
+  text-align: center;
+  flex: 1;
+}
+
+.macro-name {
+  display: block;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.macro-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.main-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.food-diary .card-icon {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
+
+.diet-plan .card-icon {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+}
+
+.health-alert .card-icon {
+  background: linear-gradient(135deg,  #f9f4ee, #ffecd2);
+}
+
+.progress-tracker .card-icon {
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
+}
+
+.profile .card-icon {
+  background: linear-gradient(135deg, #a6c1ee, #fbc2eb);
+}
+
+.recipes .card-icon {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.card p {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.4;
+}
+
+.card-footer {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  border-top: 1px solid #eee;
+  padding-top: 0.8rem;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status.alert {
+  color: #e74c3c;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.summary-card .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity .icon {
+  background: #e3f2fd;
+  color: #2196f3;
+}
+
+.weight .icon {
+  background: #f1f8e9;
+  color: #7cb342;
+}
+
+.health .icon {
+  background: #ffebee;
+  color: #e53935;
+}
+
+.balance .icon {
+  background: #e8f5e9;
+  color: #43a047;
+}
+
+.summary-card h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.recommendation {
+  display: block;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  margin-top: 0.3rem;
+}
+
+.floating-action-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #3498db;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+  z-index: 100;
+  text-align: center;
+}
+
+.floating-action-button span {
+  font-size: 0.6rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+
+
+
+
+
+
+/* ------------------------------------ CUESTIONARIO ----------------------------------------------- */
+
+/* Estilos para el cuestionario de salud */
+.health-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  border: none;
+}
+
+.health-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+  color: #ffffff;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.info-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  background-color: #f0f4f8;
+  color: #4e73df;
+}
+
+.info-badge.healthy {
+  background-color: #e3f9e5;
+  color: #2e7d32;
+}
+
+.conditions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.condition-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.condition-badge.diabetes {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.condition-badge.hypertension {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.condition-badge.other {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.condition-badge.healthy {
+  background-color: #e3f9e5;
+  color: #2e7d32;
+}
+
+.condition-description,
+.medication-description,
+.calories-description,
+.allergies-description,
+.goals-description {
+  color: #555;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+/* Estilos para el formulario de edición */
+.edit-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.edit-section {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.section-icon {
+  margin-right: 15px;
+  color: #4e73df;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.input-icon {
+  margin-right: 10px;
+  color: #4e73df;
+}
+
+.health-conditions {
+  margin-top: 30px;
+}
+
+.conditions-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.condition-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.condition-checkbox input {
+  margin-right: 10px;
+}
+
+.condition-checkbox label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.condition-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.toggle-group input {
+  margin-right: 10px;
+}
+
+.toggle-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.alert-message {
+  background-color: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.alert-icon {
+  margin-right: 15px;
+  color: #1565c0;
+  font-size: 24px;
+}
+
+.alert-message p {
+  margin: 0;
+  color: #1565c0;
+}
+
+/* Navegación del formulario */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.nav-button, .submit-button {
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.nav-button {
+  background-color: #f0f4f8;
+  color: #4e73df;
+}
+
+.nav-button:hover {
+  background-color: #e0e8f0;
+}
+
+.next-button {
+  background-color: #4e73df;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #3b5cb8;
+}
+
+.submit-button {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #1b5e20;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .health-card {
+    padding: 15px;
+  }
+  
+  .edit-section {
+    padding: 20px;
+  }
+  
+  .conditions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-button, .submit-button {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

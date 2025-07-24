@@ -1,4 +1,5 @@
 import { db } from "../db/connection.js";
+import { httpServer, io } from './../server.js';
 
 // Obtener todas las dietas de personas
 export const getPersonasDietas = async (req, res) => {
@@ -66,7 +67,9 @@ export const createPersonaDieta = async (req, res) => {
       JOIN persona p ON pd.idPersona = p.idpersona
       WHERE pd.id = ?
     `, [result.insertId]);
-    
+
+    io.emit('new-dieta', newDiet[0]);
+
     res.status(201).json({
       message: "Dieta creada correctamente",
       data: newDiet[0]
@@ -118,6 +121,8 @@ export const updatePersonaDieta = async (req, res) => {
         JOIN persona p ON pd.idPersona = p.idpersona
         WHERE pd.id = ?
       `, [id]);
+
+      io.emit('update-dieta', updatedDiet[0]);
       
       res.json({
         message: "Dieta actualizada correctamente",

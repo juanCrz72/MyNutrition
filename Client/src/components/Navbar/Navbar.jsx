@@ -6,6 +6,7 @@ import { useAuth } from '../../pages/Superadmin/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { io } from 'socket.io-client';
+import { BASE_URL } from  '../../api/config.js';
 
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
@@ -18,8 +19,12 @@ const Navbar = ({ toggleSidebar }) => {
   const socket = useRef(null);
   const notificationRef = useRef(null);
 
+  const isSuperAdmin = user?.id_perfil === 1;
+
   // Cerrar notificaciones al hacer clic fuera
   useEffect(() => {
+    if (!isSuperAdmin) return;
+
     const handleClickOutside = (event) => {
       if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         const bellIcon = document.querySelector('.notification-icon');
@@ -33,20 +38,33 @@ const Navbar = ({ toggleSidebar }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isSuperAdmin]);
 
   useEffect(() => {
-    // Conectar al servidor Socket.io
-    socket.current = io('http://localhost:3000');
+    if (!isSuperAdmin) return;
 
-    // Escuchar notificaciones
+    // Conectar al servidor Socket.io
+    socket.current = io(BASE_URL);
+
+    socket.current.on('nuevo-usuario', (data) => {
+      addNotification({
+        id: Date.now(),
+        type: 'registro',
+        message: `Un nuevo usuario se ha registrado: ${data.nombre} ${data.apellidos}.`,
+        timestamp: new Date(),
+        read: false,
+        route: '/personas'
+      });
+    });
+
     socket.current.on('new-user', (data) => {
       addNotification({
         id: Date.now(),
         type: 'user',
         message: `Nuevo usuario creado: ${data.nombre}`,
         timestamp: new Date(),
-        read: false
+        read: false,
+        route: '/personas'
       });
     });
 
@@ -56,7 +74,8 @@ const Navbar = ({ toggleSidebar }) => {
         type: 'user',
         message: `Usuario actualizado: ${data.nombre}`,
         timestamp: new Date(),
-        read: false
+        read: false,
+        route: '/personas'
       });
     });
 
@@ -66,7 +85,8 @@ const Navbar = ({ toggleSidebar }) => {
         type: 'person',
         message: `Nueva persona registrada: ${data.nombre} ${data.apellidos}`,
         timestamp: new Date(),
-        read: false
+        read: false,
+        route: '/personas'
       });
     });
 
@@ -76,27 +96,85 @@ const Navbar = ({ toggleSidebar }) => {
         type: 'person',
         message: `Persona actualizada: ${data.nombre} ${data.apellidos}`,
         timestamp: new Date(),
-        read: false
+        read: false,
+        route: '/personas'
+      });
+    });
+
+    socket.current.on('new-dieta', (data) => {
+      addNotification({
+        id: Date.now(),
+        type: 'dieta',
+        message: `Nueva dieta creada para: ${data.nombre} ${data.apellidos}`,
+        timestamp: new Date(),
+        read: false,
+        route: `/gestionPacientes?idpersona=${data.idPersona}`
+      });
+    });
+
+    socket.current.on('update-dieta', (data) => {
+      addNotification({
+        id: Date.now(),
+        type: 'dieta',
+        message: `Dieta actualizada de: ${data.nombre} ${data.apellidos}`,
+        timestamp: new Date(),
+        read: false,
+        route: `/gestionPacientes?idpersona=${data.idPersona}`
+      });
+    });
+
+socket.current.on('new-cuestionario', (data) => {
+  console.log('Datos recibidos en new-cuestionario:', data); // <-- Agrega este log
+
+  const idPersona = data.id_persona || data.idPersona; // Soporta ambos formatos
+  const route = idPersona ? `/gestionPacientes?idpersona=${idPersona}` : '/personas';
+
+  addNotification({
+    id: Date.now(),
+    type: 'cuestionario',
+    message: `Nuevo cuestionario registrado para: ${data.nombre} ${data.apellidos}`,
+    timestamp: new Date(),
+    read: false,
+    route: route
+  });
+});
+
+    socket.current.on('update-cuestionario', (data) => {
+      console.log('Datos recibidos en update-cuestionario:', data); // <-- Agrega este log
+      addNotification({
+        id: Date.now(),
+        type: 'cuestionario',
+        message: `Cuestionario actualizado para: ${data.nombre} ${data.apellidos}`,
+        timestamp: new Date(),
+        read: false,
+        route: `/gestionPacientes?idpersona=${data.idPersona}`
       });
     });
 
     return () => {
-      socket.current.disconnect();
+      if (socket.current) {
+        socket.current.disconnect();
+      }
     };
-  }, []);
+  }, [isSuperAdmin]);
 
   const addNotification = (notification) => {
     setNotifications(prev => [notification, ...prev]);
     setUnreadCount(prev => prev + 1);
   };
 
-  const markAsRead = (id) => {
+  const markAsRead = (id, route) => {
     setNotifications(prev =>
       prev.map(notif => 
         notif.id === id ? { ...notif, read: true } : notif
       )
     );
     setUnreadCount(prev => prev > 0 ? prev - 1 : 0);
+    
+    if (route) {
+      navigate(route);
+      setShowNotifications(false);
+    }
   };
 
   const markAllAsRead = () => {
@@ -121,6 +199,21 @@ const Navbar = ({ toggleSidebar }) => {
     setShowDropdown(false);
   };
 
+  // Función para obtener el icono según el tipo de notificación
+  const getNotificationIcon = (type) => {
+    switch(type) {
+      case 'user':
+        return <FaUser className="icon-user" />;
+      case 'person':
+        return <FaUserCircle className="icon-person" />;
+      case 'dieta':
+      case 'cuestionario':
+        return <FaCheck className="icon-check" />;
+      default:
+        return <FaBell className="icon-bell" />;
+    }
+  };
+
   return (
     <nav className="navbar-custom fixed-top">
       <div className="navbar-left">
@@ -134,97 +227,100 @@ const Navbar = ({ toggleSidebar }) => {
       </div>
 
       <div className="navbar-right">
-        <div className="notification-wrapper position-relative">
-          <div 
-            className="notification-icon mx-3 position-relative"
-            onClick={() => setShowNotifications(!showNotifications)}
-          >
-            <FaBell size={20} className="hover-effect text-white" />
-            {unreadCount > 0 && (
-              <span className="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle">
-                {unreadCount}
-              </span>
-            )}
-          </div>
+        {isSuperAdmin && (
+          <div className="notification-wrapper position-relative">
+            <div 
+              className="notification-icon mx-3 position-relative"
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
+              <FaBell size={20} className="hover-effect text-white" />
+              {unreadCount > 0 && (
+                <span className="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle">
+                  {unreadCount}
+                </span>
+              )}
+            </div>
 
-          {showNotifications && (
-            <div className="notification-dropdown" ref={notificationRef}>
-              <div className="notification-header">
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5 className="m-0">Notificaciones</h5>
-                  <div className="d-flex">
-                    <button 
-                      className="btn btn-icon"
-                      onClick={markAllAsRead}
-                      title="Marcar todas como leídas"
-                    >
-                      <FaCheck className="icon-sm text-white" />
-                    </button>
-                    <button 
-                      className="btn btn-icon ms-2"
-                      onClick={clearAllNotifications}
-                      title="Limpiar todas"
-                    >
-                      <FaTrash className="icon-sm text-white" />
-                    </button>
-                    <button 
-                      className="btn btn-icon ms-2"
-                      onClick={() => setShowNotifications(false)}
-                      title="Cerrar"
-                    >
-                      <FaTimes className="icon-sm text-white" />
-                    </button>
+            {showNotifications && (
+              <div className="notification-dropdown" ref={notificationRef}>
+                <div className="notification-header">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <h5 className="m-0">Notificaciones</h5>
+                    <div className="d-flex">
+                      <button 
+                        className="btn btn-icon"
+                        onClick={markAllAsRead}
+                        title="Marcar todas como leídas"
+                      >
+                        <FaCheck className="icon-sm text-white" />
+                      </button>
+                      <button 
+                        className="btn btn-icon ms-2"
+                        onClick={clearAllNotifications}
+                        title="Limpiar todas"
+                      >
+                        <FaTrash className="icon-sm text-white" />
+                      </button>
+                      <button 
+                        className="btn btn-icon ms-2"
+                        onClick={() => setShowNotifications(false)}
+                        title="Cerrar"
+                      >
+                        <FaTimes className="icon-sm text-white" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="notification-list">
-                {notifications.length > 0 ? (
-                  notifications.map(notification => (
-                    <div 
-                      key={notification.id} 
-                      className={`notification-item ${!notification.read ? 'unread' : ''}`}
-                      onClick={() => markAsRead(notification.id)}
-                    >
-                      <div className="notification-badge">
-                        {notification.type === 'user' ? (
-                          <FaUser className="icon-user" />
-                        ) : (
-                          <FaUserCircle className="icon-person" />
-                        )}
-                      </div>
-                      <div className="notification-content">
-                        <div className="d-flex justify-content-between">
-                          <strong>{notification.type === 'user' ? 'Usuario' : 'Persona'}</strong>
-                          <small>
-                            {new Date(notification.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                          </small>
+                
+                <div className="notification-list">
+                  {notifications.length > 0 ? (
+                    notifications.map(notification => (
+                      <div 
+                        key={notification.id} 
+                        className={`notification-item ${!notification.read ? 'unread' : ''}`}
+                        onClick={() => markAsRead(notification.id, notification.route)}
+                      >
+                        <div className="notification-badge">
+                          {getNotificationIcon(notification.type)}
                         </div>
-                        <p>{notification.message}</p>
+                        <div className="notification-content">
+                          <div className="d-flex justify-content-between">
+                            <strong>
+                              {notification.type === 'user' ? 'Usuario' : 
+                               notification.type === 'person' ? 'Persona' :
+                               notification.type === 'dieta' ? 'Dieta' :
+                               notification.type === 'cuestionario' ? 'Cuestionario' : 'Notificación'}
+                            </strong>
+                            <small>
+                              {new Date(notification.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </small>
+                          </div>
+                          <p>{notification.message}</p>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="empty-notifications">
+                      <FaBell className="empty-icon" />
+                      <p>No hay notificaciones nuevas</p>
                     </div>
-                  ))
-                ) : (
-                  <div className="empty-notifications">
-                    <FaBell className="empty-icon" />
-                    <p>No hay notificaciones nuevas</p>
+                  )}
+                </div>
+                
+                {notifications.length > 0 && (
+                  <div className="notification-footer">
+                    <button 
+                      className="btn btn-clear-all text-white"
+                      onClick={clearAllNotifications}
+                    >
+                      Limpiar todas
+                    </button>
                   </div>
                 )}
               </div>
-              
-              {notifications.length > 0 && (
-                <div className="notification-footer">
-                  <button 
-                    className="btn btn-clear-all text-white"
-                    onClick={clearAllNotifications}
-                  >
-                    Limpiar todas
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         <div 
           ref={target}

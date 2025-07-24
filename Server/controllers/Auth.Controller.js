@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from "../db/connection.js";
+import { httpServer, io } from './../server.js';
+
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tu_secreto_super_seguro';
 
@@ -50,7 +52,7 @@ export const login = async (req, res) => {
         // Consulta mejorada
         const [users] = await db.query(
             `SELECT u.id_usuario, u.nombre, u.usuario, u.correo, u.contrasenia, 
-                    u.id_perfil, p.nombre as perfil, u.activo
+                    u.id_perfil, p.nombre as perfil, u.activo, u.idPersona
              FROM usuarios u 
              JOIN cat_perfiles p ON u.id_perfil = p.id_perfil 
              WHERE u.usuario = ? LIMIT 1`,
@@ -118,12 +120,13 @@ export const verifyToken = async (req, res) => {
         const decoded = jwt.verify(token, JWT_SECRET);
         
         // Verificar si el usuario existe
-        const [users] = await db.query(
-            `SELECT id_usuario, nombre, usuario, correo, id_perfil 
-             FROM usuarios 
-             WHERE id_usuario = ? AND activo = 1 LIMIT 1`,
+      const [users] = await db.query(
+            `SELECT id_usuario, nombre, usuario, correo, id_perfil, idPersona
+            FROM usuarios 
+            WHERE id_usuario = ? AND activo = 1 LIMIT 1`,
             [decoded.userId]
         );
+
         
         if (users.length === 0) {
             return res.status(401).json({ 
@@ -216,6 +219,15 @@ export const completeRegister = async (req, res) => {
 
             // Confirmar transacción
             await db.query('COMMIT');
+
+               io.emit('nuevo-usuario', {
+                nombre: persona.nombre,
+                apellidos: persona.apellidos,
+                correo: usuario.correo,
+                usuario: usuario.usuario,
+                idPersona,
+                id_perfil: usuario.id_perfil
+            });
 
             res.status(201).json({ 
                 success: true,

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './pages/Superadmin/AuthContext.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
-import Sidebar from './components/Sidebar/Sidebar.jsx';
+import SidebarAdmin from './components/Sidebar/Sidebar.jsx'; // Renombra tu sidebar actual
+import SidebarUser from './components/Sidebar/SidebarUser.jsx';
 import AppRoutes from './App.Routes.jsx';
 import './App.css';
 
@@ -20,6 +21,29 @@ function AppLayout() {
         return <div className="loading-screen">Cargando...</div>;
     }
 
+    // Determinar qué sidebar mostrar según el rol
+    const renderSidebar = () => {
+        if (shouldHideLayout) return null;
+        
+        switch(user?.id_perfil) {
+            case 1: // Admin
+                return <SidebarAdmin isOpen={sidebarOpen} />;
+            case 2: // Usuario normal (ajusta según tus roles)
+                return <SidebarUser isOpen={sidebarOpen} />;
+            // Agrega más casos según necesites
+            default:
+                return null;
+        }
+    };
+
+    // Determinar clases del contenido principal
+    const getMainContentClass = () => {
+        if (shouldHideLayout) return 'full-width';
+        if (!user) return 'full-width';
+        
+        return sidebarOpen ? 'with-sidebar' : 'full-width';
+    };
+
     return (
         <div className="app">
             {/* Mostrar Navbar excepto en rutas específicas */}
@@ -28,17 +52,11 @@ function AppLayout() {
             )}
             
             <div className="app-container">
-                {/* Mostrar Sidebar para admin (rol 1) en rutas permitidas */}
-                {!shouldHideLayout && user?.id_perfil === 1 && (
-                    <Sidebar isOpen={sidebarOpen} />
-                )}
+                {/* Mostrar el sidebar correspondiente */}
+                {renderSidebar()}
                 
                 {/* Ajustar el contenido principal */}
-                <main className={`main-content ${
-                    sidebarOpen && user?.id_perfil === 1 && !shouldHideLayout 
-                        ? 'with-sidebar' 
-                        : 'full-width'
-                }`}>
+                <main className={`main-content ${getMainContentClass()}`}>
                     <AppRoutes />
                 </main>
             </div>

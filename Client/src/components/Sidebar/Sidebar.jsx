@@ -9,6 +9,7 @@ import {
   FaAppleAlt, FaFileUpload, FaChartLine
 } from 'react-icons/fa';
 import './Sidebar.css';
+//import './SidebarUser.css';
 import PropTypes from 'prop-types';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
