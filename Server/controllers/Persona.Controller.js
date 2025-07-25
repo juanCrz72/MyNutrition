@@ -60,6 +60,7 @@ export const getPersonas = async (req, res) => {
         p.idPlan,
         plan.plan_nombre,
         p.activo,
+        u.id_usuario,  -- Añadido: id_usuario de la tabla usuarios
 
         q.act_fisica,
         q.diabetes,
@@ -77,6 +78,7 @@ export const getPersonas = async (req, res) => {
       JOIN cat_paises pais ON p.idPais = pais.idPais
       LEFT JOIN cat_planes plan ON p.idPlan = plan.idPlan
       LEFT JOIN persona_questionario q ON p.idpersona = q.id_persona
+      LEFT JOIN usuarios u ON p.idpersona = u.idPersona  -- Añadido: JOIN con usuarios
       ORDER BY p.idpersona DESC
     `);
     
@@ -90,7 +92,6 @@ export const getPersonas = async (req, res) => {
     res.status(500).json({ message: "Error interno", error: error.message });
   }
 };
-
 
 // Crear una nueva persona
 export const createPersona = async (req, res) => {

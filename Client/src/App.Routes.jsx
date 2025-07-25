@@ -10,7 +10,7 @@ import PerfilPage from './pages/Superadmin/PerfilPage.jsx';
 import CambiarContrasena from './pages/Superadmin/CambiarContrasenaPage.jsx';
 
 // -------------------- Gestión Pacientes -------------------- //
-import Paciente from './pages/Superadmin/Paciente';
+// import Paciente from './pages/Superadmin/Paciente';
 import Persona from './pages/Superadmin/Persona.jsx';
 import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
 import Dieta from './pages/Superadmin/Dieta.jsx';
@@ -67,11 +67,11 @@ export default function AppRoutes() {
         </ProtectedRoute>
       } />
       
-      <Route path="/pacientes" element={
+{/*       <Route path="/pacientes" element={
         <ProtectedRoute allowedRoles={[1]}>
           <Paciente />
         </ProtectedRoute>
-      } />
+      } /> */}
       
       <Route path="/paises" element={
         <ProtectedRoute allowedRoles={[1]}>
@@ -91,7 +91,14 @@ export default function AppRoutes() {
         </ProtectedRoute>
       } />
       
-      <Route path="/personaBitacora/:idpersona" element={
+{/*       <Route path="/personaBitacora/:idpersona" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <PersonaBitacora />
+        </ProtectedRoute>
+      } /> */}
+
+
+       <Route path="/personaBitacora/:id_usuario" element={
         <ProtectedRoute allowedRoles={[1]}>
           <PersonaBitacora />
         </ProtectedRoute>

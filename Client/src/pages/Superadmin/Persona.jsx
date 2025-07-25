@@ -199,7 +199,7 @@ function Persona() {
                     </div>
                     <div className="d-flex flex-column flex-grow-1 min-width-0">
                       <h6 className="mb-0 text-white fw-semibold text-truncate" title={`${persona.nombre} ${persona.apellidos}`}>
-                        {persona.nombre} {persona.apellidos}
+                        {persona.nombre} {persona.apellidos} {persona.id_usuario}
                       </h6>
                       <div className="d-flex justify-content-between align-items-center mt-1">
                         <span className="badge bg-white text-primary px-2 py-1 small">{persona.edad} años</span>
@@ -266,7 +266,7 @@ function Persona() {
                     <div className="d-flex gap-1">
                       <button
                         className="crud-btn crud-btn-primary btn-action-optimized"
-                        onClick={() => navigate(`/personaBitacora/${persona.idpersona}`)}
+                        onClick={() => navigate(`/personaBitacora/${persona.id_usuario}`)}
                         title="Bitácora de Comidas"
                       >
                         <FaUtensils size={12} />

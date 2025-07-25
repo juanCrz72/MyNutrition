@@ -31,7 +31,7 @@ import PersonaBitacoraCRUD from './PersonaBitacoraCRUD';
 import './css/Bitacora.css';
 
 export const PacienteBitacora = () => {
-  const { idpersona } = useParams();
+  const { id_usuario  } = useParams();
   const navigate = useNavigate();
   const [bitacoraData, setBitacoraData] = useState([]);
   const [pacienteInfo, setPacienteInfo] = useState(null);
@@ -49,7 +49,7 @@ export const PacienteBitacora = () => {
 
   const refreshData = async () => {
     try {
-      await getBitacoraComidasjs(setBitacoraData, idpersona);
+      await getBitacoraComidasjs(setBitacoraData, id_usuario );
     } catch (error) {
       Swal.fire('Error', 'No se pudo actualizar la bitácora', 'error');
     }
@@ -58,7 +58,7 @@ export const PacienteBitacora = () => {
   useEffect(() => {
     const fetchBitacora = async () => {
       try {
-        await getBitacoraComidasjs(setBitacoraData, idpersona);
+        await getBitacoraComidasjs(setBitacoraData, id_usuario );
         
         if (bitacoraData.length > 0) {
           setPacienteInfo({
@@ -75,7 +75,7 @@ export const PacienteBitacora = () => {
     };
     
     fetchBitacora();
-  }, [idpersona]);
+  }, [id_usuario ]);
 
   const toggleMealSection = (mealType) => {
     setExpandedMeals(prev => ({
@@ -677,7 +677,7 @@ export const PacienteBitacora = () => {
         onHide={() => setShowModal(false)}
         mealType={selectedMealType}
         selectedDate={selectedDate}
-        idUsuario={idpersona}
+        idUsuario={id_usuario}
         refreshData={refreshData}
       />
     </div>

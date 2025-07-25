@@ -21,6 +21,10 @@ function AppLayout() {
         return <div className="loading-screen">Cargando...</div>;
     }
 
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
+
     // Determinar qué sidebar mostrar según el rol
     const renderSidebar = () => {
         if (shouldHideLayout) return null;
@@ -29,7 +33,7 @@ function AppLayout() {
             case 1: // Admin
                 return <SidebarAdmin isOpen={sidebarOpen} />;
             case 2: // Usuario normal (ajusta según tus roles)
-                return <SidebarUser isOpen={sidebarOpen} />;
+                return <SidebarUser isOpen={sidebarOpen}  toggleSidebar={toggleSidebar}/>;
             // Agrega más casos según necesites
             default:
                 return null;

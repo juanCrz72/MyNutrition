@@ -12,7 +12,7 @@ import { BASE_URL } from './config.js';
   }
 }; */
 
-export const getBitacoraComidas = async (idPersona = null) => {
+/* export const getBitacoraComidas = async (idPersona = null) => {
   try {
     let url = `${BASE_URL}/Bitacora`;
 
@@ -28,7 +28,25 @@ export const getBitacoraComidas = async (idPersona = null) => {
     throw new Error('Error al obtener la bitácora de comidas');
   }
 };
+ */
 
+// Cambiar el parámetro de idpersona a id_usuario
+export const getBitacoraComidas = async (id_usuario = null) => {
+  try {
+    let url = `${BASE_URL}/Bitacora`;
+
+    // Si se pasa un id_usuario, agrega el parámetro a la URL
+    if (id_usuario) {
+      url += `?id_usuario=${id_usuario}`;
+    }
+
+    const response = await axios.get(url);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error al obtener la bitácora de comidas:", error.response?.data || error.message);
+    throw new Error('Error al obtener la bitácora de comidas');
+  }
+};
 
 
 // Crear una nueva entrada en la bitácora

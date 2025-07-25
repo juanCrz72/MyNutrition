@@ -22,9 +22,24 @@ import {
 }; */
 
 // Esta es la función que conecta con el componente y maneja errores
-export const getBitacoraComidasjs = async (setBitacoraData, idPersona = null) => {
+/* export const getBitacoraComidasjs = async (setBitacoraData, idPersona = null) => {
   try {
     const data = await getBitacoraComidas(idPersona); // pasamos el idPersona
+    setBitacoraData(data);
+  } catch (error) {
+    console.error('Error al obtener la bitácora de comidas:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Hubo un problema obteniendo los registros de comidas.',
+    });
+  }
+}; */
+
+// Cambiar el parámetro de idPersona a id_usuario
+export const getBitacoraComidasjs = async (setBitacoraData, id_usuario = null) => {
+  try {
+    const data = await getBitacoraComidas(id_usuario); // pasamos el id_usuario
     setBitacoraData(data);
   } catch (error) {
     console.error('Error al obtener la bitácora de comidas:', error);

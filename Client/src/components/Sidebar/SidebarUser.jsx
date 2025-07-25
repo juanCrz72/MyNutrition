@@ -86,7 +86,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       activeIcon: <FaBook className="nav-icon active-nav-icon" />,
       submenu: [
         { id: 'registros', name: 'Mis registros', icon: <FaBook />, path: '/bitacoraUser' },
-        { id: 'fotos', name: 'Fotos/Documentos', icon: <FaClipboardList />, path: '/notas' },
+        { id: 'fotos', name: 'Fotos/Documentos', icon: <FaClipboardList />, path: '/DocumentosUser' },
       ]
     },
     { 

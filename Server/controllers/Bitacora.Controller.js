@@ -1,5 +1,59 @@
 import { db } from "../db/connection.js";
 
+// Modificar la función getBitacoraComidas para filtrar por id_usuario
+export const getBitacoraComidas = async (req, res) => {
+  try {
+    const { id_usuario } = req.query; // Cambiado de idpersona a id_usuario
+
+    let query = `
+      SELECT 
+        bc.*, 
+        CONCAT(p.nombre, ' ', p.apellidos) AS nombreUsuario,
+        p.edad,
+        p.sexo,
+        u.id_usuario,
+        sa.Alimento,
+        sa.Categoria AS categoriaAlimento,
+        sa.Energia_kcal,
+        sa.Proteina_g,
+        sa.Grasa_g,
+        sa.Unidad,
+        sa.Carbohidratos_g,
+        sa.Peso_Neto_g AS peso,
+        pd.calorias,
+        pd.carbohidratos AS dieta_carbohidratos,
+        pd.grasas AS dieta_grasas,
+        pd.proteinas AS dieta_proteinas,
+        pd.peso_actual AS dieta_peso_actual
+      FROM bitacora_comidas bc
+      JOIN usuarios u ON bc.id_usuario = u.id_usuario
+      JOIN persona p ON u.idPersona = p.idpersona
+      JOIN smae_alimentos sa ON bc.id_alimento = sa.id
+      LEFT JOIN persona_dieta pd ON p.idpersona = pd.idPersona AND pd.activo = 1
+      WHERE p.activo = 1 AND u.activo = 1 AND sa.activo = 1
+    `;
+
+    if (id_usuario) {
+      query += ` AND u.id_usuario = ${db.escape(id_usuario)}`;
+    }
+
+    const [rows] = await db.query(query);
+
+    if (rows.length > 0) {
+      res.json({
+        message: "Bitácora de comidas obtenida correctamente",
+        data: rows,
+      });
+    } else {
+      res.status(404).json({ message: "No se encontraron registros en la bitácora de comidas" });
+    }
+  } catch (error) {
+    console.error("Error al obtener bitácora de comidas:", error);
+    res.status(500).json({ message: "Algo salió mal", error: error.message });
+  }
+};
+
+
 // Obtener todas las entradas de la bitácora de comidas
 /* export const getBitacoraComidas = async (req, res) => {
   try {
@@ -37,7 +91,8 @@ import { db } from "../db/connection.js";
 };
  */
 // Modifica la función getBitacoraComidas para aceptar un parámetro de filtrado
-export const getBitacoraComidas = async (req, res) => {
+
+/* export const getBitacoraComidas = async (req, res) => {
   try {
     const { idpersona } = req.query;
 
@@ -93,6 +148,8 @@ export const getBitacoraComidas = async (req, res) => {
     res.status(500).json({ message: "Algo salió mal", error: error.message });
   }
 };
+ */
+
 
 // Crear una nueva entrada en la bitácora de comidas
 export const createBitacoraComida = async (req, res) => {
