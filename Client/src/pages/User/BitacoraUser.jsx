@@ -54,7 +54,7 @@ import { getBitacoraComidasjs, deleteBitacoraComidajs } from '../../assets/js/Bi
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './../Superadmin/css/crud-styles.css';
-import PersonaBitacoraCRUD from './../Superadmin/PersonaBitacoraCRUD';
+import PersonaBitacoraCRUD from '../Superadmin/PersonaBitacoraCRUD.jsx';
 import './../Superadmin/css/Bitacora.css';
 
 export const UserBitacora = () => {
