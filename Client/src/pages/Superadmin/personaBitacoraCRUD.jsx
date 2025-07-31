@@ -9,7 +9,7 @@ import { obtenerTodasLasImagenesAlimentos } from '../../api/DocumentosAlimentos.
 import Swal from 'sweetalert2';
 import './css/AlimentosCRUD.css';
 
-const PersonaBitacoraCRUD = ({ 
+const PersonaBitacoraCRUD = ({  
   show, 
   onHide, 
   mealType, 
