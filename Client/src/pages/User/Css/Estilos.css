@@ -1907,3 +1907,722 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos generales para la gestión de planes */
+.plan-management {
+  background-color: #fafafa;
+  min-height: 100vh;
+  padding: 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.plan-container {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.plan-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.plan-title {
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  color: #262626;
+}
+
+.plan-subtitle {
+  color: #8e8e8e;
+  font-size: 14px;
+}
+
+/* Tarjeta de ID de usuario */
+.user-id-card {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.user-id-label {
+  font-size: 14px;
+  color: #8e8e8e;
+  margin-bottom: 5px;
+}
+
+.user-id-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #0095f6;
+}
+
+.user-id-note {
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-top: 10px;
+}
+
+/* Sección de planes */
+.plans-section {
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #262626;
+  display: flex;
+  align-items: center;
+}
+
+.add-plan-btn {
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-plan-btn:hover {
+  background-color: #0080e5;
+}
+
+/* Buscador */
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fafafa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238e8e8e' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  padding-left: 40px;
+}
+
+/* Lista de planes */
+.plans-list {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.plan-item {
+  padding: 15px;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.plan-item:last-child {
+  border-bottom: none;
+}
+
+.plan-item:hover {
+  background-color: #fafafa;
+}
+
+.plan-info {
+  flex: 1;
+}
+
+.plan-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #262626;
+}
+
+.plan-dates {
+  display: flex;
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-bottom: 5px;
+}
+
+.plan-date {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.plan-duration {
+  font-size: 13px;
+  color: #8e8e8e;
+}
+
+.plan-status {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.status-active {
+  background-color: #e0f7fa;
+  color: #00acc1;
+}
+
+.status-inactive {
+  background-color: #f5f5f5;
+  color: #757575;
+}
+
+.plan-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.edit-btn {
+  background-color: #fff8e1;
+  color: #ffa000;
+}
+
+.edit-btn:hover {
+  background-color: #ffe0b2;
+}
+
+.delete-btn {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.delete-btn:hover {
+  background-color: #ffcdd2;
+}
+
+/* Estado de carga y mensajes */
+.loading-state, .empty-state {
+  padding: 40px;
+  text-align: center;
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0095f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-icon {
+  font-size: 40px;
+  color: #dbdbdb;
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .plan-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .plan-actions {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+  
+  .plan-dates {
+    flex-direction: column;
+  }
+  
+  .plan-date {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+}
+
+/* Modales (puedes mantener los estilos de Bootstrap que ya tienes) */
+.modal-header {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.modal-footer {
+  border-top: 1px solid #dbdbdb;
+}
+
+/* Mejoras para los selects y inputs en los modales */
+.form-select, .form-control {
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.form-select:focus, .form-control:focus {
+  border-color: #0095f6;
+  box-shadow: 0 0 0 1px #0095f6;
+}
+
+/* Badges personalizados */
+.badge {
+  font-weight: 600;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.bg-success {
+  background-color: #e0f7fa !important;
+  color: #00acc1 !important;
+}
+
+.bg-secondary {
+  background-color: #f5f5f5 !important;
+  color: #757575 !important;
+}
+
+/* Estilos para la gestión de planes - Coherente con el dashboard */
+.plans-management {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.plans-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.plans-header {
+  margin-bottom: 2rem;
+}
+
+.plans-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.plans-subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+/* User Card */
+.user-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.user-info h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.user-info p {
+  margin: 0.3rem 0 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.user-id-badge {
+  background: #e3f2fd;
+  color: #2196f3;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Search */
+.search-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8c8d;
+}
+
+/* Add Plan Button */
+.add-plan-btn {
+  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 10px rgba(33, 150, 243, 0.2);
+}
+
+.add-plan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+/* Plans Grid */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.plan-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.plan-status {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.status-active {
+  background: #e8f5e9;
+  color: #43a047;
+}
+
+.status-inactive {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+.plan-details {
+  margin: 1rem 0;
+}
+
+.plan-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.plan-icon {
+  color: #2196f3;
+  width: 20px;
+  text-align: center;
+}
+
+.plan-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background: #fff8e1;
+  color: #ffa000;
+}
+
+.edit-btn:hover {
+  background: #ffe0b2;
+}
+
+.delete-btn {
+  background: #ffebee;
+  color: #e53935;
+}
+
+.delete-btn:hover {
+  background: #ffcdd2;
+}
+
+/* Empty State */
+.empty-state {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  grid-column: 1 / -1;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.empty-description {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+
+/* Loading State */
+.loading-state {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  grid-column: 1 / -1;
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #2196f3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .plans-management {
+    padding: 1.5rem 1rem;
+  }
+  
+  .user-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+

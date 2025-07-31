@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Superadmin/AuthContext.jsx';
 import { 
   FaList, FaPlus, FaSearch, FaEdit, FaTrash, 
-  FaCalendarAlt, FaInfoCircle, FaSpinner 
+  FaCalendarAlt, FaClock, FaInfoCircle, FaSpinner,
+  FaUser
 } from 'react-icons/fa';
 import { Modal, Button, Alert, Spinner, Badge } from 'react-bootstrap';
+import { motion } from 'framer-motion';
 import { getPersonasPlanesjs, createPersonaPlanjs, updatePersonaPlanjs, deactivatePlanjs, deletePersonaPlanjs } from '../../assets/js/PersonaPlan.js';
 import { getCat_plan } from '../../api/Plan.api.js';
 import { PersonaPlanCRUD } from './../Superadmin/PersonaPlanCRUD.jsx';
+import './css/Estilos.css';
 
 const PlanesUser = () => {
   const { user } = useAuth();
@@ -31,13 +34,9 @@ const PlanesUser = () => {
   const cargarPlanes = async () => {
     setLoading(true);
     try {
-      // Cargar planes del usuario
       await getPersonasPlanesjs(setPlanesList);
-      
-      // Cargar catálogo de planes
       const planesResponse = await getCat_plan();
       setPlanesCatalog(Array.isArray(planesResponse) ? planesResponse : []);
-      
       setError('');
     } catch (error) {
       console.error('Error al cargar planes:', error);
@@ -47,7 +46,7 @@ const PlanesUser = () => {
     }
   };
 
-  // Filtrar planes por el ID del usuario y texto de búsqueda
+  // Filtrar planes
   useEffect(() => {
     if (user?.idPersona && planesList.length > 0) {
       const filtered = planesList
@@ -64,7 +63,6 @@ const PlanesUser = () => {
     }
   }, [user?.idPersona, planesList, searchText]);
 
-  // Cargar datos al montar el componente
   useEffect(() => {
     cargarPlanes();
   }, []);
@@ -89,163 +87,207 @@ const PlanesUser = () => {
   // Formatear fecha
   const formatDate = (dateString) => {
     if (!dateString) return 'No especificada';
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('es-ES', options);
   };
 
+  // Obtener iniciales para el avatar
+  const getInitials = (name = '', lastName = '') => {
+    return `${name.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
   return (
-    <div className="container my-5">
-      <div className="text-center mb-4">
-        <h1 className="display-5">Planes del Usuario</h1>
-        <p className="text-muted">Aquí puedes ver los planes asociados a tu cuenta</p>
-      </div>
-
-      <div className="card shadow-sm border-0 mb-4">
-        <div className="card-body">
-          <h5 className="card-title">ID de la Persona</h5>
-          <p className="card-text fs-4 fw-semibold text-info">
-            {user?.idPersona || 'No disponible'}
-          </p>
-          <p className="text-muted">
-            Todos los planes mostrados están asociados a este ID.
-          </p>
-        </div>
-      </div>
-
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="section-title">
-          <FaList className="me-2" /> Mis Planes
-        </h3>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            setIdPlan("");
-            setActivoPlan(1);
-            setSelectedPlan(null);
-            setShowPlanModal(true);
-          }}
+    <div className="plans-management">
+      <div className="plans-container">
+        {/* Encabezado */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="plans-header"
         >
-          <FaPlus className="me-2" /> Nuevo Plan
-        </button>
-      </div>
-      
-      <div className="row mb-4">
-        <div className="col-md-6">
-          <div className="input-group">
-            <span className="input-group-text">
-              <FaSearch />
+          <h1 className="plans-title">Gestión de Planes</h1>
+          <p className="plans-subtitle">Administra los planes asociados a tu cuenta</p>
+        </motion.div>
+
+        {/* Tarjeta de usuario */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="user-card"
+        >
+          <div className="user-avatar">
+            {getInitials(user?.nombre || '', user?.apellidos || '')}
+          </div>
+          <div className="user-info">
+            <h3>{user?.nombre || 'Usuario'} {user?.apellidos || ''}</h3>
+            <p>Bienvenido a tu panel de gestión de planes</p>
+            <span className="user-id-badge">
+              <FaUser className="me-1" /> ID: {user?.idPersona || 'No disponible'}
             </span>
+          </div>
+        </motion.div>
+
+        {/* Sección de planes */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <div className="section-header">
+            <h2 className="section-title">
+              <FaList /> Mis Planes
+            </h2>
+            <motion.button
+              className="add-plan-btn"
+              onClick={() => {
+                setIdPlan("");
+                setActivoPlan(1);
+                setSelectedPlan(null);
+                setShowPlanModal(true);
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaPlus /> Nuevo Plan
+            </motion.button>
+          </div>
+          
+          {/* Buscador */}
+          <div className="search-container">
+            <FaSearch className="search-icon" />
             <input
               type="text"
-              className="form-control"
+              className="search-input"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Buscar por nombre de plan..."
+              placeholder="Buscar planes por nombre..."
             />
           </div>
-        </div>
-      </div>
-      
-      {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" variant="primary" />
-          <p className="mt-2">Cargando planes...</p>
-        </div>
-      ) : error ? (
-        <Alert variant="danger">{error}</Alert>
-      ) : filteredPlanes.length > 0 ? (
-        <div className="table-responsive">
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>Plan</th>
-                <th>Duración</th>
-                <th>Inicio</th>
-                <th>Término</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
+          
+          {/* Contenido */}
+          {loading ? (
+            <div className="loading-state">
+              <div className="spinner"></div>
+              <h3 className="empty-title">Cargando tus planes...</h3>
+              <p className="empty-description">Por favor espera un momento</p>
+            </div>
+          ) : error ? (
+            <Alert variant="danger" className="text-center">{error}</Alert>
+          ) : filteredPlanes.length > 0 ? (
+            <div className="plans-grid">
               {filteredPlanes.map((plan) => (
-                <tr key={plan.id}>
-                  <td>
-                    <strong>{plan.plan_nombre}</strong>
-                  </td>
-                  <td>{plan.plan_duracion} días</td>
-                  <td>{formatDate(plan.inicio_plan)}</td>
-                  <td>{formatDate(plan.termino_plan)}</td>
-                  <td>
-                    <Badge bg={plan.activo_plan === 1 ? 'success' : 'secondary'}>
+                <motion.div
+                  key={plan.id}
+                  className="plan-card"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}
+                >
+                  <div className="plan-header">
+                    <h3 className="plan-name">{plan.plan_nombre}</h3>
+                    <span className={`plan-status ${plan.activo_plan === 1 ? 'status-active' : 'status-inactive'}`}>
                       {plan.activo_plan === 1 ? 'Activo' : 'Inactivo'}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => {
-                          setSelectedPlan(plan);
-                          setIdPlan(plan.idPlan);
-                          setActivoPlan(plan.activo_plan);
-                          setShowEditPlanModal(true);
-                        }}
-                        title="Editar"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => {
-                          setSelectedPlan(plan);
-                          plan.activo_plan === 1 
-                            ? setShowDeactivatePlanModal(true)
-                            : setShowDeletePlanModal(true);
-                        }}
-                        title={plan.activo_plan === 1 ? 'Desactivar' : 'Eliminar'}
-                      >
-                        <FaTrash />
-                      </button>
+                    </span>
+                  </div>
+                  
+                  <div className="plan-details">
+                    <div className="plan-detail">
+                      <span className="plan-icon"><FaClock /></span>
+                      Duración: {plan.plan_duracion} días
                     </div>
-                  </td>
-                </tr>
+                    <div className="plan-detail">
+                      <span className="plan-icon"><FaCalendarAlt /></span>
+                      Inicio: {formatDate(plan.inicio_plan)}
+                    </div>
+                    <div className="plan-detail">
+                      <span className="plan-icon"><FaCalendarAlt /></span>
+                      Término: {formatDate(plan.termino_plan)}
+                    </div>
+                  </div>
+                  
+                  <div className="plan-actions">
+                    <motion.button
+                      className="action-btn edit-btn"
+                      onClick={() => {
+                        setSelectedPlan(plan);
+                        setIdPlan(plan.idPlan);
+                        setActivoPlan(plan.activo_plan);
+                        setShowEditPlanModal(true);
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaEdit /> Editar
+                    </motion.button>
+                    <motion.button
+                      className="action-btn delete-btn"
+                      onClick={() => {
+                        setSelectedPlan(plan);
+                        plan.activo_plan === 1 
+                          ? setShowDeactivatePlanModal(true)
+                          : setShowDeletePlanModal(true);
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaTrash /> {plan.activo_plan === 1 ? 'Desactivar' : 'Eliminar'}
+                    </motion.button>
+                  </div>
+                </motion.div>
               ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <Alert variant="info">
-          No se encontraron planes asociados a tu cuenta.
-        </Alert>
-      )}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <div className="empty-icon">
+                <FaInfoCircle />
+              </div>
+              <h3 className="empty-title">No tienes planes registrados</h3>
+              <p className="empty-description">
+                Comienza agregando un nuevo plan para disfrutar de todos los beneficios
+              </p>
+              <motion.button
+                className="add-plan-btn"
+                onClick={() => setShowPlanModal(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaPlus /> Agregar Primer Plan
+              </motion.button>
+            </div>
+          )}
+        </motion.div>
 
-      {/* Modal para gestión de planes */}
-      <PersonaPlanCRUD
-        formData={{ 
-          idPersona: user?.idPersona, 
-          idPlan, setIdPlan, 
-          activo_plan, setActivoPlan,
-          personasList: [{ idpersona: user?.idPersona, nombre: user?.nombre, apellidos: user?.apellidos }],
-          planesCatalog
-        }}
-        modals={{ 
-          showModal: showPlanModal, 
-          setShowModal: setShowPlanModal, 
-          showEditModal: showEditPlanModal, 
-          setShowEditModal: setShowEditPlanModal, 
-          showDeactivateModal: showDeactivatePlanModal, 
-          setShowDeactivateModal: setShowDeactivatePlanModal,
-          showDeleteModal: showDeletePlanModal, 
-          setShowDeleteModal: setShowDeletePlanModal 
-        }}
-        handlers={{ 
-          handleAdd: handleAddPlan, 
-          handleUpdate: handleUpdatePlan, 
-          handleDeactivate: handleDeactivatePlan, 
-          handleDelete: handleDeletePlan 
-        }}
-        selectedPlan={selectedPlan}
-      />
+        {/* Modal para gestión de planes */}
+        <PersonaPlanCRUD
+          formData={{ 
+            idPersona: user?.idPersona, 
+            idPlan, setIdPlan, 
+            activo_plan, setActivoPlan,
+            personasList: [{ idpersona: user?.idPersona, nombre: user?.nombre, apellidos: user?.apellidos }],
+            planesCatalog
+          }}
+          modals={{ 
+            showModal: showPlanModal, 
+            setShowModal: setShowPlanModal, 
+            showEditModal: showEditPlanModal, 
+            setShowEditModal: setShowEditPlanModal, 
+            showDeactivateModal: showDeactivatePlanModal, 
+            setShowDeactivateModal: setShowDeactivatePlanModal,
+            showDeleteModal: showDeletePlanModal, 
+            setShowDeleteModal: setShowDeletePlanModal 
+          }}
+          handlers={{ 
+            handleAdd: handleAddPlan, 
+            handleUpdate: handleUpdatePlan, 
+            handleDeactivate: handleDeactivatePlan, 
+            handleDelete: handleDeletePlan 
+          }}
+          selectedPlan={selectedPlan}
+        />
+      </div>
     </div>
   );
 };
