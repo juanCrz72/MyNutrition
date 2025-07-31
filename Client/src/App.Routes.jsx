@@ -91,11 +91,11 @@ export default function AppRoutes() {
         </ProtectedRoute>
       } />
       
-{/*       <Route path="/personaBitacora/:idpersona" element={
+ <Route path="/PersonaBitacora/:idpersona" element={
         <ProtectedRoute allowedRoles={[1]}>
           <PersonaBitacora />
         </ProtectedRoute>
-      } /> */}
+      } /> 
 
 
        <Route path="/personaBitacora/:id_usuario" element={
