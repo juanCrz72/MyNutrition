@@ -110,24 +110,7 @@ const PlanesUser = () => {
           <p className="plans-subtitle">Administra los planes asociados a tu cuenta</p>
         </motion.div>
 
-        {/* Tarjeta de usuario */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="user-card"
-        >
-          <div className="user-avatar">
-            {getInitials(user?.nombre || '', user?.apellidos || '')}
-          </div>
-          <div className="user-info">
-            <h3>{user?.nombre || 'Usuario'} {user?.apellidos || ''}</h3>
-            <p>Bienvenido a tu panel de gestión de planes</p>
-            <span className="user-id-badge">
-              <FaUser className="me-1" /> ID: {user?.idPersona || 'No disponible'}
-            </span>
-          </div>
-        </motion.div>
+
 
         {/* Sección de planes */}
         <motion.div
@@ -208,34 +191,36 @@ const PlanesUser = () => {
                     </div>
                   </div>
                   
-                  <div className="plan-actions">
-                    <motion.button
-                      className="action-btn edit-btn"
-                      onClick={() => {
-                        setSelectedPlan(plan);
-                        setIdPlan(plan.idPlan);
-                        setActivoPlan(plan.activo_plan);
-                        setShowEditPlanModal(true);
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <FaEdit /> Editar
-                    </motion.button>
-                    <motion.button
-                      className="action-btn delete-btn"
-                      onClick={() => {
-                        setSelectedPlan(plan);
-                        plan.activo_plan === 1 
-                          ? setShowDeactivatePlanModal(true)
-                          : setShowDeletePlanModal(true);
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <FaTrash /> {plan.activo_plan === 1 ? 'Desactivar' : 'Eliminar'}
-                    </motion.button>
-                  </div>
+               <div className="plan-actions">
+  <motion.button
+    className="action-icon-btn edit-icon-btn"
+    onClick={() => {
+      setSelectedPlan(plan);
+      setIdPlan(plan.idPlan);
+      setActivoPlan(plan.activo_plan);
+      setShowEditPlanModal(true);
+    }}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.95 }}
+    title="Editar plan"
+  >
+    <FaEdit />
+  </motion.button>
+  <motion.button
+    className="action-icon-btn delete-icon-btn"
+    onClick={() => {
+      setSelectedPlan(plan);
+      plan.activo_plan === 1 
+        ? setShowDeactivatePlanModal(true)
+        : setShowDeletePlanModal(true);
+    }}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.95 }}
+    title={plan.activo_plan === 1 ? 'Desactivar plan' : 'Eliminar plan'}
+  >
+    <FaTrash />
+  </motion.button>
+</div>
                 </motion.div>
               ))}
             </div>
