@@ -736,6 +736,74 @@
 }
 
 
+/* Agrega esto en tu SidebarUser.css */
+
+.mobile-nav-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.mobile-nav-btn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-btn.special-btn {
+  position: relative;
+  margin-top: -20px;
+}
+
+.mobile-nav-btn.special-btn .bitacora-circle {
+  background-color: #ff7e5f;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.mobile-nav-btn.special-btn .mobile-nav-item {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-btn.special-btn .mobile-nav-item.active .bitacora-circle {
+  background-color: #e67359;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.mobile-nav-item.active {
+  color: #ff7e5f;
+}
+
+.mobile-nav-item svg {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
 
 
 
@@ -771,6 +839,1064 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos generales para el componente de dieta */
+.dieta-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.dieta-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.dieta-title {
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.dieta-subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.dieta-alert {
+  margin-bottom: 30px;
+}
+
+/* Estilos para la versión móvil */
+.dieta-mobile-summary {
+  margin-bottom: 30px;
+}
+
+.dieta-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.dieta-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+}
+
+.dieta-card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.dieta-card-body {
+  padding: 20px;
+}
+
+.dieta-macro-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.circle-progress {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.circle-progress-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+}
+
+.circle-progress-inner {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  background: white;
+  border-radius: 50%;
+  top: 10%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.circle-progress-inner span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.circle-progress-inner small {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.macro-legend {
+  width: 100%;
+}
+
+.macro-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.color-dot.protein {
+  background-color: #4e73df;
+}
+
+.color-dot.carbs {
+  background-color: #1cc88a;
+}
+
+.color-dot.fat {
+  background-color: #f6c23e;
+}
+
+.dieta-card-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.stat-item svg {
+  margin-right: 10px;
+  color: #6e8efb;
+}
+
+/* Estilos para la versión desktop */
+.dieta-desktop-view {
+  margin-top: 30px;
+}
+
+.dieta-info-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.dieta-user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+
+
+.user-details h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.user-details p {
+  margin: 5px 0 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.dieta-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card.main-stat {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  grid-column: span 2;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.stat-card.main-stat .stat-icon {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.stat-content h4 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.stat-card.main-stat h4 {
+  color: white;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.stat-card.main-stat .stat-value {
+  color: white;
+}
+
+.stat-value span {
+  font-size: 0.9rem;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.macro-bars {
+  display: flex;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.macro-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.macro-bar.protein {
+  background-color: #4e73df;
+}
+
+.macro-bar.carbs {
+  background-color: #1cc88a;
+}
+
+.macro-bar.fat {
+  background-color: #f6c23e;
+}
+
+.macro-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.macro-detail-item {
+  margin-bottom: 15px;
+}
+
+.macro-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.macro-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.macro-detail-header svg {
+  margin-right: 8px;
+}
+
+.macro-detail-header svg.protein {
+  color: #4e73df;
+}
+
+.macro-detail-header svg.carbs {
+  color: #1cc88a;
+}
+
+.macro-detail-header svg.fat {
+  color: #f6c23e;
+}
+
+.macro-detail-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.no-diet-message {
+  grid-column: span 4;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.no-diet-message h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.no-diet-message p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+/* Historial de dietas */
+.dieta-history {
+  margin-top: 30px;
+}
+
+.section-title {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.history-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.history-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.history-card:hover {
+  transform: translateY(-5px);
+}
+
+.history-card.active {
+  border-left: 5px solid #6e8efb;
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.history-card-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.history-card-body {
+  padding: 15px;
+}
+
+.history-stat {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.history-stat svg {
+  margin-right: 10px;
+  color: #6e8efb;
+}
+
+.history-macros {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.macro-chip {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.macro-chip svg {
+  margin-right: 5px;
+}
+
+.macro-chip.protein {
+  background-color: rgba(78, 115, 223, 0.1);
+  color: #4e73df;
+}
+
+.macro-chip.carbs {
+  background-color: rgba(28, 200, 138, 0.1);
+  color: #1cc88a;
+}
+
+.macro-chip.fat {
+  background-color: rgba(246, 194, 62, 0.1);
+  color: #d39e00;
+}
+
+.history-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  gap: 8px;
+}
+
+/* Modal de detalles */
+.dieta-modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dieta-modal-body {
+  padding: 25px;
+}
+
+.dieta-modal-section {
+  margin-bottom: 25px;
+}
+
+.dieta-modal-section h5 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.dieta-modal-section h5 svg {
+  margin-right: 8px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.info-item {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.calories-display {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.calories-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-right: 20px;
+}
+
+.calories-value {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.calories-unit {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.calories-recommendation {
+  flex: 1;
+}
+
+.calories-recommendation p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.macros-distribution {
+  display: flex;
+  margin-top: 15px;
+}
+
+.macros-chart {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  margin-right: 20px;
+}
+
+.macros-chart-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.macros-slice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%);
+  transform-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.macros-slice span {
+  transform: rotate(45deg);
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.macros-slice.protein {
+  background-color: #4e73df;
+  transform: rotate(0deg) skewY(calc(var(--percentage) * 3.6deg));
+}
+
+.macros-slice.carbs {
+  background-color: #1cc88a;
+  transform: rotate(calc(var(--percentage) * 3.6deg)) skewY(calc(var(--percentage) * 3.6deg));
+}
+
+.macros-slice.fat {
+  background-color: #f6c23e;
+  transform: rotate(calc((var(--percentage) + var(--percentage)) * 3.6deg)) skewY(calc(var(--percentage) * 3.6deg));
+}
+
+.macros-details {
+  flex: 1;
+}
+
+.macro-detail {
+  margin-bottom: 15px;
+}
+
+.macro-label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.macro-label svg {
+  margin-right: 8px;
+}
+
+.macro-label.protein {
+  color: #4e73df;
+}
+
+.macro-label.carbs {
+  color: #1cc88a;
+}
+
+.macro-label.fat {
+  color: #d39e00;
+}
+
+.macro-values {
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.recommendations {
+  margin-top: 30px;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.recommendation-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.recommendation-item .icon {
+  margin-right: 10px;
+  color: #6e8efb;
+  font-size: 1.2rem;
+}
+
+.recommendation-item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.dieta-modal-footer {
+  border-top: none;
+  justify-content: space-between;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .dieta-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stat-card.main-stat {
+    grid-column: span 2;
+  }
+  
+  .macro-details {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+  
+  .macro-detail-item {
+    margin-bottom: 0;
+    margin-right: 15px;
+  }
+  
+  .macro-detail-item:last-child {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .dieta-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card.main-stat,
+  .macro-details {
+    grid-column: span 1;
+  }
+  
+  .macro-details {
+    flex-direction: column;
+  }
+  
+  .macro-detail-item {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .macros-distribution {
+    flex-direction: column;
+  }
+  
+  .macros-chart {
+    margin-right: 0;
+    margin-bottom: 20px;
+    align-self: center;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.documentos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.documentos-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.documentos-title {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.documentos-subtitle {
+  color: #7f8c8d;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.documentos-control-panel {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.documentos-tabs .nav-link {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.documentos-tabs .nav-link.active {
+  color: #2c3e50;
+  font-weight: 600;
+  border-bottom: 3px solid #3498db;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.gallery-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.gallery-card-header {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-icon {
+  font-size: 1.2rem;
+}
+
+.file-title {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete-btn {
+  padding: 5px 8px;
+  border-radius: 50%;
+}
+
+.gallery-card-body {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.gallery-image {
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.document-preview {
+  text-align: center;
+  padding: 20px;
+}
+
+.file-badge {
+  font-size: 0.7rem;
+  padding: 5px 8px;
+}
+
+.gallery-card-footer {
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.empty-gallery {
+  text-align: center;
+  padding: 50px 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.upload-instructions {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.upload-instructions ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.upload-instructions li {
+  margin-bottom: 5px;
+}
+
+.file-upload-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-upload-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.file-preview {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.user-badge {
+  font-size: 0.9rem;
+  border: 1px solid #dee2e6;
+}
+
+.upload-button {
+  background-color: #27ae60;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.upload-button:hover {
+  background-color: #219653;
+}
+
+.loading-spinner {
+  padding: 50px 0;
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .documentos-header {
+    padding: 15px;
+  }
+  
+  .documentos-title {
+    font-size: 1.5rem;
+  }
+}
 
 
 

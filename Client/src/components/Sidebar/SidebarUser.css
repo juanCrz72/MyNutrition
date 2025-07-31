@@ -354,3 +354,29 @@
     margin-left: 0 !important;
   }
 }
+
+/* Agrega esto en tu SidebarUser.css */
+
+.mobile-nav-btn.special-btn .bitacora-circle {
+  background-color: #ff7e5f;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.mobile-nav-btn.special-btn .mobile-nav-item {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav-btn.special-btn .mobile-nav-item.active .bitacora-circle {
+  background-color: #e67359;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}

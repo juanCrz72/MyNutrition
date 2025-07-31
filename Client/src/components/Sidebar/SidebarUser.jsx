@@ -4,7 +4,7 @@ import {
   FaHome, FaUserAlt, FaHeartbeat, FaUtensils, 
   FaChartLine, FaBook, FaUser, FaClipboardList, 
   FaChevronRight, FaChevronDown, FaPlus, FaCreditCard, FaUsers,
-  FaApple
+  FaApple, FaImages
 } from 'react-icons/fa';
 import { IoIosFitness, IoMdNutrition } from 'react-icons/io';
 import { GiMeal } from 'react-icons/gi';
@@ -56,49 +56,56 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       name: 'Salud', 
       icon: <FaHeartbeat className="nav-icon" />,
       activeIcon: <IoIosFitness className="nav-icon active-nav-icon" />,
+      path: '/vistaCuestionario',
       submenu: [
         { id: 'cuestionario', name: 'Cuestionario', icon: <FaClipboardList />, path: '/vistaCuestionario' },
-        { id: 'analisis', name: 'Análisis', icon: <FaChartLine />, path: '/analisis-salud' },
       ]
-    },
-    { 
-      id: 'nuevo', 
-      name: '', 
-      icon: <div className="add-post-btn"><FaPlus /></div>,
-      path: '/nuevo-registro',
-      submenu: false,
-      special: true
     },
     { 
       id: 'dieta', 
       name: 'Dieta', 
       icon: <FaUtensils className="nav-icon" />,
       activeIcon: <GiMeal className="nav-icon active-nav-icon" />,
+      path: '/dietaUser',
       submenu: [
         { id: 'plan-alimentacion', name: 'Mi plan', icon: <IoMdNutrition />, path: '/dietaUser' },
         { id: 'seguimiento', name: 'Seguimiento', icon: <FaChartLine />, path: '/seguimiento-dieta' },
       ]
     },
     { 
-      id: 'bitacora', 
-      name: 'Bitácora', 
-      icon: <FaBook className="nav-icon" />,
-      activeIcon: <FaBook className="nav-icon active-nav-icon" />,
-      submenu: [
-        { id: 'registros', name: 'Mis registros', icon: <FaBook />, path: '/bitacoraUser' },
-        { id: 'fotos', name: 'Fotos/Documentos', icon: <FaClipboardList />, path: '/DocumentosUser' },
-      ]
+      id: 'documentos', 
+      name: 'Fotos/Documentos', 
+      icon: <FaImages className="nav-icon" />,
+      activeIcon: <FaImages className="nav-icon active-nav-icon" />,
+      path: '/DocumentosUser',
+      submenu: false
     },
     { 
       id: 'perfil', 
       name: 'Perfil', 
       icon: <FaUser className="nav-icon" />,
       activeIcon: <FaUser className="nav-icon active-nav-icon" />,
+      path: '/PersonaUser',
       submenu: [
         { id: 'mi-perfil', name: 'Mi perfil', icon: <FaUser />, path: '/perfil' },
         { id: 'datos', name: 'Mis datos', icon: <FaUsers />, path: '/PersonaUser' },
       ]
     }
+  ];
+
+  // Mobile only items (direct access)
+  const mobileItems = [
+    ...menuItems.slice(0, 3), // Primeros 3 elementos
+    { 
+      id: 'bitacora', 
+      name: '', 
+      icon: <div className="add-post-btn"><FaBook /></div>,
+      path: '/bitacoraUser',
+      submenu: false,
+      special: true,
+      mobileOnly: true
+    },
+    ...menuItems.slice(3) // Resto de elementos (excluyendo bitácora original)
   ];
 
   const toggleMenu = (menuId) => {
@@ -109,7 +116,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   if (isMobile) {
     return (
       <div className="mobile-nav-bar">
-        {menuItems.map((item) => {
+        {mobileItems.map((item, index) => {
           if (item.special) {
             return (
               <div key={item.id} className="mobile-nav-btn special-btn">
@@ -126,12 +133,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           if (item.submenu) {
             return (
               <div key={item.id} className="mobile-nav-btn">
-                <div 
-                  className={`mobile-nav-item ${activeItem === item.id ? 'active' : ''}`}
-                  onClick={() => toggleMenu(item.id)}
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+                  onClick={() => setActiveItem(item.id)}
                 >
                   {activeItem === item.id ? item.activeIcon : item.icon}
-                </div>
+                </NavLink>
               </div>
             );
           }
@@ -152,6 +160,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     );
   }
 
+  // Versión de escritorio (se mantiene igual)
   return (
     <>
       {isOpen && (
@@ -173,19 +182,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         <nav className="panel-menu">
-          {menuItems.map((item) => (
+          {[...menuItems, 
+            { 
+              id: 'bitacora', 
+              name: 'Bitácora', 
+              icon: <FaBook className="nav-icon" />,
+              activeIcon: <FaBook className="nav-icon active-nav-icon" />,
+              path: '/bitacoraUser',
+              submenu: false
+            }
+          ].map((item) => (
             <div key={item.id} className="nav-item-wrapper">
-              {item.special ? (
-                <div className="special-desktop-btn">
-                  <NavLink 
-                    to={item.path}
-                    className="nav-btn special"
-                  >
-                    {item.icon}
-                    {isOpen && <span className="nav-label">{item.name}</span>}
-                  </NavLink>
-                </div>
-              ) : item.submenu ? (
+              {item.submenu ? (
                 <>
                   <div 
                     className={`nav-btn ${expandedMenu === item.id ? 'active' : ''} ${activeItem === item.id ? 'highlight' : ''}`}

@@ -369,15 +369,7 @@ const checkQuestionnaireStatus = async () => {
       </div>
 
       {/* Botón flotante para acción principal */}
-      <motion.div 
-        className="floating-action-button"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => console.log("Agregar comida")}
-      >
-        <FaPlusCircle size={48} />
-        <span>Agregar Comida</span>
-      </motion.div>
+ 
 
       {/* Modal del Cuestionario de Salud */}
       <CuestionarioModal 
