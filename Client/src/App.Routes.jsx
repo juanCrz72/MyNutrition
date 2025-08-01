@@ -14,6 +14,7 @@ import CambiarContrasena from './pages/Superadmin/CambiarContrasenaPage.jsx';
 import Bitacora from './pages/Superadmin/Bitacora.jsx';
 import Persona from './pages/Superadmin/Persona.jsx';
 //import PersonaBitacora from './pages/Superadmin/PersonaBitacora.jsx';
+
 import Dieta from './pages/Superadmin/Dieta.jsx';
 import PersonaPlan from './pages/Superadmin/PersonaPlan.jsx';
 import Perfiles from './pages/Superadmin/Perfiles.jsx';
