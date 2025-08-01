@@ -1,61 +1,17 @@
-/* import React from 'react';
-import { useAuth } from '../Superadmin/AuthContext.jsx';
-
-const BitacoraUser = () => {
-  const { user } = useAuth();
-
-  return (
-    <div className="container">
-      <h1>Aquí va mi bitácora id{user?.idPersona} --- y este es el id usuario: {user?.id_usuario}</h1>
-      
-      <div className="info-box">
-        <h2>ID de Persona para Filtrado</h2>
-        <p className="id-display">{user?.idPersona}</p>
-        <p>Usa este ID para filtrar en otras tablas relacionadas</p>
-      </div>
-    </div>
-  );
-};
-
-export default BitacoraUser; */
-
-
-/* import './../Superadmin/css/crud-styles.css';
-import PersonaBitacoraCRUD from './../Superadmin/PersonaBitacoraCRUD';
-import './../Superadmin/css/Bitacora.css'; */
-
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Superadmin/AuthContext.jsx';
 import { 
-  FaArrowLeft, 
-  FaUtensils, 
-  FaCalendarAlt, 
-  FaUser, 
-  FaChartBar,
-  FaChevronDown,
-  FaChevronUp,
-  FaSearch,
-  FaExclamationTriangle,
-  FaPlus,
-  FaTrash,
-  FaCoffee,
-  FaHamburger,
-  FaMoon,
-  FaCookie,
-  FaWeightHanging,
-  FaFire, 
-  FaDumbbell, 
-  FaBreadSlice, 
-  FaListAlt, 
-  FaBalanceScale
+  FaArrowLeft, FaUtensils, FaCalendarAlt, FaUser, FaChartBar, FaChevronDown, FaChevronUp, 
+  FaSearch, FaExclamationTriangle, FaPlus, FaTrash, FaCoffee, FaHamburger, FaMoon, FaCookie, 
+  FaWeightHanging, FaFire, FaDumbbell, FaBreadSlice, FaListAlt, FaBalanceScale, FaLeaf, FaChevronLeft , FaChevronRight 
 } from 'react-icons/fa';
 import { getBitacoraComidasjs, deleteBitacoraComidajs } from '../../assets/js/Bitacora.js';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './../Superadmin/css/crud-styles.css';
-import PersonaBitacoraCRUD from '../Superadmin/PersonaBitacoraCRUD.jsx';
-import './../Superadmin/css/Bitacora.css';
+import PersonaBitacoraCRUD from '../Superadmin/BitacoraCRUD.jsx';
+import './../Superadmin/css/BitacoraUser.css';
 
 export const UserBitacora = () => {
   const { user } = useAuth();
@@ -237,14 +193,12 @@ export const UserBitacora = () => {
   const renderMealItems = (mealType) => {
     if (!groupByMealType[mealType]) {
       return (
-        <div className="text-center py-4 text-muted empty-meal">
-          <div className="mb-3">
-            <div className="empty-icon">
-              {mealIcons[mealType]}
-            </div>
+        <div className="empty-meal-container text-center py-4">
+          <div className="empty-meal-icon">
+            {mealIcons[mealType]}
           </div>
-          <h5>No hay registros para {mealType.toLowerCase()}</h5>
-          <p className="mb-3">Agrega alimentos para comenzar a registrar</p>
+          <h5 className="empty-meal-title">No hay alimentos registrados</h5>
+          <p className="empty-meal-text">Agrega alimentos para comenzar a registrar tu {mealType.toLowerCase()}</p>
           <button 
             className="btn btn-primary rounded-pill px-4 add-meal-btn"
             onClick={() => handleAddMeal(mealType)}
@@ -278,8 +232,23 @@ export const UserBitacora = () => {
                   return (
                     <tr key={`desktop-${index}`}>
                       <td>
-                        <div className="fw-semibold">{item.Alimento}</div>
-                        <small className="text-muted">{item.porcion}</small>
+                        <div className="d-flex align-items-center gap-2">
+                          {item.documento_localizacion ? (
+                            <img 
+                              src={`/${item.documento_localizacion}`} 
+                              alt={item.Alimento}
+                              className="food-image rounded"
+                            />
+                          ) : (
+                            <div className="food-image-placeholder">
+                              <FaLeaf className="placeholder-icon" />
+                            </div>
+                          )}
+                          <div>
+                            <div className="fw-semibold">{item.Alimento}</div>
+                            <small className="text-muted">{item.porcion}</small>
+                          </div>
+                        </div>
                       </td>
                       <td className="text-capitalize">{item.categoriaAlimento.toLowerCase()}</td>
                       <td>
@@ -325,9 +294,9 @@ export const UserBitacora = () => {
           </div>
         </div>
 
-        {/* Versión móvil - Lista mejorada para usuarios */}
+        {/* Versión móvil - Lista mejorada */}
         <div className="d-md-none">
-          <div className="list-group meal-list-mobile">
+          <div className="meal-list-mobile">
             {groupByMealType[mealType].map((item, index) => {
               const contador = item.contador || 1;
               const pesoTotal = (parseFloat(item.peso) * contador).toFixed(1);
@@ -335,58 +304,65 @@ export const UserBitacora = () => {
               return (
                 <div 
                   key={`mobile-${index}`} 
-                  className="list-group-item list-group-item-action py-3 meal-list-item"
+                  className="meal-card"
                 >
-                  {/* Header con nombre y acción */}
-                  <div className="d-flex justify-content-between align-items-start">
-                    <div>
-                      <h5 className="mb-1 text-primary">
-                        <FaUtensils className="me-2" size={14} />
-                        {item.Alimento}
-                      </h5>
-                      <small className="text-muted d-block">
-                        <FaWeightHanging size={12} className="me-1" />
-                        {pesoTotal}g ({item.peso}g × {contador} porción{contador !== 1 ? 'es' : ''})
-                      </small>
+                  <div className="meal-card-header">
+                    <div className="meal-image-container">
+                      {item.documento_localizacion ? (
+                        <img 
+                          src={`/${item.documento_localizacion}`} 
+                          alt={item.Alimento}
+                          className="meal-image"
+                        />
+                      ) : (
+                        <div className="meal-image-placeholder">
+                          <FaLeaf className="placeholder-icon" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="meal-info">
+                      <h5 className="meal-name">{item.Alimento}</h5>
+                      <div className="meal-meta">
+                        <span className="meal-category">
+                          <FaListAlt className="me-1" />
+                          {item.categoriaAlimento}
+                        </span>
+                        <span className="meal-portion">
+                          <FaBalanceScale className="me-1" />
+                          {item.porcion}
+                        </span>
+                      </div>
                     </div>
                     <button 
-                      className="btn btn-sm btn-link text-danger p-0"
+                      className="meal-delete-btn"
                       onClick={() => handleDeleteItem(item)}
                       title="Eliminar"
                     >
                       <FaTrash size={14} />
                     </button>
                   </div>
-
-                  {/* Detalles nutricionales compactos */}
-                  <div className="mt-2 d-flex flex-wrap align-items-center">
-                    <div className="nutrient-pill me-2 mb-1">
-                      <FaFire className="text-danger" />
-                      <span>{(item.Energia_kcal * contador).toFixed(0)} kcal</span>
+                  
+                  <div className="meal-details">
+                    <div className="meal-weight">
+                      <FaWeightHanging className="me-1" />
+                      {pesoTotal}g ({item.peso}g × {contador} porción{contador !== 1 ? 'es' : ''})
                     </div>
                     
-                    <div className="nutrient-pill me-2 mb-1">
-                      <FaDumbbell className="text-success" />
-                      <span>{(item.Proteina_g * contador).toFixed(1)}g prot.</span>
-                    </div>
-                    
-                    <div className="nutrient-pill me-2 mb-1">
-                      <FaBreadSlice className="text-warning" />
-                      <span>{(item.Carbohidratos_g * contador).toFixed(1)}g carb.</span>
-                    </div>
-                  </div>
-
-                  {/* Info adicional */}
-                  <div className="mt-2 additional-info">
-                    <div className="d-flex justify-content-between small">
-                      <span>
-                        <FaListAlt className="me-1" />
-                        {item.categoriaAlimento}
-                      </span>
-                      <span>
-                        <FaBalanceScale className="me-1" />
-                        {item.porcion}
-                      </span>
+                    <div className="meal-nutrients">
+                      <div className="nutrient-item">
+                        <FaFire className="text-danger" />
+                        <span>{(item.Energia_kcal * contador).toFixed(0)} kcal</span>
+                      </div>
+                      
+                      <div className="nutrient-item">
+                        <FaDumbbell className="text-success" />
+                        <span>{(item.Proteina_g * contador).toFixed(1)}g prot.</span>
+                      </div>
+                      
+                      <div className="nutrient-item">
+                        <FaBreadSlice className="text-warning" />
+                        <span>{(item.Carbohidratos_g * contador).toFixed(1)}g carb.</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -398,8 +374,14 @@ export const UserBitacora = () => {
     );
   };
 
+  const changeDate = (days) => {
+    const date = new Date(selectedDate);
+    date.setDate(date.getDate() + days);
+    setSelectedDate(date.toISOString().split('T')[0]);
+  };
+
   if (loading) return (
-    <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+    <div className="loading-container">
       <div className="spinner-border text-primary" role="status">
         <span className="visually-hidden">Cargando...</span>
       </div>
@@ -407,142 +389,106 @@ export const UserBitacora = () => {
   );
 
   return (
-    <div className="container-fluid py-4 px-3 px-md-4 nutri-dashboard" style={{ maxWidth: '1200px' }}>
+    <div className="bitacora-container">
       {/* Header */}
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+      <div className="bitacora-header">
         <button 
-          className="btn btn-outline-primary rounded-pill d-flex align-items-center back-button"
+          className="back-button"
           onClick={() => navigate(-1)}
         >
           <FaArrowLeft className="me-2" /> Volver
         </button>
         
-        <h2 className="m-0 text-center text-md-start dashboard-title">
-          <span className="text-gradient">Mi Bitácora de Comidas</span>
-        </h2>
-        
-        <div className="d-flex align-items-center gap-2">
-          <div className="input-group date-picker-container">
-            <span className="input-group-text bg-white">
-              <FaCalendarAlt className="text-primary" />
-            </span>
-            <input 
-              type="date" 
-              className="form-control rounded-end"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </div>
-        </div>
+        <h1 className="bitacora-title">
+          <span className="text-gradient">Mi Bitácora Nutricional</span>
+        </h1>
       </div>
 
-      {/* User Info Card */}
-      {user && (
-        <div className="card border-0 shadow-sm mb-4 patient-info-card">
-          <div className="card-body p-3">
-            <div className="d-flex align-items-center gap-3">
-              <div className="avatar-circle bg-gradient-primary text-white">
-                <FaUser size={18} />
-              </div>
-              <div>
-                <h3 className="mb-1 fw-bold">{user.nombre} {user.apellidos}</h3>
-                <div className="d-flex flex-wrap gap-3">
-                  <span className="badge bg-light text-dark">
-                    <FaUser className="me-1 text-primary" /> {user.sexo === 'M' ? 'Masculino' : 'Femenino'}
-                  </span>
-                  {user.edad && (
-                    <span className="badge bg-light text-dark">
-                      {user.edad} años
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Date Navigation */}
+      <div className="date-navigation">
+        <button className="date-nav-button" onClick={() => changeDate(-1)}>
+          <FaChevronLeft />
+        </button>
+        
+        <div className="date-display">
+          <FaCalendarAlt className="me-2" />
+          <input 
+            type="date" 
+            className="date-input"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
         </div>
-      )}
+        
+        <button className="date-nav-button" onClick={() => changeDate(1)}>
+          <FaChevronRight />
+        </button>
+      </div>
 
       {/* Quick Access Circles */}
-      <div className="row mb-4 quick-access">
-        <div className="col-12">
-          <div className="d-flex justify-content-center flex-wrap gap-3">
-            {mealTypes.map((mealType, index) => {
-              const percentage = getMealPercentage(mealType);
-              return (
-                <div 
-                  key={mealType} 
-                  className="meal-circle position-relative"
-                  onClick={() => {
-                    toggleMealSection(mealType);
-                    // Scroll to section if collapsed
-                    if (!expandedMeals[mealType]) {
-                      document.getElementById(`meal-${mealType}`)?.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                >
-                  <div className={`circle-icon bg-meal-${index}`}>
-                    {mealIcons[mealType]}
-                  </div>
-                  <span className="meal-label">{mealType.toLowerCase()}</span>
-                  
-                  {/* Indicador de porcentaje */}
-                  <div className="progress-circle position-absolute">
-                    <svg className="progress-ring" width="70" height="70">
-                      <circle
-                        className="progress-ring-circle"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeDasharray={`${percentage}, 100`}
-                        r="30"
-                        cx="35"
-                        cy="35"
-                      />
-                    </svg>
-                    <span className="progress-text">{percentage}%</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      <div className="meal-circles-container">
+        {mealTypes.map((mealType, index) => {
+          const percentage = getMealPercentage(mealType);
+          return (
+            <div 
+              key={mealType} 
+              className="meal-circle"
+              onClick={() => {
+                toggleMealSection(mealType);
+                if (!expandedMeals[mealType]) {
+                  document.getElementById(`meal-${mealType}`)?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              <div className={`circle-icon ${mealType.toLowerCase()}`}>
+                {mealIcons[mealType]}
+              </div>
+              <span className="meal-label">{mealType.toLowerCase()}</span>
+              <div className="progress-circle">
+                <svg className="progress-ring" width="70" height="70">
+                  <circle
+                    className="progress-ring-circle"
+                    strokeDasharray={`${percentage}, 100`}
+                  />
+                </svg>
+                <span className="progress-text">{percentage}%</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Meals Sections */}
-      <div className="mb-5">
+      <div className="meals-container">
         {mealTypes.map(mealType => (
-          <div key={mealType} id={`meal-${mealType}`} className="card mb-3 border-0 shadow-sm meal-section">
+          <div key={mealType} id={`meal-${mealType}`} className="meal-section">
             <div 
-              className="card-header bg-white d-flex justify-content-between align-items-center cursor-pointer meal-header"
+              className="meal-section-header"
               onClick={() => toggleMealSection(mealType)}
-              style={{ borderBottom: expandedMeals[mealType] ? '1px solid rgba(0,0,0,0.1)' : 'none' }}
             >
-              <div className="d-flex align-items-center gap-3">
+              <div className="meal-header-content">
                 <div className="meal-type-icon">
                   {mealIcons[mealType]}
                 </div>
-                <h4 className="mb-0 fw-bold text-capitalize">
+                <h3 className="meal-type-title">
                   {mealType.toLowerCase()}
-                </h4>
+                </h3>
                 {mealTypeTotals[mealType] && (
-                  <div className="d-flex gap-2 meal-totals">
-                    <small className="text-muted">
+                  <div className="meal-totals">
+                    <span className="calories-total">
                       {mealTypeTotals[mealType].calorias.toFixed(0)} kcal
-                    </small>
-                    <small className="text-muted">
-                      P: {mealTypeTotals[mealType].proteinas.toFixed(1)}g
-                    </small>
-                    <small className="text-muted">
-                      C: {mealTypeTotals[mealType].carbohidratos.toFixed(1)}g
-                    </small>
-                    <small className="text-muted">
-                      G: {mealTypeTotals[mealType].grasas.toFixed(1)}g
-                    </small>
+                    </span>
+                    <div className="macros-totals">
+                      <span>P: {mealTypeTotals[mealType].proteinas.toFixed(1)}g</span>
+                      <span>C: {mealTypeTotals[mealType].carbohidratos.toFixed(1)}g</span>
+                      <span>G: {mealTypeTotals[mealType].grasas.toFixed(1)}g</span>
+                    </div>
                   </div>
                 )}
               </div>
-              <div className="d-flex align-items-center gap-2">
+              <div className="meal-header-actions">
                 <button 
-                  className="btn btn-sm btn-primary rounded-pill px-3 add-meal-btn"
+                  className="add-meal-button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleAddMeal(mealType);
@@ -550,14 +496,14 @@ export const UserBitacora = () => {
                 >
                   <FaPlus className="me-1" /> Agregar
                 </button>
-                <div className="text-primary">
+                <div className="toggle-icon">
                   {expandedMeals[mealType] ? <FaChevronUp /> : <FaChevronDown />}
                 </div>
               </div>
             </div>
             
             {expandedMeals[mealType] && (
-              <div className="card-body p-0">
+              <div className="meal-section-content">
                 {renderMealItems(mealType)}
               </div>
             )}
@@ -566,125 +512,109 @@ export const UserBitacora = () => {
       </div>
 
       {/* Nutritional Summary */}
-      <div className="card border-0 shadow-sm nutrition-summary">
-        <div className="card-header bg-white d-flex align-items-center">
-          <FaChartBar className="me-2 text-primary" />
-          <h5 className="mb-0 fw-bold">Resumen Nutricional del Día</h5>
+      <div className="nutrition-summary">
+        <div className="summary-header">
+          <FaChartBar className="me-2" />
+          <h3>Resumen Nutricional del Día</h3>
         </div>
-        <div className="card-body">
+        
+        <div className="summary-content">
           {/* Meta diaria */}
-          <div className="mb-4 p-3 bg-light rounded daily-goals">
-            <h6 className="fw-bold">Meta diaria:</h6>
-            <div className="d-flex flex-wrap gap-3">
-              <span className="badge bg-primary-bg text-primary">
-                {dailyGoals.calorias} kcal
-              </span>
-              <span className="badge bg-success-bg text-success">
-                P: {dailyGoals.proteinas}g
-              </span>
-              <span className="badge bg-warning-bg text-warning">
-                C: {dailyGoals.carbohidratos}g
-              </span>
-              <span className="badge bg-danger-bg text-danger">
-                G: {dailyGoals.grasas}g
-              </span>
+          <div className="daily-goals">
+            <h4>Meta diaria:</h4>
+            <div className="goals-badges">
+              <span className="badge calories">{dailyGoals.calorias} kcal</span>
+              <span className="badge protein">P: {dailyGoals.proteinas}g</span>
+              <span className="badge carbs">C: {dailyGoals.carbohidratos}g</span>
+              <span className="badge fats">G: {dailyGoals.grasas}g</span>
             </div>
           </div>
 
           {/* Advertencias si se excedió alguna meta */}
           {Object.values(exceeded).some(val => val) && (
-            <div className="alert alert-warning d-flex align-items-center mb-4 warning-alert">
+            <div className="exceeded-warning">
               <FaExclamationTriangle className="me-2" />
               <div>
                 Se ha excedido la meta diaria en: 
-                {exceeded.calorias && <span className="fw-bold ms-2">Calorías</span>}
-                {exceeded.carbohidratos && <span className="fw-bold ms-2">Carbohidratos</span>}
-                {exceeded.grasas && <span className="fw-bold ms-2">Grasas</span>}
-                {exceeded.proteinas && <span className="fw-bold ms-2">Proteínas</span>}
+                {exceeded.calorias && <span className="exceeded-item">Calorías</span>}
+                {exceeded.carbohidratos && <span className="exceeded-item">Carbohidratos</span>}
+                {exceeded.grasas && <span className="exceeded-item">Grasas</span>}
+                {exceeded.proteinas && <span className="exceeded-item">Proteínas</span>}
               </div>
             </div>
           )}
 
-          <div className="row nutrition-cards">
-            <div className="col-md-3 mb-3 mb-md-0">
-              <div className="nutrition-card bg-primary-bg">
-                <h6 className="text-primary">Calorías Totales</h6>
-                <h3 className="fw-bold text-primary">
-                  {dailyTotals.calorias.toFixed(0)} kcal
-                  {exceeded.calorias && <FaExclamationTriangle className="ms-2 text-danger" />}
-                </h3>
-                <div className="progress mt-2" style={{ height: '8px' }}>
-                  <div 
-                    className="progress-bar bg-primary" 
-                    role="progressbar" 
-                    style={{ width: `${Math.min(percentages.calorias, 100)}%` }}
-                  ></div>
-                </div>
-                <small className="text-muted">
-                  {percentages.calorias}% de la meta diaria
-                  {exceeded.calorias && <span className="text-danger ms-2">(+{(dailyTotals.calorias - dailyGoals.calorias).toFixed(0)} kcal)</span>}
-                </small>
+          <div className="nutrition-cards">
+            <div className="nutrition-card calories">
+              <h5>Calorías Totales</h5>
+              <h2>
+                {dailyTotals.calorias.toFixed(0)} kcal
+                {exceeded.calorias && <FaExclamationTriangle className="exceeded-icon" />}
+              </h2>
+              <div className="progress-container">
+                <div 
+                  className="progress-bar" 
+                  style={{ width: `${Math.min(percentages.calorias, 100)}%` }}
+                ></div>
               </div>
+              <small>
+                {percentages.calorias}% de la meta diaria
+                {exceeded.calorias && <span className="exceeded-amount">(+{(dailyTotals.calorias - dailyGoals.calorias).toFixed(0)} kcal)</span>}
+              </small>
             </div>
-            <div className="col-md-3 mb-3 mb-md-0">
-              <div className="nutrition-card bg-success-bg">
-                <h6 className="text-success">Proteínas</h6>
-                <h3 className="fw-bold text-success">
-                  {dailyTotals.proteinas.toFixed(1)}g
-                  {exceeded.proteinas && <FaExclamationTriangle className="ms-2 text-danger" />}
-                </h3>
-                <div className="progress mt-2" style={{ height: '8px' }}>
-                  <div 
-                    className="progress-bar bg-success" 
-                    role="progressbar" 
-                    style={{ width: `${Math.min(percentages.proteinas, 100)}%` }}
-                  ></div>
-                </div>
-                <small className="text-muted">
-                  {percentages.proteinas}% de la meta diaria
-                  {exceeded.proteinas && <span className="text-danger ms-2">(+{(dailyTotals.proteinas - dailyGoals.proteinas).toFixed(1)}g)</span>}
-                </small>
+            
+            <div className="nutrition-card protein">
+              <h5>Proteínas</h5>
+              <h2>
+                {dailyTotals.proteinas.toFixed(1)}g
+                {exceeded.proteinas && <FaExclamationTriangle className="exceeded-icon" />}
+              </h2>
+              <div className="progress-container">
+                <div 
+                  className="progress-bar" 
+                  style={{ width: `${Math.min(percentages.proteinas, 100)}%` }}
+                ></div>
               </div>
+              <small>
+                {percentages.proteinas}% de la meta diaria
+                {exceeded.proteinas && <span className="exceeded-amount">(+{(dailyTotals.proteinas - dailyGoals.proteinas).toFixed(1)}g)</span>}
+              </small>
             </div>
-            <div className="col-md-3 mb-3 mb-md-0">
-              <div className="nutrition-card bg-warning-bg">
-                <h6 className="text-warning">Carbohidratos</h6>
-                <h3 className="fw-bold text-warning">
-                  {dailyTotals.carbohidratos.toFixed(1)}g
-                  {exceeded.carbohidratos && <FaExclamationTriangle className="ms-2 text-danger" />}
-                </h3>
-                <div className="progress mt-2" style={{ height: '8px' }}>
-                  <div 
-                    className="progress-bar bg-warning" 
-                    role="progressbar" 
-                    style={{ width: `${Math.min(percentages.carbohidratos, 100)}%` }}
-                  ></div>
-                </div>
-                <small className="text-muted">
-                  {percentages.carbohidratos}% de la meta diaria
-                  {exceeded.carbohidratos && <span className="text-danger ms-2">(+{(dailyTotals.carbohidratos - dailyGoals.carbohidratos).toFixed(1)}g)</span>}
-                </small>
+            
+            <div className="nutrition-card carbs">
+              <h5>Carbohidratos</h5>
+              <h2>
+                {dailyTotals.carbohidratos.toFixed(1)}g
+                {exceeded.carbohidratos && <FaExclamationTriangle className="exceeded-icon" />}
+              </h2>
+              <div className="progress-container">
+                <div 
+                  className="progress-bar" 
+                  style={{ width: `${Math.min(percentages.carbohidratos, 100)}%` }}
+                ></div>
               </div>
+              <small>
+                {percentages.carbohidratos}% de la meta diaria
+                {exceeded.carbohidratos && <span className="exceeded-amount">(+{(dailyTotals.carbohidratos - dailyGoals.carbohidratos).toFixed(1)}g)</span>}
+              </small>
             </div>
-            <div className="col-md-3">
-              <div className="nutrition-card bg-danger-bg">
-                <h6 className="text-danger">Grasas</h6>
-                <h3 className="fw-bold text-danger">
-                  {dailyTotals.grasas.toFixed(1)}g
-                  {exceeded.grasas && <FaExclamationTriangle className="ms-2 text-danger" />}
-                </h3>
-                <div className="progress mt-2" style={{ height: '8px' }}>
-                  <div 
-                    className="progress-bar bg-danger" 
-                    role="progressbar" 
-                    style={{ width: `${Math.min(percentages.grasas, 100)}%` }}
-                  ></div>
-                </div>
-                <small className="text-muted">
-                  {percentages.grasas}% de la meta diaria
-                  {exceeded.grasas && <span className="text-danger ms-2">(+{(dailyTotals.grasas - dailyGoals.grasas).toFixed(1)}g)</span>}
-                </small>
+            
+            <div className="nutrition-card fats">
+              <h5>Grasas</h5>
+              <h2>
+                {dailyTotals.grasas.toFixed(1)}g
+                {exceeded.grasas && <FaExclamationTriangle className="exceeded-icon" />}
+              </h2>
+              <div className="progress-container">
+                <div 
+                  className="progress-bar" 
+                  style={{ width: `${Math.min(percentages.grasas, 100)}%` }}
+                ></div>
               </div>
+              <small>
+                {percentages.grasas}% de la meta diaria
+                {exceeded.grasas && <span className="exceeded-amount">(+{(dailyTotals.grasas - dailyGoals.grasas).toFixed(1)}g)</span>}
+              </small>
             </div>
           </div>
         </div>

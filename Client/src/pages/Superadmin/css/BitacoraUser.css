@@ -1,0 +1,1235 @@
+/* Bitacora.css - Versión Premium */
+:root {
+  /* Nueva paleta de colores */
+  --primary: #6c5ce7;
+  --primary-lightBitacora: #a29bfe;
+  --primary-darkBitacora: #5649c0;
+  --secondary: #00cec9;
+  --success: #00b894;
+  --warning: #fdcb6e;
+  --danger: #ff7675;
+  --dark: #2d3436;
+  --light: #f5f6fa;
+  --gray: #636e72;
+  --light-gray: #dfe6e9;
+  
+  /* Colores para comidas */
+  --breakfast: #e17055;
+  --lunch: #00b894;
+  --dinner: #0984e3;
+  --snack: #fdcb6e;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+  
+  /* Transiciones */
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Estilos generales */
+.bitacora-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Header mejorado */
+.bitacora-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 8px;
+}
+
+.back-button:hover {
+  background-color: rgba(108, 92, 231, 0.1);
+  transform: translateX(-3px);
+}
+
+.bitacora-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 1rem 0;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+.bitacora-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 2px;
+}
+
+/* Navegación de fechas mejorada */
+.date-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.6s ease-out 0.1s both;
+}
+
+.date-nav-button {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary);
+  font-size: 1.2rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.date-nav-button:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.date-display {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 1.1rem;
+}
+
+.date-display svg {
+  color: var(--primary);
+  font-size: 1.3rem;
+}
+
+.date-input {
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 1.1rem;
+  padding: 0.25rem 0;
+  text-align: center;
+  min-width: 140px;
+}
+
+/* Círculos de comidas premium */
+.meal-circles-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.meal-circle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 90px;
+  transition: var(--transition);
+}
+
+.meal-circle:hover {
+  transform: translateY(-5px);
+}
+
+.circle-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  color: white;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+.circle-icon.DESAYUNO {
+  background: linear-gradient(135deg, var(--breakfast) 0%, #e84393 100%);
+}
+
+.circle-icon.COMIDA {
+  background: linear-gradient(135deg, var(--lunch) 0%, #55efc4 100%);
+}
+
+.circle-icon.CENA {
+  background: linear-gradient(135deg, var(--dinner) 0%, #74b9ff 100%);
+}
+
+.circle-icon.SNACK {
+  background: linear-gradient(135deg, var(--snack) 0%, #ffeaa7 100%);
+}
+
+.meal-circle:hover .circle-icon {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  animation: pulse 1.5s infinite;
+}
+
+.meal-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--gray);
+  transition: var(--transition);
+}
+
+.meal-circle:hover .meal-label {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.progress-circle {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 80px;
+  height: 80px;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  fill: none;
+  stroke: var(--light-gray);
+  stroke-width: 4;
+  r: 35;
+  cx: 40;
+  cy: 40;
+}
+
+.DESAYUNO .progress-ring-circle {
+  stroke: var(--breakfast);
+  stroke-dasharray: 0, 100;
+  animation: desayunoProgress 1.5s ease-out forwards;
+}
+
+.COMIDA .progress-ring-circle {
+  stroke: var(--lunch);
+  stroke-dasharray: 0, 100;
+  animation: comidaProgress 1.5s ease-out forwards;
+}
+
+.CENA .progress-ring-circle {
+  stroke: var(--dinner);
+  stroke-dasharray: 0, 100;
+  animation: cenaProgress 1.5s ease-out forwards;
+}
+
+.SNACK .progress-ring-circle {
+  stroke: var(--snack);
+  stroke-dasharray: 0, 100;
+  animation: snackProgress 1.5s ease-out forwards;
+}
+
+@keyframes desayunoProgress {
+  to { stroke-dasharray: var(--desayuno-percent), 100; }
+}
+
+@keyframes comidaProgress {
+  to { stroke-dasharray: var(--comida-percent), 100; }
+}
+
+@keyframes cenaProgress {
+  to { stroke-dasharray: var(--cena-percent), 100; }
+}
+
+@keyframes snackProgress {
+  to { stroke-dasharray: var(--snack-percent), 100; }
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+/* Secciones de comidas premium */
+.meals-container {
+  margin-bottom: 3rem;
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.meal-section {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.meal-section:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.meal-section-header {
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: white;
+  border-bottom: 1px solid var(--light-gray);
+  transition: var(--transition);
+}
+
+.meal-section-header:hover {
+  background: var(--light);
+}
+
+.meal-header-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.meal-type-icon {
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.DESAYUNO .meal-type-icon {
+  background: linear-gradient(135deg, var(--breakfast) 0%, #e84393 100%);
+}
+
+.COMIDA .meal-type-icon {
+  background: linear-gradient(135deg, var(--lunch) 0%, #55efc4 100%);
+}
+
+.CENA .meal-type-icon {
+  background: linear-gradient(135deg, var(--dinner) 0%, #74b9ff 100%);
+}
+
+.SNACK .meal-type-icon {
+  background: linear-gradient(135deg, var(--snack) 0%, #ffeaa7 100%);
+}
+
+.meal-type-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  text-transform: capitalize;
+  color: var(--dark);
+}
+
+.meal-totals {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.calories-total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray);
+}
+
+.macros-totals {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.macros-totals span {
+  display: flex;
+  align-items: center;
+}
+
+.macros-totals svg {
+  margin-right: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.meal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.add-meal-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.add-meal-button:hover {
+  background: var(--primary-darkBitacora);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.toggle-icon {
+  color: var(--gray);
+  font-size: 1.2rem;
+  transition: var(--transition);
+}
+
+.meal-section-header:hover .toggle-icon {
+  color: var(--primary);
+}
+
+.meal-section-content {
+  padding: 1.5rem;
+}
+
+/* Estilos para comidas vacías premium */
+.empty-meal-container {
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 12px;
+  margin: 1rem 0;
+  text-align: center;
+  border: 2px dashed var(--light-gray);
+  transition: var(--transition);
+}
+
+.empty-meal-container:hover {
+  border-color: var(--primary-light);
+  background: rgba(108, 92, 231, 0.03);
+}
+
+.empty-meal-icon {
+  font-size: 3rem;
+  color: var(--light-gray);
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.empty-meal-container:hover .empty-meal-icon {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+.empty-meal-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gray);
+  margin-bottom: 0.75rem;
+}
+
+.empty-meal-text {
+  color: var(--gray);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tarjetas de comida premium (mobile) */
+.meal-list-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.meal-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.meal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.meal-card-header {
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+.meal-image-container {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.meal-card:hover .meal-image-container {
+  transform: scale(1.05);
+}
+
+.meal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.meal-card:hover .meal-image {
+  transform: scale(1.1);
+}
+
+.meal-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--light) 0%, var(--light-gray) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+}
+
+.placeholder-icon {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.meal-info {
+  flex-grow: 1;
+  padding-top: 0.5rem;
+}
+
+.meal-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--dark);
+  position: relative;
+  display: inline-block;
+}
+
+.meal-name::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.meal-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.meal-meta span {
+  display: flex;
+  align-items: center;
+}
+
+.meal-meta svg {
+  margin-right: 0.5rem;
+  color: var(--primary);
+}
+
+.meal-delete-btn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.meal-delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.meal-details {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin-top: -0.5rem;
+}
+
+.meal-weight {
+  font-size: 0.9rem;
+  color: var(--gray);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+}
+
+.meal-weight svg {
+  margin-right: 0.5rem;
+  color: var(--primary);
+}
+
+.meal-nutrients {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nutrient-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--light);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.nutrient-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.nutrient-item svg {
+  font-size: 1rem;
+}
+
+/* Resumen nutricional premium */
+.nutrition-summary {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 3rem;
+  overflow: hidden;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+  transition: var(--transition);
+}
+
+.nutrition-summary:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.summary-header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.summary-header svg {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-right: 1rem;
+}
+
+.summary-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--dark);
+  position: relative;
+}
+
+.summary-header h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.summary-content {
+  padding: 2rem;
+}
+
+.daily-goals {
+  margin-bottom: 2rem;
+  background: var(--light);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.daily-goals h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.daily-goals h4::before {
+  content: '🎯';
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.goals-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.goals-badges .badge {
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.goals-badges .badge:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.goals-badges .badge::before {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.badge.calories {
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(106, 17, 203, 0.1) 100%);
+  color: var(--primary-darkBitacora);
+}
+
+.badge.calories::before {
+  content: '🔥';
+}
+
+.badge.protein {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.1) 0%, rgba(0, 206, 201, 0.1) 100%);
+  color: var(--success);
+}
+
+.badge.protein::before {
+  content: '💪';
+}
+
+.badge.carbs {
+  background: linear-gradient(135deg, rgba(253, 203, 110, 0.1) 0%, rgba(255, 234, 167, 0.1) 100%);
+  color: #d68910;
+}
+
+.badge.carbs::before {
+  content: '🍞';
+}
+
+.badge.fats {
+  background: linear-gradient(135deg, rgba(255, 118, 117, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+  color: var(--danger);
+}
+
+.badge.fats::before {
+  content: '🥑';
+}
+
+.exceeded-warning {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-left: 5px solid var(--warning);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  color: #8d6e00;
+  transition: var(--transition);
+}
+
+.exceeded-warning:hover {
+  transform: translateX(5px);
+}
+
+.exceeded-warning svg {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: #ffa502;
+}
+
+.exceeded-item {
+  font-weight: 700;
+  margin: 0 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 165, 2, 0.2);
+  border-radius: 20px;
+}
+
+.nutrition-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.nutrition-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  z-index: 1;
+}
+
+.nutrition-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.nutrition-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
+}
+
+.nutrition-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+}
+
+.nutrition-card h5 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  position: relative;
+  display: inline-block;
+}
+
+.nutrition-card h5::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+}
+
+.nutrition-card h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-container {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 1.5s ease-out;
+}
+
+.nutrition-card small {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  display: block;
+}
+
+.exceeded-amount {
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+
+.exceeded-icon {
+  margin-left: 0.75rem;
+  font-size: 1rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Cards de nutrientes premium */
+.calories {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-darkBitacora) 100%);
+  color: white;
+}
+
+.calories .progress-bar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+.protein {
+  background: linear-gradient(135deg, var(--success) 0%, #00997a 100%);
+  color: white;
+}
+
+.protein .progress-bar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+.carbs {
+  background: linear-gradient(135deg, var(--warning) 0%, #e6a800 100%);
+  color: #5e4200;
+}
+
+.carbs .progress-bar {
+  background: linear-gradient(90deg, rgba(94, 66, 0, 0.8) 0%, rgba(94, 66, 0, 0.5) 100%);
+}
+
+.fats {
+  background: linear-gradient(135deg, var(--danger) 0%, #d63031 100%);
+  color: white;
+}
+
+.fats .progress-bar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+/* Loading premium */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--light);
+}
+
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
+  border-width: 0.25rem;
+  color: var(--primary);
+  animation: spinner-border 1s linear infinite, pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .bitacora-container {
+    padding: 1rem;
+  }
+  
+  .bitacora-title {
+    font-size: 1.8rem;
+  }
+  
+  .meal-circle {
+    width: 80px;
+  }
+  
+  .circle-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .progress-circle {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .meal-type-title {
+    font-size: 1.1rem;
+  }
+  
+  .add-meal-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .bitacora-header {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .bitacora-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .meal-circles-container {
+    gap: 1rem;
+  }
+  
+  .meal-circle {
+    width: 70px;
+  }
+  
+  .circle-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+  
+  .progress-circle {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .nutrition-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .meal-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .meal-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .meal-totals {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .bitacora-title {
+    font-size: 1.5rem;
+  }
+  
+  .date-navigation {
+    padding: 0.75rem;
+  }
+  
+  .date-input {
+    min-width: 120px;
+    font-size: 0.9rem;
+  }
+  
+  .nutrition-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .meal-card-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .meal-image-container {
+    width: 100%;
+    height: 150px;
+  }
+  
+  .meal-delete-btn {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .goals-badges {
+    justify-content: center;
+  }
+}
+
+/* Agrega esto a tu archivo BitacoraUser.css */
+
+/* Estilos para los círculos de comidas */
+.meal-circles-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.meal-circle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 90px;
+  transition: all 0.3s ease;
+}
+
+.meal-circle:hover {
+  transform: translateY(-5px);
+}
+
+.circle-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 2; /* Asegura que el icono esté sobre el círculo de progreso */
+}
+
+/* Colores específicos para cada tipo de comida */
+.circle-icon.desayuno {
+  background: linear-gradient(135deg, #e17055 0%, #e84393 100%);
+}
+
+.circle-icon.comida {
+  background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
+}
+
+.circle-icon.cena {
+  background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);
+}
+
+.circle-icon.snack {
+  background: linear-gradient(135deg, #fdcb6e 0%, #ffeaa7 100%);
+}
+
+.meal-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #2d3436;
+  transition: all 0.3s ease;
+}
+
+.meal-circle:hover .meal-label {
+  color: #6c5ce7;
+  font-weight: 700;
+}
+
+/* Estilos para el círculo de progreso */
+.progress-circle {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 80px;
+  height: 80px;
+  z-index: 1;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  fill: none;
+  stroke: #dfe6e9; /* Color de fondo del círculo */
+  stroke-width: 4;
+  r: 35;
+  cx: 40;
+  cy: 40;
+}
+
+/* Colores del círculo de progreso para cada tipo de comida */
+.meal-circle.desayuno .progress-ring-circle {
+  stroke: #e17055;
+}
+
+.meal-circle.comida .progress-ring-circle {
+  stroke: #00b894;
+}
+
+.meal-circle.cena .progress-ring-circle {
+  stroke: #0984e3;
+}
+
+.meal-circle.snack .progress-ring-circle {
+  stroke: #fdcb6e;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2d3436;
+  z-index: 3; /* Asegura que el texto esté sobre todo */
+}

@@ -165,7 +165,7 @@ export const verifyToken = async (req, res) => {
 
 
 // ------------------------------------ PERSONA Y USUARIO ------------------------------------
-export const completeRegister = async (req, res) => {
+/* export const completeRegister = async (req, res) => {
     try {
         const { persona, usuario } = req.body;
 
@@ -221,6 +221,119 @@ export const completeRegister = async (req, res) => {
             await db.query('COMMIT');
 
                io.emit('nuevo-usuario', {
+                nombre: persona.nombre,
+                apellidos: persona.apellidos,
+                correo: usuario.correo,
+                usuario: usuario.usuario,
+                idPersona,
+                id_perfil: usuario.id_perfil
+            });
+
+            res.status(201).json({ 
+                success: true,
+                message: 'Registro completado exitosamente'
+            });
+        } catch (error) {
+            // Revertir transacción en caso de error
+            await db.query('ROLLBACK');
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error en registro completo:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Error en el servidor al completar el registro',
+            error: error.message
+        });
+    }
+}; */
+
+
+
+export const completeRegister = async (req, res) => {
+    try {
+        const { persona, usuario } = req.body;
+
+        // Validar datos de persona
+        if (!persona.nombre || !persona.apellidos || !persona.sexo || 
+            !persona.edad || !persona.altura || !persona.peso || !persona.idPais) {
+            return res.status(400).json({ message: 'Faltan campos requeridos en datos personales' });
+        }
+
+        // Validar datos de usuario
+        if (!usuario.usuario || !usuario.correo || !usuario.contrasenia || !usuario.id_perfil) {
+            return res.status(400).json({ message: 'Faltan campos requeridos en credenciales' });
+        }
+
+        // Verificar si el usuario ya existe
+        const [existingUser] = await db.query('SELECT * FROM usuarios WHERE usuario = ? OR correo = ?', 
+            [usuario.usuario, usuario.correo]);
+        if (existingUser.length > 0) {
+            return res.status(400).json({ message: 'El usuario o correo ya está registrado' });
+        }
+
+        // Iniciar transacción
+        await db.query('START TRANSACTION');
+
+        try {
+            // Insertar persona
+            const [personaResult] = await db.query(
+                `INSERT INTO persona (
+                    nombre, apellidos, fecha_nacimiento, sexo, edad, altura, peso, 
+                    img_perfil, tipo_persona, idPais, idPlan, activo
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    persona.nombre, persona.apellidos, persona.fecha_nacimiento || null, 
+                    persona.sexo, persona.edad, persona.altura, persona.peso,
+                    persona.img_perfil || '', persona.tipo_persona || 0, 
+                    persona.idPais, persona.idPlan || 0, persona.activo || 1
+                ]
+            );
+
+            const idPersona = personaResult.insertId;
+
+            // Si se especificó un plan, insertar en persona_plan
+            if (persona.idPlan && persona.idPlan > 0) {
+                // Obtener información del plan
+                const [planInfo] = await db.query(
+                    'SELECT plan_duracion FROM cat_planes WHERE idPlan = ?',
+                    [persona.idPlan]
+                );
+                
+                if (planInfo.length > 0) {
+                    const duracionPlan = planInfo[0].plan_duracion;
+                    const inicioPlan = new Date();
+                    const terminoPlan = new Date();
+                    terminoPlan.setDate(inicioPlan.getDate() + duracionPlan);
+                    
+                    await db.query(
+                        `INSERT INTO persona_plan (
+                            idPersona, idPlan, inicio_plan, termino_plan, activo_plan
+                        ) VALUES (?, ?, ?, ?, 1)`,
+                        [
+                            idPersona, 
+                            persona.idPlan,
+                            inicioPlan.toISOString().split('T')[0], // Formato YYYY-MM-DD
+                            terminoPlan.toISOString().split('T')[0] // Formato YYYY-MM-DD
+                        ]
+                    );
+                }
+            }
+
+            // Encriptar contraseña
+            const hashedPassword = await bcrypt.hash(usuario.contrasenia, 10);
+
+            // Insertar usuario
+            await db.query(
+                'INSERT INTO usuarios (nombre, usuario, correo, contrasenia, idPersona, id_perfil, activo) VALUES (?, ?, ?, ?, ?, ?, 1)',
+                [usuario.nombre || `${persona.nombre} ${persona.apellidos}`, usuario.usuario, 
+                 usuario.correo, hashedPassword, idPersona, usuario.id_perfil]
+            );
+
+            // Confirmar transacción
+            await db.query('COMMIT');
+
+            io.emit('nuevo-usuario', {
                 nombre: persona.nombre,
                 apellidos: persona.apellidos,
                 correo: usuario.correo,

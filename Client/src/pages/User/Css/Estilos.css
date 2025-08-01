@@ -805,7 +805,439 @@
   margin-bottom: 4px;
 }
 
+/* Estilos para el botón de editar */
+.edit-button {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
+.edit-button:hover {
+  transform: translateY(-2px);
+}
+
+.edit-icon {
+  transition: transform 0.3s ease;
+}
+
+.edit-button:hover .edit-icon {
+  transform: rotate(-10deg);
+}
+
+/* Estilos para las tarjetas */
+.health-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.health-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.card-icon.activity {
+  background: linear-gradient(135deg, #00b4db, #0083b0);
+}
+
+.card-icon.conditions {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+}
+
+.card-icon.medication {
+  background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+}
+
+.card-icon.nutrition {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.card-icon.allergies {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+.card-icon.goals {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
+
+.info-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  background: #f0f0f0;
+  color: #555;
+}
+
+.info-badge.active {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.info-badge.healthy {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.condition-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.condition-badge.diabetes {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.condition-badge.hypertension {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.condition-badge.other {
+  background: #e8eaf6;
+  color: #3949ab;
+}
+
+.condition-badge.healthy {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Estilos para el progreso */
+.progress-tracker {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  margin: 10px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6e8efb, #a777e3);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 100%;
+}
+
+.progress-step {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.progress-step.active {
+  background: #6e8efb;
+  color: white;
+}
+
+.progress-step.current {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.3);
+}
+
+/* Estilos para los formularios */
+.styled-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 15px;
+}
+
+.styled-select:focus {
+  border-color: #6e8efb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+}
+
+.styled-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.styled-textarea:focus {
+  border-color: #6e8efb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+}
+
+/* Estilos para los checkboxes */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.styled-checkbox:checked + .checkbox-label .custom-checkbox {
+  background: #6e8efb;
+  border-color: #6e8efb;
+}
+
+.styled-checkbox:checked + .checkbox-label .custom-checkbox::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+}
+
+.styled-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Estilos para los toggles */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-slider {
+  width: 40px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+}
+
+.toggle-input:checked + .toggle-slider {
+  background: #6e8efb;
+}
+
+.toggle-input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* Estilos para los botones de navegación */
+.nav-button {
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prev-button {
+  background: #f5f5f5;
+  color: #555;
+  border: none;
+}
+
+.next-button {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Estilos para el botón flotante */
+.floating-action-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.floating-action-button:hover {
+  width: auto;
+  padding: 0 20px;
+}
+
+.fab-icon {
+  transition: all 0.3s ease;
+}
+
+.floating-action-button:hover .fab-icon {
+  margin-right: 10px;
+}
+
+.fab-text {
+  opacity: 0;
+  width: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.floating-action-button:hover .fab-text {
+  opacity: 1;
+  width: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .welcome-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .edit-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .progress-tracker {
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .form-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-button, .submit-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .floating-action-button {
+    bottom: 20px;
+    right: 20px;
+  }
+}
 
 
 
@@ -1610,7 +2042,203 @@
   }
 }
 
+/* Estilos generales mejorados */
+.dieta-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
+.dieta-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dieta-title {
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.dieta-subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Botones mejorados */
+.dieta-edit-btn {
+  border: 2px solid #28a745;
+  color: #28a745;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.dieta-edit-btn:hover {
+  background-color: #28a745;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.edit-plan-btn {
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.edit-plan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% !important;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+}
+
+.edit-btn {
+  border-width: 2px;
+}
+
+/* Barras de progreso mejoradas */
+.progress-container {
+  background: #ecf0f1;
+  border-radius: 10px;
+  height: 8px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-calories, 
+.progress-bar-weight {
+  height: 100%;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 10px;
+  animation: progressAnimation 2s ease-in-out;
+}
+
+@keyframes progressAnimation {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.macro-progress {
+  height: 6px;
+  margin-top: 5px;
+  border-radius: 3px;
+}
+
+.modal-macro-progress {
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 4px;
+}
+
+/* Tarjetas mejoradas */
+.dieta-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.dieta-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.history-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: all 0.3s;
+  border-left: 4px solid transparent;
+}
+
+.history-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.history-card.active {
+  border-left: 4px solid #3498db;
+  background-color: #f8f9fa;
+}
+
+/* Modal mejorado */
+.dieta-modal {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dieta-modal-header {
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: white;
+  border: none;
+}
+
+.dieta-modal-body {
+  padding: 25px;
+}
+
+.dieta-modal-section {
+  margin-bottom: 25px;
+}
+
+.dieta-modal-section h5 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dieta-container {
+    padding: 15px;
+  }
+  
+  .dieta-title {
+    font-size: 1.8rem;
+  }
+  
+  .dieta-card {
+    padding: 15px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dieta-card, .history-card {
+  animation: fadeIn 0.5s ease-out forwards;
+}
 
 
 

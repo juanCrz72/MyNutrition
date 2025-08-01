@@ -24,11 +24,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       icon: <FaUserAlt />,
       submenu: [
         { id: 'personas', name: 'Pacientes', icon: <FaUserFriends />, path: '/personas' },
-        { id: 'reportes', name: 'Registro de Comidas', icon: <FaUtensils />, path: '/reportes' },
+        { id: 'reportes', name: 'Reportes de Comidas', icon: <FaUtensils />, path: '/reportes' },
         { id: 'dieta', name: 'Dietas', icon: <FaBookMedical />, path: '/dieta' },
         { id: 'personaPlan', name: 'Planes Pacientes', icon: <FaWeight />, path: '/personaPlan' },
-        { id: 'DocumentosPersonas', name: 'Documentos Pacientes', icon: <FaFileMedical />, path: '/DocumentosPersonas' },
-        { id: 'PersonaImage', name: 'Imágenes Pacientes', icon: <FaImages />, path: '/PersonaImage' },
+        // { id: 'DocumentosPersonas', name: 'Documentos Pacientes', icon: <FaFileMedical />, path: '/DocumentosPersonas' },
+        // { id: 'PersonaImage', name: 'Imágenes Pacientes', icon: <FaImages />, path: '/PersonaImage' },
       ]
     },
     
@@ -37,10 +37,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       name: 'Alimentación', 
       icon: <FaShoppingBasket />,
       submenu: [
-        { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaAppleAlt />, path: '/Alimentos' }, 
-        { id: 'DocumentosAlimentos', name: 'Documentos Alimentos', icon: <FaFileUpload />, path: '/DocumentosAlimentos' }, 
+       // { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaAppleAlt />, path: '/Alimentos' },
+         { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaAppleAlt />, path: '/AlimentosImages' },  
+/*         { id: 'DocumentosAlimentos', name: 'Documentos Alimentos', icon: <FaFileUpload />, path: '/DocumentosAlimentos' }, 
         { id: 'AlimentosImages', name: 'Imágenes Alimentos', icon: <FaImages />, path: '/AlimentosImages' }
-      ]
+      */ ]
     },
 
     { 

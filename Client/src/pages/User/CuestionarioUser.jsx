@@ -161,14 +161,18 @@ const CuestionarioUser = () => {
               <p className="subtitle">Resumen completo de tu información médica</p>
             </motion.div>
             
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="edit-button-container"
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)" }}
+              whileTap={{ scale: 0.98 }}
+              className="edit-button"
               onClick={() => setIsEditing(true)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
             >
-              <FaEdit size={20} />
+              <FaEdit className="edit-icon" />
               <span>Editar Información</span>
-            </motion.div>
+            </motion.button>
           </div>
         </header>
 
@@ -197,14 +201,16 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon activity">
               <FaRunning size={24} />
             </div>
             <div className="card-content">
               <h3>Actividad Física</h3>
-              <div className="info-badge">{cuestionario.act_fisica || 'No especificado'}</div>
+              <div className={`info-badge ${cuestionario.act_fisica ? 'active' : 'empty'}`}>
+                {cuestionario.act_fisica || 'No especificado'}
+              </div>
               <p>Nivel de actividad física regular</p>
             </div>
           </motion.div>
@@ -220,9 +226,9 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon conditions">
               <FaHeartbeat size={24} />
             </div>
             <div className="card-content">
@@ -251,16 +257,16 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon medication">
               <FaPills size={24} />
             </div>
             <div className="card-content">
               <h3>Medicamentos</h3>
               {cuestionario.toma_medicamento === '1' ? (
                 <>
-                  <div className="info-badge">Actualmente toma medicamentos</div>
+                  <div className="info-badge active">Actualmente toma medicamentos</div>
                   <p className="medication-description">{cuestionario.medicamento_descrip || 'No se proporcionaron detalles'}</p>
                 </>
               ) : (
@@ -280,16 +286,16 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon nutrition">
               <FaUtensils size={24} />
             </div>
             <div className="card-content">
               <h3>Hábitos Alimenticios</h3>
               {cuestionario.consumo_calorias === '1' ? (
                 <>
-                  <div className="info-badge">Controla consumo calórico</div>
+                  <div className="info-badge active">Controla consumo calórico</div>
                   <p className="calories-description">{cuestionario.calorias_descrip || 'No se proporcionaron detalles'}</p>
                 </>
               ) : (
@@ -309,9 +315,9 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon allergies">
               <FaAllergies size={24} />
             </div>
             <div className="card-content">
@@ -335,9 +341,9 @@ const CuestionarioUser = () => {
                 transition: { duration: 0.5 }
               }
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)" }}
           >
-            <div className="card-icon">
+            <div className="card-icon goals">
               <FaBullseye size={24} />
             </div>
             <div className="card-content">
@@ -357,44 +363,54 @@ const CuestionarioUser = () => {
           <div className="summary-cards">
             <motion.div 
               className="summary-card health-summary"
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)" }}
             >
-              <div className="icon">
+              <div className="icon health">
                 <GiHealthNormal size={24} />
               </div>
               <div className="content">
                 <h4>Estado General</h4>
-                <p>{
+                <p className={`status ${
                   (cuestionario.diabetes === '1' || cuestionario.hipertension === '1' || cuestionario.otra_enfermedad === '1') 
-                    ? 'Requiere atención' 
-                    : 'Óptimo'
-                }</p>
+                    ? 'warning' 
+                    : 'good'
+                }`}>
+                  {
+                    (cuestionario.diabetes === '1' || cuestionario.hipertension === '1' || cuestionario.otra_enfermedad === '1') 
+                      ? 'Requiere atención' 
+                      : 'Óptimo'
+                  }
+                </p>
               </div>
             </motion.div>
             
             <motion.div 
               className="summary-card health-summary"
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)" }}
             >
-              <div className="icon">
+              <div className="icon medication">
                 <FaPills size={24} />
               </div>
               <div className="content">
                 <h4>Medicación</h4>
-                <p>{cuestionario.toma_medicamento === '1' ? 'Requiere medicación' : 'No requiere'}</p>
+                <p className={`status ${cuestionario.toma_medicamento === '1' ? 'warning' : 'good'}`}>
+                  {cuestionario.toma_medicamento === '1' ? 'Requiere medicación' : 'No requiere'}
+                </p>
               </div>
             </motion.div>
             
             <motion.div 
               className="summary-card health-summary"
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)" }}
             >
-              <div className="icon">
+              <div className="icon allergies">
                 <FaAllergies size={24} />
               </div>
               <div className="content">
                 <h4>Alergias</h4>
-                <p>{cuestionario.alergias && cuestionario.alergias !== 'ninguna' ? 'Presentes' : 'No reportadas'}</p>
+                <p className={`status ${cuestionario.alergias && cuestionario.alergias !== 'ninguna' ? 'warning' : 'good'}`}>
+                  {cuestionario.alergias && cuestionario.alergias !== 'ninguna' ? 'Presentes' : 'No reportadas'}
+                </p>
               </div>
             </motion.div>
           </div>
@@ -424,8 +440,10 @@ const CuestionarioUser = () => {
           </motion.div>
           
           <motion.div 
-            whileHover={{ scale: 1.02 }}
             className="progress-tracker"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
           >
             <div className="progress-info">
               <h3>Progreso</h3>
@@ -434,6 +452,16 @@ const CuestionarioUser = () => {
                   className="progress-bar" 
                   style={{ width: `${(currentStep / 4) * 100}%` }}
                 ></div>
+                <div className="progress-steps">
+                  {[1, 2, 3, 4].map(step => (
+                    <div 
+                      key={step}
+                      className={`progress-step ${step <= currentStep ? 'active' : ''} ${step === currentStep ? 'current' : ''}`}
+                    >
+                      {step}
+                    </div>
+                  ))}
+                </div>
               </div>
               <span>Paso {currentStep} de 4</span>
             </div>
@@ -451,7 +479,9 @@ const CuestionarioUser = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="section-header">
-              <FaRunning size={24} className="section-icon" />
+              <div className="section-icon-container activity">
+                <FaRunning size={24} className="section-icon" />
+              </div>
               <h2>Actividad Física y Salud</h2>
             </div>
             
@@ -465,6 +495,7 @@ const CuestionarioUser = () => {
                 value={formData.act_fisica}
                 onChange={handleInputChange}
                 required
+                className="styled-select"
               >
                 <option value="">Selecciona tu nivel de actividad</option>
                 <option value="sedentario">Sedentario (poco o ningún ejercicio)</option>
@@ -489,8 +520,10 @@ const CuestionarioUser = () => {
                     name="diabetes"
                     checked={formData.diabetes === '1'}
                     onChange={handleCheckboxChange}
+                    className="styled-checkbox"
                   />
-                  <label htmlFor="diabetes-check">
+                  <label htmlFor="diabetes-check" className="checkbox-label">
+                    <span className="custom-checkbox"></span>
                     <MdOutlineMedicalServices className="condition-icon" />
                     Diabetes
                   </label>
@@ -503,8 +536,10 @@ const CuestionarioUser = () => {
                     name="hipertension"
                     checked={formData.hipertension === '1'}
                     onChange={handleCheckboxChange}
+                    className="styled-checkbox"
                   />
-                  <label htmlFor="hipertension-check">
+                  <label htmlFor="hipertension-check" className="checkbox-label">
+                    <span className="custom-checkbox"></span>
                     <RiMentalHealthLine className="condition-icon" />
                     Hipertensión
                   </label>
@@ -517,8 +552,10 @@ const CuestionarioUser = () => {
                     name="otra_enfermedad"
                     checked={formData.otra_enfermedad === '1'}
                     onChange={handleCheckboxChange}
+                    className="styled-checkbox"
                   />
-                  <label htmlFor="otra-enfermedad-check">
+                  <label htmlFor="otra-enfermedad-check" className="checkbox-label">
+                    <span className="custom-checkbox"></span>
                     Otras condiciones médicas
                   </label>
                 </div>
@@ -533,6 +570,7 @@ const CuestionarioUser = () => {
                     name="otra_enfermedad_desc"
                     value={formData.otra_enfermedad_desc}
                     onChange={handleInputChange}
+                    className="styled-textarea"
                   />
                 </div>
               )}
@@ -549,21 +587,27 @@ const CuestionarioUser = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="section-header">
-              <FaPills size={24} className="section-icon" />
+              <div className="section-icon-container medication">
+                <FaPills size={24} className="section-icon" />
+              </div>
               <h2>Medicamentos y Hábitos</h2>
             </div>
             
             <div className="form-group toggle-group">
-              <input
-                type="checkbox"
-                id="medicamento-check"
-                name="toma_medicamento"
-                checked={formData.toma_medicamento === '1'}
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="medicamento-check">
-                <FaPills className="input-icon" />
-                ¿Tomas algún medicamento actualmente?
+              <label className="toggle-container">
+                <input
+                  type="checkbox"
+                  id="medicamento-check"
+                  name="toma_medicamento"
+                  checked={formData.toma_medicamento === '1'}
+                  onChange={handleCheckboxChange}
+                  className="toggle-input"
+                />
+                <span className="toggle-slider"></span>
+                <span className="toggle-label">
+                  <FaPills className="input-icon" />
+                  ¿Tomas algún medicamento actualmente?
+                </span>
               </label>
             </div>
             
@@ -576,21 +620,26 @@ const CuestionarioUser = () => {
                   name="medicamento_descrip"
                   value={formData.medicamento_descrip}
                   onChange={handleInputChange}
+                  className="styled-textarea"
                 />
               </div>
             )}
             
             <div className="form-group toggle-group">
-              <input
-                type="checkbox"
-                id="calorias-check"
-                name="consumo_calorias"
-                checked={formData.consumo_calorias === '1'}
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="calorias-check">
-                <FaFireAlt className="input-icon" />
-                ¿Llevas un control de tu consumo calórico?
+              <label className="toggle-container">
+                <input
+                  type="checkbox"
+                  id="calorias-check"
+                  name="consumo_calorias"
+                  checked={formData.consumo_calorias === '1'}
+                  onChange={handleCheckboxChange}
+                  className="toggle-input"
+                />
+                <span className="toggle-slider"></span>
+                <span className="toggle-label">
+                  <FaFireAlt className="input-icon" />
+                  ¿Llevas un control de tu consumo calórico?
+                </span>
               </label>
             </div>
             
@@ -603,6 +652,7 @@ const CuestionarioUser = () => {
                   name="calorias_descrip"
                   value={formData.calorias_descrip}
                   onChange={handleInputChange}
+                  className="styled-textarea"
                 />
               </div>
             )}
@@ -618,7 +668,9 @@ const CuestionarioUser = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="section-header">
-              <FaAllergies size={24} className="section-icon" />
+              <div className="section-icon-container allergies">
+                <FaAllergies size={24} className="section-icon" />
+              </div>
               <h2>Alergias e Intolerancias</h2>
             </div>
             
@@ -638,6 +690,7 @@ const CuestionarioUser = () => {
                 name="alergias"
                 value={formData.alergias}
                 onChange={handleInputChange}
+                className="styled-textarea"
               />
             </div>
           </motion.div>
@@ -652,7 +705,9 @@ const CuestionarioUser = () => {
             transition={{ duration: 0.3 }}
           >
             <div className="section-header">
-              <FaBullseye size={24} className="section-icon" />
+              <div className="section-icon-container goals">
+                <FaBullseye size={24} className="section-icon" />
+              </div>
               <h2>Tus Metas Nutricionales</h2>
             </div>
             
@@ -668,6 +723,7 @@ const CuestionarioUser = () => {
                 value={formData.metas}
                 onChange={handleInputChange}
                 required
+                className="styled-textarea"
               />
             </div>
           </motion.div>
@@ -675,28 +731,34 @@ const CuestionarioUser = () => {
 
         <div className="form-navigation">
           {currentStep > 1 && (
-            <button 
+            <motion.button 
               type="button"
               className="nav-button prev-button"
               onClick={prevStep}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <FaChevronLeft /> Anterior
-            </button>
+            </motion.button>
           )}
           
           {currentStep < 4 ? (
-            <button 
+            <motion.button 
               type="button"
               className="nav-button next-button"
               onClick={nextStep}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Siguiente <FaChevronRight />
-            </button>
+            </motion.button>
           ) : (
-            <button 
+            <motion.button 
               type="submit"
               className="submit-button"
               disabled={isSubmitting}
+              whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+              whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
             >
               {isSubmitting ? (
                 <>
@@ -708,20 +770,23 @@ const CuestionarioUser = () => {
                   <FaCheckCircle /> Guardar Cambios
                 </>
               )}
-            </button>
+            </motion.button>
           )}
         </div>
       </form>
 
-      <motion.div 
+      <motion.button 
         className="floating-action-button"
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)" }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsEditing(false)}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
       >
-        <FaArrowLeft size={20} />
-        <span>Cancelar</span>
-      </motion.div>
+        <FaArrowLeft className="fab-icon" />
+        <span className="fab-text">Cancelar</span>
+      </motion.button>
     </motion.div>
   );
 };

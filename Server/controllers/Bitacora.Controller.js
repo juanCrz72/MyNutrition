@@ -3,7 +3,7 @@ import { db } from "../db/connection.js";
 // Modificar la función getBitacoraComidas para filtrar por id_usuario
 export const getBitacoraComidas = async (req, res) => {
   try {
-    const { id_usuario } = req.query; // Cambiado de idpersona a id_usuario
+    const { id_usuario } = req.query;
 
     let query = `
       SELECT 
@@ -24,11 +24,16 @@ export const getBitacoraComidas = async (req, res) => {
         pd.carbohidratos AS dieta_carbohidratos,
         pd.grasas AS dieta_grasas,
         pd.proteinas AS dieta_proteinas,
-        pd.peso_actual AS dieta_peso_actual
+        pd.peso_actual AS dieta_peso_actual,
+        ad.localizacion AS documento_localizacion,
+        ad.nombre_original AS documento_nombre_original,
+        ad.extension AS documento_extension
       FROM bitacora_comidas bc
       JOIN usuarios u ON bc.id_usuario = u.id_usuario
       JOIN persona p ON u.idPersona = p.idpersona
       JOIN smae_alimentos sa ON bc.id_alimento = sa.id
+      LEFT JOIN alimentos_documentos ad 
+        ON sa.id = ad.idAlimento AND (ad.eliminado = 0 OR ad.eliminado IS NULL)
       LEFT JOIN persona_dieta pd ON p.idpersona = pd.idPersona AND pd.activo = 1
       WHERE p.activo = 1 AND u.activo = 1 AND sa.activo = 1
     `;

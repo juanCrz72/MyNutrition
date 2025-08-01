@@ -506,8 +506,7 @@ function Alimentos() {
         selectedAlimento={selectedAlimento}
       />
 
-      {/* Modal de información nutricional */}
-     {/* Modal de información nutricional */}
+
 {/* Modal de información nutricional */}
 {selectedAlimento && (
   <div className={`modal fade ${showNutritionModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ backgroundColor: showNutritionModal ? 'rgba(0,0,0,0.5)' : 'transparent' }}>
