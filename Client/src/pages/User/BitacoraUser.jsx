@@ -4,9 +4,11 @@ import { useAuth } from '../Superadmin/AuthContext.jsx';
 import { 
   FaArrowLeft, FaUtensils, FaCalendarAlt, FaUser, FaChartBar, FaChevronDown, FaChevronUp, 
   FaSearch, FaExclamationTriangle, FaPlus, FaTrash, FaCoffee, FaHamburger, FaMoon, FaCookie, 
-  FaWeightHanging, FaFire, FaDumbbell, FaBreadSlice, FaListAlt, FaBalanceScale, FaLeaf, FaChevronLeft , FaChevronRight 
+  FaWeightHanging, FaFire, FaDumbbell, FaBreadSlice, FaListAlt, FaBalanceScale, FaLeaf, 
+  FaChevronLeft, FaChevronRight, FaRandom, FaLightbulb, FaCheck, FaInfoCircle
 } from 'react-icons/fa';
-import { getBitacoraComidasjs, deleteBitacoraComidajs } from '../../assets/js/Bitacora.js';
+import { getBitacoraComidasjs, deleteBitacoraComidajs, createBitacoraComidajs } from '../../assets/js/Bitacora.js';
+import { getAlimentosjs } from '../../assets/js/Alimentos.js';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './../Superadmin/css/crud-styles.css';
@@ -17,6 +19,7 @@ export const UserBitacora = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [bitacoraData, setBitacoraData] = useState([]);
+  const [alimentosData, setAlimentosData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [expandedMeals, setExpandedMeals] = useState({
@@ -27,6 +30,28 @@ export const UserBitacora = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState('');
+  const [showRecommendations, setShowRecommendations] = useState(false);
+  const [recommendationsFor, setRecommendationsFor] = useState(null);
+  const [similarFoods, setSimilarFoods] = useState([]);
+  const [addingFood, setAddingFood] = useState(null);
+
+  // Cargar datos de bitácora y alimentos
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user?.id_usuario) {
+          await getBitacoraComidasjs(setBitacoraData, user.id_usuario);
+          await getAlimentosjs(setAlimentosData);
+        }
+        setLoading(false);
+      } catch (error) {
+        Swal.fire('Error', 'No se pudo cargar los datos', 'error');
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [user?.id_usuario]);
 
   const refreshData = async () => {
     try {
@@ -35,22 +60,6 @@ export const UserBitacora = () => {
       Swal.fire('Error', 'No se pudo actualizar la bitácora', 'error');
     }
   };
-
-  useEffect(() => {
-    const fetchBitacora = async () => {
-      try {
-        if (user?.id_usuario) {
-          await getBitacoraComidasjs(setBitacoraData, user.id_usuario);
-        }
-        setLoading(false);
-      } catch (error) {
-        Swal.fire('Error', 'No se pudo cargar tu bitácora de comidas', 'error');
-        setLoading(false);
-      }
-    };
-    
-    fetchBitacora();
-  }, [user?.id_usuario]);
 
   const toggleMealSection = (mealType) => {
     setExpandedMeals(prev => ({
@@ -79,6 +88,75 @@ export const UserBitacora = () => {
         deleteBitacoraComidajs(item.id, () => {}, refreshData);
       }
     });
+  };
+
+  // Función para agregar automáticamente un alimento
+// Función para agregar automáticamente un alimento
+const handleAutoAddFood = async (food, mealType) => {
+  setAddingFood(food.id);
+  
+  try {
+    console.log('Enviando datos:', {
+      id_usuario: user.id_usuario,
+      tipo_comida: mealType,
+      id_alimento: food.id,
+      fecha_registro: selectedDate,
+      contador: 1
+    });
+
+    await createBitacoraComidajs(
+      user.id_usuario,    // id_usuario
+      mealType,          // tipo_comida
+      food.id,           // id_alimento
+      selectedDate,      // fecha_registro
+      1,                 // contador
+      () => setShowModal(false),  // setShowModal (aunque no lo usemos aquí)
+      refreshData        // refreshData
+    );
+
+    Swal.fire({
+      icon: 'success',
+      title: '¡Alimento agregado!',
+      text: `${food.Alimento} se ha añadido a tu ${mealType.toLowerCase()}`,
+      timer: 1500,
+      showConfirmButton: false
+    });
+    setShowRecommendations(false);
+  } catch (error) {
+    Swal.fire('Error', 'No se pudo agregar el alimento', 'error');
+    console.error('Detalles del error:', error);
+  } finally {
+    setAddingFood(null);
+  }
+};
+  // Función para encontrar alimentos similares
+  const findSimilarFoods = (currentFood) => {
+    if (!currentFood || !alimentosData.length) return [];
+    
+    const currentCategory = currentFood.categoriaAlimento;
+    const currentCalories = parseFloat(currentFood.Energia_kcal) || 0;
+    
+    // Filtramos alimentos de la misma categoría y con valor nutricional similar
+    return alimentosData
+      .filter(food => 
+        food.Categoria === currentCategory && 
+        food.id !== currentFood.id && // Excluir el alimento actual
+        food.activo === 1 // Solo alimentos activos
+      )
+      .map(food => ({
+        ...food,
+        similarityScore: Math.abs((parseFloat(food.Energia_kcal) || 0) - currentCalories)
+      }))
+      .sort((a, b) => a.similarityScore - b.similarityScore) // Ordenar por similitud calórica
+      .slice(0, 5); // Tomar los 5 más similares
+  };
+
+  // Mostrar recomendaciones para un alimento
+  const showFoodRecommendations = (foodItem) => {
+    const similar = findSimilarFoods(foodItem);
+    setSimilarFoods(similar);
+    setRecommendationsFor(foodItem);
+    setShowRecommendations(true);
   };
 
   // Calcular los totales nutricionales
@@ -278,13 +356,22 @@ export const UserBitacora = () => {
                         </span>
                       </td>
                       <td>
-                        <button 
-                          className="btn btn-sm btn-outline-danger rounded-circle delete-btn"
-                          onClick={() => handleDeleteItem(item)}
-                          title="Eliminar"
-                        >
-                          <FaTrash size={14} />
-                        </button>
+                        <div className="d-flex gap-1">
+                          <button 
+                            className="btn btn-sm btn-outline-info rounded-circle"
+                            onClick={() => showFoodRecommendations(item)}
+                            title="Ver alternativas"
+                          >
+                            <FaLightbulb size={14} />
+                          </button>
+                          <button 
+                            className="btn btn-sm btn-outline-danger rounded-circle delete-btn"
+                            onClick={() => handleDeleteItem(item)}
+                            title="Eliminar"
+                          >
+                            <FaTrash size={14} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -333,13 +420,28 @@ export const UserBitacora = () => {
                         </span>
                       </div>
                     </div>
-                    <button 
-                      className="meal-delete-btn"
-                      onClick={() => handleDeleteItem(item)}
-                      title="Eliminar"
-                    >
-                      <FaTrash size={14} />
-                    </button>
+                    <div className="meal-actions">
+              <div className="d-flex gap-2">
+  <button 
+    className="btn btn-outline-info rounded-circle p-2 d-flex align-items-center justify-content-center"
+    style={{ width: '36px', height: '36px' }}
+    onClick={() => showFoodRecommendations(item)}
+    title="Ver alternativas"
+  >
+    <FaLightbulb size={16} />
+  </button>
+
+  <button 
+    className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
+    style={{ width: '36px', height: '36px' }}
+    onClick={() => handleDeleteItem(item)}
+    title="Eliminar"
+  >
+    <FaTrash size={16} />
+  </button>
+</div>
+
+                    </div>
                   </div>
                   
                   <div className="meal-details">
@@ -629,6 +731,129 @@ export const UserBitacora = () => {
         idUsuario={user?.id_usuario}
         refreshData={refreshData}
       />
+
+      {/* Modal de recomendaciones */}
+      {showRecommendations && (
+        <div className={`modal fade ${showRecommendations ? 'show d-block' : ''}`} 
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header bg-primary text-white">
+                <h5 className="modal-title">
+                  <FaLightbulb className="me-2" />
+                  Alternativas similares a {recommendationsFor?.Alimento}
+                </h5>
+                <button 
+                  type="button" 
+                  className="btn-close btn-close-white"
+                  onClick={() => setShowRecommendations(false)}
+                ></button>
+              </div>
+              
+              <div className="modal-body">
+                <div className="alert alert-info mb-4">
+                  <FaInfoCircle className="me-2" />
+                  Te mostramos alternativas de la misma categoría ({recommendationsFor?.categoriaAlimento}) 
+                  con valor nutricional similar.
+                </div>
+                
+                {similarFoods.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Alimento</th>
+                          <th>Porción</th>
+                          <th>Nutrientes (por 100g)</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {similarFoods.map((food, index) => (
+                          <tr key={`rec-${index}`}>
+                            <td>
+                              <div className="d-flex align-items-center gap-2">
+                                {food.documento_localizacion ? (
+                                  <img 
+                                    src={`/${food.documento_localizacion}`} 
+                                    alt={food.Alimento}
+                                    className="food-image rounded"
+                                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                                  />
+                                ) : (
+                                  <div className="food-image-placeholder small">
+                                    <FaLeaf className="placeholder-icon" />
+                                  </div>
+                                )}
+                                <span>{food.Alimento}</span>
+                              </div>
+                            </td>
+                            <td>
+                              {food.Cantidad_Sugerida} {food.Unidad}
+                            </td>
+                            <td>
+                              <div className="d-flex flex-wrap gap-1">
+                                <span className="badge bg-primary-bg text-primary">
+                                  {food.Energia_kcal} kcal
+                                </span>
+                                <span className="badge bg-success-bg text-success">
+                                  P: {food.Proteina_g}g
+                                </span>
+                                <span className="badge bg-warning-bg text-warning">
+                                  C: {food.Carbohidratos_g}g
+                                </span>
+                                <span className="badge bg-danger-bg text-danger">
+                                  G: {food.Grasa_g}g
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <button 
+                                className="btn btn-sm btn-primary"
+                                onClick={() => handleAutoAddFood(food, recommendationsFor.tipo_comida)}
+                                disabled={addingFood === food.id}
+                              >
+                                {addingFood === food.id ? (
+                                  <>
+                                    <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                    Agregando...
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaPlus className="me-1" /> Agregar
+                                  </>
+                                )}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <FaRandom className="display-4 text-muted mb-3" />
+                    <h5>No encontramos alternativas similares</h5>
+                    <p className="text-muted">
+                      No hay otros alimentos registrados en la categoría {recommendationsFor?.categoriaAlimento}
+                    </p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn btn-secondary"
+                  onClick={() => setShowRecommendations(false)}
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

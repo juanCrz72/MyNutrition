@@ -200,32 +200,27 @@ const checkQuestionnaireStatus = async () => {
           className="card feature-card food-diary"
           variants={itemVariants}
           whileHover={{ y: -5 }}
-          onClick={() => console.log("Ir a bitácora de alimentos")}
+          onClick={() => navigate('/BitacoraUser')}
         >
           <div className="card-icon">
             <FaUtensils size={24} />
           </div>
           <h3>Bitácora de Alimentos</h3>
           <p>Registra todo lo que consumes durante el día</p>
-          <div className="card-footer">
-            <span className="status">Hoy: 3 comidas registradas</span>
-          </div>
+
         </motion.div>
 
         <motion.div 
           className="card feature-card diet-plan"
           variants={itemVariants}
           whileHover={{ y: -5 }}
-          onClick={() => console.log("Ir a plan de dieta")}
+             onClick={() => navigate('/dietaUser')}
         >
           <div className="card-icon">
             <MdOutlineFoodBank size={24} />
           </div>
           <h3>Mi Plan de Dieta</h3>
           <p>Revisa tus planes alimenticios personalizados</p>
-          <div className="card-footer">
-            <span className="status">Plan activo: Mediterránea</span>
-          </div>
         </motion.div>
 
         <motion.div 
@@ -260,32 +255,26 @@ const checkQuestionnaireStatus = async () => {
           className="card feature-card progress-tracker"
           variants={itemVariants}
           whileHover={{ y: -5 }}
-          onClick={() => console.log("Ir a progreso")}
+          onClick={() => navigate('/DocumentosUser')}
         >
           <div className="card-icon">
             <FaChartLine size={24} />
           </div>
           <h3>Mi Progreso</h3>
-          <p>Sigue tu evolución con gráficos y estadísticas</p>
-          <div className="card-footer">
-            <span className="status">+1.5kg músculo este mes</span>
-          </div>
+          <p>Sigue tu evolución con tus fotos del antes y después</p>
         </motion.div>
 
         <motion.div 
           className="card feature-card profile"
           variants={itemVariants}
           whileHover={{ y: -5 }}
-          onClick={() => console.log("Ir a perfil")}
+          onClick={() => navigate('/PersonaUser')}
         >
           <div className="card-icon">
             <FaUser size={24} />
           </div>
           <h3>Mi Perfil</h3>
           <p>Administra tu información personal y preferencias</p>
-          <div className="card-footer">
-            <span className="status">85% completado</span>
-          </div>
         </motion.div>
 
         <motion.div 

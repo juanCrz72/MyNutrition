@@ -21,9 +21,11 @@ import {
   FaDumbbell, 
   FaBreadSlice, 
   FaListAlt, 
-  FaBalanceScale
+  FaBalanceScale,
+  FaCopy,
+  FaPaste
 } from 'react-icons/fa';
-import { getBitacoraComidasjs, deleteBitacoraComidajs } from '../../assets/js/Bitacora.js';
+import { getBitacoraComidasjs, deleteBitacoraComidajs, createBitacoraComidajs } from '../../assets/js/Bitacora.js';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/crud-styles.css';
@@ -31,7 +33,7 @@ import PersonaBitacoraCRUD from './PersonaBitacoraCRUD.jsx';
 import './css/Bitacora.css';
 
 export const PacienteBitacora = () => {
-  const { id_usuario  } = useParams();
+  const { id_usuario } = useParams();
   const navigate = useNavigate();
   const [bitacoraData, setBitacoraData] = useState([]);
   const [pacienteInfo, setPacienteInfo] = useState(null);
@@ -46,10 +48,11 @@ export const PacienteBitacora = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState('');
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [copiedItems, setCopiedItems] = useState([]); // Almacena los items copiados
 
   const refreshData = async () => {
     try {
-      await getBitacoraComidasjs(setBitacoraData, id_usuario );
+      await getBitacoraComidasjs(setBitacoraData, id_usuario);
     } catch (error) {
       Swal.fire('Error', 'No se pudo actualizar la bitácora', 'error');
     }
@@ -58,7 +61,7 @@ export const PacienteBitacora = () => {
   useEffect(() => {
     const fetchBitacora = async () => {
       try {
-        await getBitacoraComidasjs(setBitacoraData, id_usuario );
+        await getBitacoraComidasjs(setBitacoraData, id_usuario);
         
         if (bitacoraData.length > 0) {
           setPacienteInfo({
@@ -75,7 +78,69 @@ export const PacienteBitacora = () => {
     };
     
     fetchBitacora();
-  }, [id_usuario ]);
+  }, [id_usuario]);
+
+  // Función para copiar todos los alimentos del día seleccionado
+  const copyDayMeals = () => {
+    const itemsToCopy = bitacoraData.filter(item => {
+      const itemDate = new Date(item.fecha_registro).toISOString().split('T')[0];
+      return itemDate === selectedDate;
+    });
+    
+    if (itemsToCopy.length === 0) {
+      Swal.fire('Información', 'No hay alimentos para copiar en este día', 'info');
+      return;
+    }
+    
+    setCopiedItems(itemsToCopy);
+    Swal.fire('Éxito', `Se han copiado ${itemsToCopy.length} alimentos`, 'success');
+  };
+
+  // Función para pegar los alimentos copiados al día siguiente
+ const pasteDayMeals = async () => {
+  if (copiedItems.length === 0) {
+    Swal.fire('Error', 'No hay alimentos copiados para pegar', 'error');
+    return;
+  }
+  
+  try {
+    // Mostrar confirmación usando la fecha seleccionada
+    const result = await Swal.fire({
+      title: '¿Pegar alimentos?',
+      text: `¿Deseas pegar ${copiedItems.length} alimentos al día ${selectedDate}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, pegar',
+      cancelButtonText: 'Cancelar'
+    });
+    
+    if (result.isConfirmed) {
+      // Crear promesas para cada alimento a pegar
+      const promises = copiedItems.map(item => {
+        return createBitacoraComidajs(
+          item.id_usuario,
+          item.tipo_comida,
+          item.id_alimento,
+          selectedDate, // Usamos la fecha seleccionada directamente
+          item.contador,
+          () => {},
+          refreshData
+        );
+      });
+      
+      // Ejecutar todas las promesas
+      await Promise.all(promises);
+      
+      // Actualizar los datos
+      await refreshData();
+      
+      Swal.fire('Éxito', `Se han pegado ${copiedItems.length} alimentos al día ${selectedDate}`, 'success');
+    }
+  } catch (error) {
+    console.error('Error al pegar alimentos:', error);
+    Swal.fire('Error', 'Hubo un problema al pegar los alimentos', 'error');
+  }
+};
 
   const toggleMealSection = (mealType) => {
     setExpandedMeals(prev => ({
@@ -307,75 +372,75 @@ export const PacienteBitacora = () => {
           </div>
         </div>
 
- {/* Versión móvil - Lista mejorada para pacientes */}
-<div className="d-md-none">
-  <div className="list-group meal-list-mobile">
-    {groupByMealType[mealType].map((item, index) => {
-      const contador = item.contador || 1;
-      const pesoTotal = (parseFloat(item.peso) * contador).toFixed(1);
-      
-      return (
-        <div 
-          key={`mobile-${index}`} 
-          className="list-group-item list-group-item-action py-3 meal-list-item"
-        >
-          {/* Header con nombre y acción */}
-          <div className="d-flex justify-content-between align-items-start">
-            <div>
-              <h5 className="mb-1 text-primary">
-                <FaUtensils className="me-2" size={14} />
-                {item.Alimento}
-              </h5>
-              <small className="text-muted d-block">
-                <FaWeightHanging size={12} className="me-1" />
-                {pesoTotal}g ({item.peso}g × {contador} porción{contador !== 1 ? 'es' : ''})
-              </small>
-            </div>
-            <button 
-              className="btn btn-sm btn-link text-danger p-0"
-              onClick={() => handleDeleteItem(item)}
-              title="Eliminar"
-            >
-              <FaTrash size={14} />
-            </button>
-          </div>
+        {/* Versión móvil - Lista mejorada para pacientes */}
+        <div className="d-md-none">
+          <div className="list-group meal-list-mobile">
+            {groupByMealType[mealType].map((item, index) => {
+              const contador = item.contador || 1;
+              const pesoTotal = (parseFloat(item.peso) * contador).toFixed(1);
+              
+              return (
+                <div 
+                  key={`mobile-${index}`} 
+                  className="list-group-item list-group-item-action py-3 meal-list-item"
+                >
+                  {/* Header con nombre y acción */}
+                  <div className="d-flex justify-content-between align-items-start">
+                    <div>
+                      <h5 className="mb-1 text-primary">
+                        <FaUtensils className="me-2" size={14} />
+                        {item.Alimento}
+                      </h5>
+                      <small className="text-muted d-block">
+                        <FaWeightHanging size={12} className="me-1" />
+                        {pesoTotal}g ({item.peso}g × {contador} porción{contador !== 1 ? 'es' : ''})
+                      </small>
+                    </div>
+                    <button 
+                      className="btn btn-sm btn-link text-danger p-0"
+                      onClick={() => handleDeleteItem(item)}
+                      title="Eliminar"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
 
-          {/* Detalles nutricionales compactos */}
-          <div className="mt-2 d-flex flex-wrap align-items-center">
-            <div className="nutrient-pill me-2 mb-1">
-              <FaFire className="text-danger" />
-              <span>{(item.Energia_kcal * contador).toFixed(0)} kcal</span>
-            </div>
-            
-            <div className="nutrient-pill me-2 mb-1">
-              <FaDumbbell className="text-success" />
-              <span>{(item.Proteina_g * contador).toFixed(1)}g prot.</span>
-            </div>
-            
-            <div className="nutrient-pill me-2 mb-1">
-              <FaBreadSlice className="text-warning" />
-              <span>{(item.Carbohidratos_g * contador).toFixed(1)}g carb.</span>
-            </div>
-          </div>
+                  {/* Detalles nutricionales compactos */}
+                  <div className="mt-2 d-flex flex-wrap align-items-center">
+                    <div className="nutrient-pill me-2 mb-1">
+                      <FaFire className="text-danger" />
+                      <span>{(item.Energia_kcal * contador).toFixed(0)} kcal</span>
+                    </div>
+                    
+                    <div className="nutrient-pill me-2 mb-1">
+                      <FaDumbbell className="text-success" />
+                      <span>{(item.Proteina_g * contador).toFixed(1)}g prot.</span>
+                    </div>
+                    
+                    <div className="nutrient-pill me-2 mb-1">
+                      <FaBreadSlice className="text-warning" />
+                      <span>{(item.Carbohidratos_g * contador).toFixed(1)}g carb.</span>
+                    </div>
+                  </div>
 
-          {/* Info adicional (solo visible al hacer tap) */}
-          <div className="mt-2 additional-info">
-            <div className="d-flex justify-content-between small">
-              <span>
-                <FaListAlt className="me-1" />
-                {item.categoriaAlimento}
-              </span>
-              <span>
-                <FaBalanceScale className="me-1" />
-                {item.porcion}
-              </span>
-            </div>
+                  {/* Info adicional (solo visible al hacer tap) */}
+                  <div className="mt-2 additional-info">
+                    <div className="d-flex justify-content-between small">
+                      <span>
+                        <FaListAlt className="me-1" />
+                        {item.categoriaAlimento}
+                      </span>
+                      <span>
+                        <FaBalanceScale className="me-1" />
+                        {item.porcion}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      );
-    })}
-  </div>
-</div>
       </>
     );
   };
@@ -415,6 +480,24 @@ export const PacienteBitacora = () => {
               onChange={(e) => setSelectedDate(e.target.value)}
             />
           </div>
+          
+          {/* Botones para copiar y pegar */}
+          <button 
+            className="btn btn-outline-secondary d-flex align-items-center copy-btn"
+            onClick={copyDayMeals}
+            title="Copiar alimentos de este día"
+          >
+            <FaCopy className="me-1" /> Copiar
+          </button>
+          
+          <button 
+            className="btn btn-outline-primary d-flex align-items-center paste-btn"
+            onClick={pasteDayMeals}
+            disabled={copiedItems.length === 0}
+            title="Pegar alimentos al día siguiente"
+          >
+            <FaPaste className="me-1" /> Pegar
+          </button>
         </div>
       </div>
 
@@ -585,7 +668,7 @@ export const PacienteBitacora = () => {
             </div>
           )}
 
-          <div className="row nutrition-cards">
+          <div className="row nutrition-cards2">
             <div className="col-md-3 mb-3 mb-md-0">
               <div className="nutrition-card bg-primary-bg">
                 <h6 className="text-primary">Calorías Totales</h6>
@@ -669,7 +752,6 @@ export const PacienteBitacora = () => {
           </div>
         </div>
       </div>
-
 
       {/* Modal para agregar alimentos */}
       <PersonaBitacoraCRUD 

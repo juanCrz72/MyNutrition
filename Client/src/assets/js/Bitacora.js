@@ -64,6 +64,13 @@ export const createBitacoraComidajs = async (
   setShowModal,
   refreshData
 ) => {
+   console.log('Datos recibidos en createBitacoraComidajs:', {
+    id_usuario,
+    tipo_comida,
+    id_alimento,
+    fecha_registro,
+    contador
+  });
   try {
     await createBitacoraComida(
       id_usuario,

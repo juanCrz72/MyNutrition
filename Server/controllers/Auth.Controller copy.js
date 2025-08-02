@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from "../db/connection.js";
 import { httpServer, io } from './../server.js';
-import { sendWelcomeEmail } from './emailService.js'; // Importa el nuevo servicio
 
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tu_secreto_super_seguro';
@@ -314,8 +313,8 @@ export const completeRegister = async (req, res) => {
                         [
                             idPersona, 
                             persona.idPlan,
-                            inicioPlan.toISOString().split('T')[0],
-                            terminoPlan.toISOString().split('T')[0]
+                            inicioPlan.toISOString().split('T')[0], // Formato YYYY-MM-DD
+                            terminoPlan.toISOString().split('T')[0] // Formato YYYY-MM-DD
                         ]
                     );
                 }
@@ -333,9 +332,6 @@ export const completeRegister = async (req, res) => {
 
             // Confirmar transacción
             await db.query('COMMIT');
-
-            // Enviar correo de bienvenida (no esperamos a que termine para responder)
-            sendWelcomeEmail(usuario.correo, usuario.usuario);
 
             io.emit('nuevo-usuario', {
                 nombre: persona.nombre,
