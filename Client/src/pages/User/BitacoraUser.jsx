@@ -356,15 +356,17 @@ const handleAutoAddFood = async (food, mealType) => {
                         </span>
                       </td>
                       <td>
-                        <div className="d-flex gap-1">
-                          <button 
+             <div className="d-flex gap-1">
+
+                  <button 
                             className="btn btn-sm btn-outline-info rounded-circle"
                             onClick={() => showFoodRecommendations(item)}
                             title="Ver alternativas"
                           >
-                            <FaLightbulb size={14} />
+
+                          <FaLightbulb size={14} />
                           </button>
-                          <button 
+                  <button 
                             className="btn btn-sm btn-outline-danger rounded-circle delete-btn"
                             onClick={() => handleDeleteItem(item)}
                             title="Eliminar"

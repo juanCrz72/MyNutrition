@@ -158,7 +158,7 @@ const checkQuestionnaireStatus = async () => {
           className="calories-tracker"
         >
           <div className="calories-info">
-            <h3>Consumo calórico</h3>
+            <h3>Consumo de calorías </h3>
             <div className="calories-numbers">
               <span className="consumed">{caloriesConsumed}</span>
               <span className="separator">/</span>
