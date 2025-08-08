@@ -5,7 +5,7 @@ import {
   createPersonaQuestionario,
   updatePersonaQuestionario,
   deletePersonaQuestionario
-} from "../controllers/Cuestionario.controller.js";
+} from "../controllers/Cuestionario.Controller.js";
 
 const router = Router();
 
