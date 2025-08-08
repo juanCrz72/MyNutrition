@@ -4,7 +4,7 @@ import cors from "cors";
 import indexRoutes from "./routes/index.Routes.js";
 
 //------------------------------------- EJEMPLOS------------------------------------------------------
-import pacienteRoutes from "./routes/Paciente.Routes.js";
+//import pacienteRoutes from "./routes/Paciente.Routes.js";
 
 //---------------------------------- IMPORTACIÓN DE RUTAS --------------------------------------------
 import personasRoutes from "./routes/Persona.Routes.js";
@@ -35,7 +35,7 @@ app.use("/",indexRoutes);
 app.use("/auth", authRoutes); // Rutas de autenticación
 
 //--------------------------------------------- RUTAS -----------------------------------------
-app.use("/Paciente", pacienteRoutes); // Rutas para Paciente para la api (front)
+//app.use("/Paciente", pacienteRoutes); Rutas para Paciente para la api (front)
 app.use("/Paises", paisesRoutes); // Rutas para Países para la api (front)
 app.use("/Alimentos", alimentosRoutes); // Rutas para Alimentos para la api (front)
 app.use("/Personas", personasRoutes); // Rutas para Personas para la api (front)
