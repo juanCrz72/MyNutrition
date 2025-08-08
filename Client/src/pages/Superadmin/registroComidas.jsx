@@ -494,10 +494,12 @@ const ReportesProgreso = () => {
       ) : (
         // VERSIÓN DESKTOP
         <Container className="my-4">
-          <h2 className="mb-4">
-            <FaChartLine className="me-2" />
-            Reportes de Progreso Nutricional
-          </h2>
+         
+  <h2 className="h3 mb-3 mb-md-0 text-dark fw-bold">
+          <FaChartLine className="me-2" style={{ color: 'var(--crud-primary)' }} />
+            Reportes Nutricionales
+        </h2>
+
 
           <Card className="mb-4">
             <Card.Body>
@@ -521,7 +523,7 @@ const ReportesProgreso = () => {
                       <option value="">Seleccione un usuario</option>
                       {usuarios.map(usuario => (
                         <option key={usuario.id_usuario} value={usuario.id_usuario}>
-                          {usuario.nombre} {usuario.id_usuario}
+                          {usuario.nombre}
                         </option>
                       ))}
                     </Form.Control>

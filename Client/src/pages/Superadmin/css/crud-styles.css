@@ -1,6 +1,8 @@
-/* ----------------------------------  Variables para todos los CRUDs ----------------------------------*/
+/* ----------------------------------  Variables para todos los CRUDs  ----------------------------------*/
 :root {
-    --crud-primary: #323e84;           /* Color principal azul  5e72e4   323e84*/
+    --crud-alternativo: #023D54;
+    --crud-principal: #35b0ab;     
+    --crud-primary: #323e84;           /* Color principal azul  5e72e4   323e84   crud-card-header */
     --crud-primary-light: #ebf0ff;      /* Versión clara del color principal */
     --crud-success: #2dce89;            /* Color para operaciones exitosas */
     --crud-danger: #f5365c;             /* Color para operaciones peligrosas/eliminar */
@@ -56,7 +58,7 @@
 }
 
 .crud-card-header {
-    background-color: var(--crud-primary); /* Fondo con color principal */
+    background-color: var(--crud-principal); /* Fondo con color principal */
     color: white;                    /* Texto blanco */
     border-radius: var(--crud-card-radius) var(--crud-card-radius) 0 0 !important; /* Solo esquinas superiores redondeadas */
     padding: 0.75rem 1rem;           /* Espaciado interno */
@@ -100,8 +102,8 @@
   }
   
   .crud-btn-primary {
-    background-color: var(--crud-primary);
-    border-color: var(--crud-primary);
+    background-color: var(--crud-principal);
+    border-color: var(--crud-principal);
     color: white;
   }
   
@@ -941,8 +943,10 @@
 
 .nutrition-header {
   padding: 15px;
-  background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+  background: linear-gradient(135deg, #35b0ab 0%, #26874E 100%);
   color: white;
+  padding: 1rem;
+  border-radius: 6px 6px 0 0;
 }
 
 .nutrition-title h4 {
@@ -981,12 +985,12 @@
 .calories-value {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #2e59d9;
+  color: #ffffff;
 }
 
 .calories-label {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #ffffff;
   margin-top: -5px;
 }
 
@@ -1050,7 +1054,7 @@
 
 .nutrition-footer {
   padding: 10px 15px;
-  background: #f8f9fa;
+  background: #35b0ab;
   text-align: center;
   font-size: 0.75rem;
   color: #858796;
@@ -1198,7 +1202,7 @@
 }
 
 .profile-header {
-  background-color: var(--crud-primary);
+  background-color: var(--crud-alternativo);
   color: white;
   padding: 1.5rem;
   border-bottom: 3px solid var(--crud-accent);

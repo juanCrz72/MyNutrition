@@ -10,9 +10,9 @@ import { GiHealthNormal } from 'react-icons/gi';
 import { Modal, Button, Form, ProgressBar, Card, Alert, Row, Col } from 'react-bootstrap';
 import { createQuestionariojs, getQuestionarioByPersonaIdjs } from '../../assets/js/Cuestionario.js';
 import Swal from 'sweetalert2';
+import './Css/Estilos.css'; // Asegúrate de tener este archivo CSS para estilos personalizados
 
 const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboard }) => {
-  // Unificamos los posibles nombres del prop en una sola variable
   const personaId = id_persona || idPersona;
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -31,7 +31,6 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
   const [hasQuestionnaire, setHasQuestionnaire] = useState(false);
 
   useEffect(() => {
-    console.log('ID de persona:', personaId);
     if (personaId) {
       checkExistingQuestionnaire();
     }
@@ -39,13 +38,10 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
 
   const checkExistingQuestionnaire = async () => {
     try {
-      console.log('Buscando cuestionario para personaId:', personaId);
       const cuestionario = await getQuestionarioByPersonaIdjs(personaId);
-      console.log('Resultado de getQuestionarioByPersonaIdjs:', cuestionario);
       
       if (cuestionario) {
         setHasQuestionnaire(true);
-        // Si ya existe, cargamos los datos existentes
         setFormData({
           act_fisica: cuestionario.act_fisica || '',
           diabetes: cuestionario.diabetes || '0',
@@ -66,7 +62,6 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
   };
 
   const nextStep = () => {
-    // Validar campos antes de avanzar
     if (step === 1 && !formData.act_fisica) {
       Swal.fire('Error', 'Por favor selecciona tu nivel de actividad física', 'error');
       return;
@@ -89,13 +84,11 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
   const handleSubmitQuestionnaire = async (e) => {
     e.preventDefault();
     
-    // Validación final antes de enviar
     if (!formData.act_fisica || !formData.metas) {
       Swal.fire('Error', 'Por favor completa todos los campos requeridos', 'error');
       return;
     }
 
-    // Verificamos que tengamos el ID de la persona
     if (!personaId) {
       Swal.fire('Error', 'No se ha identificado al usuario correctamente', 'error');
       return;
@@ -103,7 +96,7 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
 
     try {
       await createQuestionariojs(
-        personaId, // Usamos la variable unificada aquí
+        personaId,
         formData.act_fisica,
         formData.diabetes,
         formData.hipertension,
@@ -146,108 +139,106 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
       backdrop="static"
       className="health-questionnaire-modal"
     >
-      <Modal.Header closeButton className="bg-gradient-primary text-white">
+      <Modal.Header closeButton className="bg-gradient-secondary text-white">
         <Modal.Title className="d-flex align-items-center">
-          <GiHealthNormal size={28} className="me-3" />
+          <GiHealthNormal size={28} className="me-2" />
           <div>
-            <h3 className="mb-0">Cuestionario de Salud Integral</h3>
+            <h5 className="mb-0">Cuestionario de Salud</h5>
             <small className="opacity-75">Paso {step} de 4</small>
           </div>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="p-4">
-        <ProgressBar now={(step / 4) * 100} className="mb-4 progress-custom" />
+      <Modal.Body className="p-3">
+        <ProgressBar now={(step / 4) * 100} className="mb-3" style={{height: '6px'}} />
         
-        <Form onSubmit={handleSubmitQuestionnaire} className="questionnaire-form">
+        <Form onSubmit={handleSubmitQuestionnaire}>
           {/* Paso 1: Actividad física y condiciones médicas */}
           {step === 1 && (
             <div className="animate-fade-in">
-              <div className="d-flex align-items-center mb-4">
-                <div className="step-icon bg-info text-white">
-                  <FaRunning size={20} />
+              <div className="d-flex align-items-center mb-3">
+                <div className="bg-info text-white rounded-circle p-2 d-flex align-items-center justify-content-center me-2" style={{width: '36px', height: '36px'}}>
+                  <FaRunning size={16} />
                 </div>
-                <h4 className="mb-0 ms-3">Actividad Física y Salud</h4>
+                <h5 className="mb-0">Actividad Física y Salud</h5>
               </div>
               
-              <Form.Group className="mb-4 form-group-custom">
+              <Form.Group className="mb-3">
                 <Form.Label className="fw-bold">Nivel de actividad física*</Form.Label>
                 <Form.Select 
                   name="act_fisica" 
                   value={formData.act_fisica} 
                   onChange={handleChange}
                   required
-                  className="form-control-custom"
+                  size="sm"
                 >
-                  <option value="">Selecciona tu nivel de actividad</option>
-                  <option value="sedentario">Sedentario (poco o ningún ejercicio)</option>
-                  <option value="ligero">Ligero (ejercicio 1-3 días/semana)</option>
-                  <option value="moderado">Moderado (ejercicio 3-5 días/semana)</option>
-                  <option value="activo">Activo (ejercicio 6-7 días/semana)</option>
-                  <option value="intenso">Muy activo (ejercicio intenso diario)</option>
+                  <option value="">Selecciona tu nivel</option>
+                  <option value="sedentario">Sedentario (poco ejercicio)</option>
+                  <option value="ligero">Ligero (1-3 días/semana)</option>
+                  <option value="moderado">Moderado (3-5 días/semana)</option>
+                  <option value="activo">Activo (6-7 días/semana)</option>
+                  <option value="intenso">Muy activo (ejercicio intenso)</option>
                 </Form.Select>
               </Form.Group>
               
-              <Card className="mb-4 health-conditions-card">
-                <Card.Body>
-                  <Card.Title className="mb-3">Condiciones de Salud</Card.Title>
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3 custom-checkbox">
-                        <Form.Check 
-                          type="checkbox"
-                          id="diabetes-check"
-                          label={
-                            <>
-                              <MdOutlineMedicalServices className="me-2 text-danger" />
-                              Diabetes
-                            </>
-                          }
-                          name="diabetes"
-                          checked={formData.diabetes === '1'}
-                          onChange={handleCheckboxChange}
-                        />
-                      </Form.Group>
+              <Card className="mb-3">
+                <Card.Body className="p-3">
+                  <Card.Title className="mb-2 fs-6">Condiciones de Salud</Card.Title>
+                  <Row className="g-2">
+                    <Col xs={12} sm={6}>
+                      <Form.Check 
+                        type="checkbox"
+                        id="diabetes-check"
+                        label={
+                          <span className="d-flex align-items-center">
+                            <MdOutlineMedicalServices className="me-2 text-danger" />
+                            Diabetes
+                          </span>
+                        }
+                        name="diabetes"
+                        checked={formData.diabetes === '1'}
+                        onChange={handleCheckboxChange}
+                        className="mb-2"
+                      />
                     </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3 custom-checkbox">
-                        <Form.Check 
-                          type="checkbox"
-                          id="hipertension-check"
-                          label={
-                            <>
-                              <RiMentalHealthLine className="me-2 text-primary" />
-                              Hipertensión
-                            </>
-                          }
-                          name="hipertension"
-                          checked={formData.hipertension === '1'}
-                          onChange={handleCheckboxChange}
-                        />
-                      </Form.Group>
+                    <Col xs={12} sm={6}>
+                      <Form.Check 
+                        type="checkbox"
+                        id="hipertension-check"
+                        label={
+                          <span className="d-flex align-items-center">
+                            <RiMentalHealthLine className="me-2 text-primary" />
+                            Hipertensión
+                          </span>
+                        }
+                        name="hipertension"
+                        checked={formData.hipertension === '1'}
+                        onChange={handleCheckboxChange}
+                        className="mb-2"
+                      />
                     </Col>
                   </Row>
                   
-                  <Form.Group className="custom-checkbox">
-                    <Form.Check 
-                      type="checkbox"
-                      id="otra-enfermedad-check"
-                      label="Otras condiciones médicas"
-                      name="otra_enfermedad"
-                      checked={formData.otra_enfermedad === '1'}
-                      onChange={handleCheckboxChange}
+                  <Form.Check 
+                    type="checkbox"
+                    id="otra-enfermedad-check"
+                    label="Otras condiciones médicas"
+                    name="otra_enfermedad"
+                    checked={formData.otra_enfermedad === '1'}
+                    onChange={handleCheckboxChange}
+                    className="mb-2"
+                  />
+                  {formData.otra_enfermedad === '1' && (
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      placeholder="Describe tu condición"
+                      name="otra_enfermedad_desc"
+                      value={formData.otra_enfermedad_desc}
+                      onChange={handleChange}
+                      className="mt-2"
+                      size="sm"
                     />
-                    {formData.otra_enfermedad === '1' && (
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Por favor describe tu condición"
-                        name="otra_enfermedad_desc"
-                        value={formData.otra_enfermedad_desc}
-                        onChange={handleChange}
-                        className="mt-2 form-control-custom"
-                      />
-                    )}
-                  </Form.Group>
+                  )}
                 </Card.Body>
               </Card>
             </div>
@@ -256,74 +247,72 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
           {/* Paso 2: Medicamentos y consumo calórico */}
           {step === 2 && (
             <div className="animate-fade-in">
-              <div className="d-flex align-items-center mb-4">
-                <div className="step-icon bg-warning text-white">
-                  <FaPills size={20} />
+              <div className="d-flex align-items-center mb-3">
+                <div className="bg-warning text-white rounded-circle p-2 d-flex align-items-center justify-content-center me-2" style={{width: '36px', height: '36px'}}>
+                  <FaPills size={16} />
                 </div>
-                <h4 className="mb-0 ms-3">Medicamentos y Hábitos</h4>
+                <h5 className="mb-0">Medicamentos y Hábitos</h5>
               </div>
               
-              <Card className="mb-4 medication-card">
-                <Card.Body>
-                  <Form.Group className="custom-checkbox">
-                    <Form.Check 
-                      type="checkbox"
-                      id="medicamento-check"
-                      label={
-                        <>
-                          <FaPills className="me-2 text-warning" />
-                          ¿Tomas algún medicamento actualmente?
-                        </>
-                      }
-                      name="toma_medicamento"
-                      checked={formData.toma_medicamento === '1'}
-                      onChange={handleCheckboxChange}
+              <Card className="mb-3">
+                <Card.Body className="p-3">
+                  <Form.Check 
+                    type="checkbox"
+                    id="medicamento-check"
+                    label={
+                      <span className="d-flex align-items-center">
+                        <FaPills className="me-2 text-warning" />
+                        ¿Tomas algún medicamento actualmente?
+                      </span>
+                    }
+                    name="toma_medicamento"
+                    checked={formData.toma_medicamento === '1'}
+                    onChange={handleCheckboxChange}
+                    className="mb-2"
+                  />
+                  {formData.toma_medicamento === '1' && (
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      placeholder="Lista de medicamentos (nombre, dosis, frecuencia)"
+                      name="medicamento_descrip"
+                      value={formData.medicamento_descrip}
+                      onChange={handleChange}
+                      className="mt-2"
+                      size="sm"
                     />
-                    {formData.toma_medicamento === '1' && (
-                      <>
-                        <Form.Control
-                          as="textarea"
-                          rows={3}
-                          placeholder="Lista de medicamentos (nombre, dosis, frecuencia)"
-                          name="medicamento_descrip"
-                          value={formData.medicamento_descrip}
-                          onChange={handleChange}
-                          className="mt-3 form-control-custom"
-                        />
-                      </>
-                    )}
-                  </Form.Group>
+                  )}
                 </Card.Body>
               </Card>
               
-              <Card className="mb-4 calories-card">
-                <Card.Body>
-                  <Form.Group className="custom-checkbox">
-                    <Form.Check 
-                      type="checkbox"
-                      id="calorias-check"
-                      label={
-                        <>
-                          <FaFireAlt className="me-2 text-danger" />
-                          ¿Llevas un control de tu consumo calórico?
-                        </>
-                      }
-                      name="consumo_calorias"
-                      checked={formData.consumo_calorias === '1'}
-                      onChange={handleCheckboxChange}
+              <Card className="mb-3">
+                <Card.Body className="p-3">
+                  <Form.Check 
+                    type="checkbox"
+                    id="calorias-check"
+                    label={
+                      <span className="d-flex align-items-center">
+                        <FaFireAlt className="me-2 text-danger" />
+                        ¿Llevas control de tu consumo calórico?
+                      </span>
+                    }
+                    name="consumo_calorias"
+                    checked={formData.consumo_calorias === '1'}
+                    onChange={handleCheckboxChange}
+                    className="mb-2"
+                  />
+                  {formData.consumo_calorias === '1' && (
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      placeholder="Describe cómo llevas el control"
+                      name="calorias_descrip"
+                      value={formData.calorias_descrip}
+                      onChange={handleChange}
+                      className="mt-2"
+                      size="sm"
                     />
-                    {formData.consumo_calorias === '1' && (
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Describe cómo llevas el control (app, diario, etc.)"
-                        name="calorias_descrip"
-                        value={formData.calorias_descrip}
-                        onChange={handleChange}
-                        className="mt-3 form-control-custom"
-                      />
-                    )}
-                  </Form.Group>
+                  )}
                 </Card.Body>
               </Card>
             </div>
@@ -332,35 +321,35 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
           {/* Paso 3: Alergias */}
           {step === 3 && (
             <div className="animate-fade-in">
-              <div className="d-flex align-items-center mb-4">
-                <div className="step-icon bg-danger text-white">
-                  <FaAllergies size={20} />
+              <div className="d-flex align-items-center mb-3">
+                <div className="bg-danger text-white rounded-circle p-2 d-flex align-items-center justify-content-center me-2" style={{width: '36px', height: '36px'}}>
+                  <FaAllergies size={16} />
                 </div>
-                <h4 className="mb-0 ms-3">Alergias e Intolerancias</h4>
+                <h5 className="mb-0">Alergias e Intolerancias</h5>
               </div>
               
-              <Alert variant="info" className="d-flex align-items-center">
-                <FaExclamationTriangle className="me-2 flex-shrink-0" />
-                <div>
-                  Esta información es crucial para evitar recomendaciones de alimentos que puedan afectar tu salud.
+              <Alert variant="info" className="d-flex align-items-start p-2 mb-3">
+                <FaExclamationTriangle className="me-2 mt-1 flex-shrink-0" />
+                <div className="small">
+                  Información crucial para evitar recomendaciones de alimentos que puedan afectar tu salud.
                 </div>
               </Alert>
               
-              <Card className="mt-4 allergies-card">
-                <Card.Body>
+              <Card className="mb-3">
+                <Card.Body className="p-3">
                   <Form.Group>
-                    <Form.Label className="fw-bold d-flex align-items-center">
+                    <Form.Label className="fw-bold d-flex align-items-center mb-2">
                       <FaAllergies className="me-2 text-danger" />
-                      Alergias o intolerancias alimentarias
+                      Alergias o intolerancias
                     </Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={5}
-                      placeholder="Ej: Alergia a los mariscos, intolerancia a la lactosa, alergia a frutos secos, etc."
+                      rows={3}
+                      placeholder="Ej: Alergia a mariscos, intolerancia a lactosa, etc."
                       name="alergias"
                       value={formData.alergias}
                       onChange={handleChange}
-                      className="form-control-custom"
+                      size="sm"
                       required
                     />
                   </Form.Group>
@@ -372,28 +361,28 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
           {/* Paso 4: Metas */}
           {step === 4 && (
             <div className="animate-fade-in">
-              <div className="d-flex align-items-center mb-4">
-                <div className="step-icon bg-success text-white">
-                  <FaBullseye size={20} />
+              <div className="d-flex align-items-center mb-3">
+                <div className="bg-success text-white rounded-circle p-2 d-flex align-items-center justify-content-center me-2" style={{width: '36px', height: '36px'}}>
+                  <FaBullseye size={16} />
                 </div>
-                <h4 className="mb-0 ms-3">Tus Metas Nutricionales</h4>
+                <h5 className="mb-0">Tus Metas Nutricionales</h5>
               </div>
               
-              <Card className="goals-card">
-                <Card.Body>
+              <Card className="mb-3">
+                <Card.Body className="p-3">
                   <Form.Group>
-                    <Form.Label className="fw-bold d-flex align-items-center mb-3">
+                    <Form.Label className="fw-bold d-flex align-items-center mb-2">
                       <FaHeartbeat className="me-2 text-success" />
-                      ¿Cuáles son tus principales objetivos con la nutrición?*
+                      Objetivos principales*
                     </Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={5}
-                      placeholder="Ej: Perder peso, ganar masa muscular, mejorar mi energía, controlar diabetes, reducir colesterol, mejorar digestión, etc."
+                      rows={3}
+                      placeholder="Ej: Perder peso, ganar masa muscular, mejorar energía, etc."
                       name="metas"
                       value={formData.metas}
                       onChange={handleChange}
-                      className="form-control-custom"
+                      size="sm"
                       required
                     />
                   </Form.Group>
@@ -402,12 +391,13 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
             </div>
           )}
           
-          <div className="d-flex justify-content-between mt-5">
+          <div className="d-flex justify-content-between mt-4">
             {step > 1 ? (
               <Button 
                 variant="outline-secondary" 
                 onClick={prevStep}
-                className="d-flex align-items-center step-button"
+                size="sm"
+                className="d-flex align-items-center px-3"
               >
                 <FaChevronLeft className="me-1" /> Anterior
               </Button>
@@ -419,7 +409,8 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
               <Button 
                 variant="primary" 
                 onClick={nextStep}
-                className="d-flex align-items-center step-button"
+                size="sm"
+                className="d-flex align-items-center px-3"
               >
                 Siguiente <FaChevronRight className="ms-1" />
               </Button>
@@ -427,9 +418,10 @@ const CuestionarioModal = ({ show, onHide, id_persona, idPersona, refreshDashboa
               <Button 
                 variant="success" 
                 type="submit"
-                className="d-flex align-items-center submit-button"
+                size="sm"
+                className="d-flex align-items-center px-3"
               >
-                <FaCheckCircle className="me-2" /> {hasQuestionnaire ? 'Actualizar' : 'Enviar'} Cuestionario
+                <FaCheckCircle className="me-1" /> {hasQuestionnaire ? 'Actualizar' : 'Enviar'}
               </Button>
             )}
           </div>

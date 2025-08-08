@@ -173,7 +173,7 @@ const DietaUser = () => {
                 </div>
               </div>
               <Button 
-                variant="outline-primary" 
+                variant="outline-secondary" 
                 className="w-100 mt-3"
                 onClick={() => {
                   setSelectedDieta(filteredDietas[0]);
@@ -311,13 +311,13 @@ const DietaUser = () => {
                       <span>{dieta.peso_actual} kg</span>
                     </div>
                     <div className="history-macros">
-                      <div className="macro-chip protein">
+                      <div className="macro-chip ">
                         <FaEgg /> {dieta.proteinas}g
                       </div>
-                      <div className="macro-chip carbs">
+                      <div className="macro-chip ">
                         <FaBreadSlice /> {dieta.carbohidratos}g
                       </div>
-                      <div className="macro-chip fat">
+                      <div className="macro-chip ">
                         <FaCheese /> {dieta.grasas}g
                       </div>
                     </div>
@@ -462,7 +462,7 @@ const DietaUser = () => {
                     </div>
                     <div className="macros-details">
                       <div className="macro-detail">
-                        <div className="macro-label protein">
+                        <div className="macro-label">
                           <FaEgg /> Proteínas
                         </div>
                         <div className="macro-values">
@@ -471,7 +471,7 @@ const DietaUser = () => {
                         </div>
                       </div>
                       <div className="macro-detail">
-                        <div className="macro-label carbs">
+                        <div className="macro-label">
                           <FaBreadSlice /> Carbohidratos
                         </div>
                         <div className="macro-values">

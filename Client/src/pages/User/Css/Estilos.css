@@ -148,7 +148,7 @@
 }
 
 .highlight-text {
-  color: #3498db;
+  color: #35b0ab;
   font-weight: 800;
 }
 
@@ -194,7 +194,7 @@
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #64b5f6, #2196f3);
+  background: linear-gradient(90deg ,#35b0ab, #26874E);
   border-radius: 20px;
 }
 
@@ -807,7 +807,7 @@
 
 /* Estilos para el botón de editar */
 .edit-button {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -953,7 +953,7 @@
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #6e8efb, #a777e3);
+  background: linear-gradient(90deg, #35b0ab, #26874E);
   border-radius: 10px;
   transition: width 0.5s ease;
 }
@@ -981,7 +981,7 @@
 }
 
 .progress-step.active {
-  background: #6e8efb;
+  background: #26874E;
   color: white;
 }
 
@@ -1123,7 +1123,7 @@
 }
 
 .next-button {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
   border: none;
 }
@@ -1369,7 +1369,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
 }
 
@@ -1529,7 +1529,7 @@
 }
 
 .stat-card.main-stat {
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
   grid-column: span 2;
 }
@@ -1825,7 +1825,7 @@
 .calories-circle {
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -2195,7 +2195,7 @@
 }
 
 .dieta-modal-header {
-  background: linear-gradient(135deg, #3498db, #2ecc71);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
   border: none;
 }
@@ -2498,7 +2498,7 @@
 }
 
 .upload-button {
-  background-color: #27ae60;
+  background-color: #35b0ab;
   border: none;
   padding: 10px 20px;
   font-weight: 500;
@@ -2697,7 +2697,7 @@
 
 /* Add Plan Button */
 .add-plan-btn {
-  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  background: linear-gradient(135deg, #35b0ab, #26874E);
   color: white;
   border: none;
   border-radius: 8px;
@@ -2785,7 +2785,7 @@
 }
 
 .plan-icon {
-  color: #2196f3;
+  color: #35b0ab;
   width: 20px;
   text-align: center;
 }
@@ -2949,6 +2949,13 @@
 .action-icon-btn svg {
   font-size: 14px;
 }
+
+
+
+
+
+
+
 
 
 

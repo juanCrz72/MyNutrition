@@ -1,7 +1,7 @@
 /* ==================== ESTILOS PRINCIPALES DEL SIDEBAR ==================== */
 :root {
   --primary: #35b0ab;
-  --primary-light: #e0f7f6; /* Un tono más claro opcional */
+  --primary-light: #f7f1e0; /* Un tono más claro opcional */
   --dark: #212529; /* Si no está definido aún */
 }
 

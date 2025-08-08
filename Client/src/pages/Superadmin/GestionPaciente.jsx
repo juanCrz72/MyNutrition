@@ -480,25 +480,25 @@ const NutritionDashboard = () => {
         <div className="dashboard-tabs">
           <ButtonGroup className="tab-navigation">
             <Button
-              variant={activeTab === 'datos-generales' ? 'primary' : 'outline-primary'}
+              variant={activeTab === 'datos-generales' ? 'primary' : 'outline-secondary'}
               onClick={() => setActiveTab('datos-generales')}
             >
               <FaUser className="me-2" /> Datos Generales
             </Button>
             <Button
-              variant={activeTab === 'dietas' ? 'primary' : 'outline-primary'}
+              variant={activeTab === 'dietas' ? 'primary' : 'outline-secondary'}
               onClick={() => setActiveTab('dietas')}
             >
               <FaUtensils className="me-2" /> Dietas
             </Button>
             <Button
-              variant={activeTab === 'documentos' ? 'primary' : 'outline-primary'}
+              variant={activeTab === 'documentos' ? 'primary' : 'outline-secondary'}
               onClick={() => setActiveTab('documentos')}
             >
               <FaFileUpload className="me-2" /> Documentos/Fotos
             </Button>
             <Button
-              variant={activeTab === 'planes' ? 'primary' : 'outline-primary'}
+              variant={activeTab === 'planes' ? 'primary' : 'outline-secondary'}
               onClick={() => setActiveTab('planes')}
             >
               <FaList className="me-2" /> Planes

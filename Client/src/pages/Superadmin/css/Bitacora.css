@@ -339,6 +339,13 @@
   font-size: 0.85rem;
 }
 
+.nutrition-header2 {
+  background-color: #2d8659; /* verde oscuro */
+  color: white;              /* texto blanco */
+  padding: 1rem;
+  border-radius: 6px 6px 0 0;
+}
+
 
 
 

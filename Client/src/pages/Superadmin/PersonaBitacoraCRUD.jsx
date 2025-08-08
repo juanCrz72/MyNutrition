@@ -355,7 +355,7 @@ const PersonaBitacoraCRUD = ({
         <Modal.Title>
           <FaUtensils className="me-2" />
           <span className="meal-type">{mealType}</span>
-          <small className="text-muted ms-2">{formatDate(selectedDate)}</small>
+          <small className="text-white  ms-2">{formatDate(selectedDate)}</small>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="p-4">

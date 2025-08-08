@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
           <h3 className="logo">
-            <span style={{ color: "#73C883" }}>Nutrition</span> Admin 
+            <span style={{ color: "#35b0ab" }}>Nutrition</span> Admin 
           </h3>
         </div>
 

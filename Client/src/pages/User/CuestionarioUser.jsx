@@ -445,7 +445,7 @@ const CuestionarioUser = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="progress-info">
+            <div className="progress-info2">
               <h3>Progreso</h3>
               <div className="progress-container">
                 <div 

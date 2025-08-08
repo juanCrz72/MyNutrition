@@ -174,9 +174,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="panel-header">
           <h3 className="brand-logo">
             {isOpen ? (
-              <span style={{ color: "#ff7e5f" }}>NutriConnect</span>
+              <span style={{ color: "#35b0ab" , fontSize: '1.4rem' }}>Nutrition Concierge</span>
             ) : (
-              <FaApple style={{ color: "#ff7e5f", fontSize: '1.8rem' }} />
+              <FaApple style={{ color: "#35b0ab", fontSize: '1.8rem' }} />
             )}
           </h3>
         </div>

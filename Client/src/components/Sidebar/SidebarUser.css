@@ -1,9 +1,9 @@
 :root {
   /* Colores principales */
-  --color-primary: #ff7e5f;
-  --color-primary-light: #feb47b;
-  --color-primary-dark: #ff6a4d;
-  --color-primary-darker: #fea366;
+  --color-primary: #35b0ab;
+  --color-primary-light: #35b0ab;
+  --color-primary-dark: #3f1b93;
+  --color-primary-darker: #2a3f74;
   
   /* Colores de fondo */
   --bg-white: white;
@@ -21,7 +21,7 @@
   
   /* Sombras */
   --shadow-light: rgba(0, 0, 0, 0.1);
-  --shadow-primary: rgba(255, 126, 95, 0.3);
+  --shadow-primary: rgba(148, 95, 255, 0.3);
   
   /* Overlay */
   --overlay-dark: rgba(0, 0, 0, 0.5);
@@ -358,7 +358,7 @@
 /* Agrega esto en tu SidebarUser.css */
 
 .mobile-nav-btn.special-btn .bitacora-circle {
-  background-color: #ff7e5f;
+  background-color: #5f5fff;
   width: 50px;
   height: 50px;
   border-radius: 50%;

@@ -94,7 +94,7 @@ function Persona() {
       {/* Encabezado */}
       <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 mb-md-4 gap-2">
         <h2 className="h3 mb-3 mb-md-0 text-dark fw-bold">
-          <FaUserCircle className="me-2" style={{ color: 'var(--crud-primary)' }} />
+          <FaUserCircle className="me-2" style={{ color: 'var(--crud-principal)' }} />
           Gestión de Personas
         </h2>
         <div className="d-flex flex-wrap gap-2 w-100 w-sm-auto justify-content-start justify-content-sm-end">
@@ -199,7 +199,7 @@ function Persona() {
                     </div>
                     <div className="d-flex flex-column flex-grow-1 min-width-0">
                       <h6 className="mb-0 text-white fw-semibold text-truncate" title={`${persona.nombre} ${persona.apellidos}`}>
-                        {persona.nombre} {persona.apellidos} {persona.id_usuario}
+                        {persona.nombre} {persona.apellidos} 
                       </h6>
                       <div className="d-flex justify-content-between align-items-center mt-1">
                         <span className="badge bg-white text-primary px-2 py-1 small">{persona.edad} años</span>

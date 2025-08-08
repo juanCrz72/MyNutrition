@@ -95,8 +95,8 @@ const PerfilPage = () => {
                 </div>
                 {!editMode && (
                   <Button 
-                    variant="outline-light"
-                    className="edit-button"
+                    variant="primary"
+                    className="primary"
                     onClick={() => setEditMode(true)}
                   >
                     <FaEdit className="me-2" /> Editar Perfil

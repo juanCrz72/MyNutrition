@@ -308,7 +308,7 @@ function Alimentos() {
                           <FaInfoCircle />
                         </button>
                         <button
-                          className="crud-btn btn-secondary btn-sm text-white"
+                          className="crud-btn btn-primary btn-sm text-white"
                           onClick={() => showImageUpload(alimento)}
                         >
                           <FaImage />
@@ -418,7 +418,7 @@ function Alimentos() {
                             </button>
                             {!imagenAlimento && (
                               <button
-                                className="crud-btn btn-secondary btn-sm text-white"
+                                className="crud-btn btn-primary btn-sm text-white"
                                 onClick={() => showImageUpload(alimento)}
                               >
                                 <FaImage />

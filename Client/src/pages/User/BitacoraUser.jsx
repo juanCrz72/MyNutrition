@@ -735,127 +735,129 @@ const handleAutoAddFood = async (food, mealType) => {
       />
 
       {/* Modal de recomendaciones */}
-      {showRecommendations && (
-        <div className={`modal fade ${showRecommendations ? 'show d-block' : ''}`} 
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <div className="modal-dialog modal-lg modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header bg-primary text-white">
-                <h5 className="modal-title">
-                  <FaLightbulb className="me-2" />
-                  Alternativas similares a {recommendationsFor?.Alimento}
-                </h5>
-                <button 
-                  type="button" 
-                  className="btn-close btn-close-white"
-                  onClick={() => setShowRecommendations(false)}
-                ></button>
-              </div>
-              
-              <div className="modal-body">
-                <div className="alert alert-info mb-4">
-                  <FaInfoCircle className="me-2" />
-                  Te mostramos alternativas de la misma categoría ({recommendationsFor?.categoriaAlimento}) 
-                  con valor nutricional similar.
-                </div>
-                
-                {similarFoods.length > 0 ? (
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Alimento</th>
-                          <th>Porción</th>
-                          <th>Nutrientes (por 100g)</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {similarFoods.map((food, index) => (
-                          <tr key={`rec-${index}`}>
-                            <td>
-                              <div className="d-flex align-items-center gap-2">
-                                {food.documento_localizacion ? (
-                                  <img 
-                                    src={`/${food.documento_localizacion}`} 
-                                    alt={food.Alimento}
-                                    className="food-image rounded"
-                                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
-                                  />
-                                ) : (
-                                  <div className="food-image-placeholder small">
-                                    <FaLeaf className="placeholder-icon" />
-                                  </div>
-                                )}
-                                <span>{food.Alimento}</span>
-                              </div>
-                            </td>
-                            <td>
-                              {food.Cantidad_Sugerida} {food.Unidad}
-                            </td>
-                            <td>
-                              <div className="d-flex flex-wrap gap-1">
-                                <span className="badge bg-primary-bg text-primary">
-                                  {food.Energia_kcal} kcal
-                                </span>
-                                <span className="badge bg-success-bg text-success">
-                                  P: {food.Proteina_g}g
-                                </span>
-                                <span className="badge bg-warning-bg text-warning">
-                                  C: {food.Carbohidratos_g}g
-                                </span>
-                                <span className="badge bg-danger-bg text-danger">
-                                  G: {food.Grasa_g}g
-                                </span>
-                              </div>
-                            </td>
-                            <td>
-                              <button 
-                                className="btn btn-sm btn-primary"
-                                onClick={() => handleAutoAddFood(food, recommendationsFor.tipo_comida)}
-                                disabled={addingFood === food.id}
-                              >
-                                {addingFood === food.id ? (
-                                  <>
-                                    <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                                    Agregando...
-                                  </>
-                                ) : (
-                                  <>
-                                    <FaPlus className="me-1" /> Agregar
-                                  </>
-                                )}
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="text-center py-4">
-                    <FaRandom className="display-4 text-muted mb-3" />
-                    <h5>No encontramos alternativas similares</h5>
-                    <p className="text-muted">
-                      No hay otros alimentos registrados en la categoría {recommendationsFor?.categoriaAlimento}
-                    </p>
-                  </div>
-                )}
-              </div>
-              
-              <div className="modal-footer">
-                <button 
-                  type="button" 
-                  className="btn btn-secondary"
-                  onClick={() => setShowRecommendations(false)}
-                >
-                  Cerrar
-                </button>
-              </div>
-            </div>
-          </div>
+{showRecommendations && (
+  <div className={`modal fade ${showRecommendations ? 'show d-block' : ''}`} 
+    style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+    <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div className="modal-content">
+        <div className="modal-header secondary text-white">
+          <h5 className="modal-title fs-6">
+            <FaLightbulb className="me-2" />
+            Alternativas similares a {recommendationsFor?.Alimento}
+          </h5>
+          <button 
+            type="button" 
+            className="btn-close btn-close-white"
+            onClick={() => setShowRecommendations(false)}
+          ></button>
         </div>
-      )}
+        
+        <div className="modal-body p-2 p-sm-3">
+          <div className="alert alert-info mb-3 mb-sm-4 p-2 p-sm-3">
+            <FaInfoCircle className="me-2" />
+            <small>Te mostramos alternativas de la misma categoría ({recommendationsFor?.categoriaAlimento}) 
+            con valor nutricional similar.</small>
+          </div>
+          
+          {similarFoods.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th className="ps-2">Alimento</th>
+                    <th>Porción</th>
+                    <th>Nutrientes</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {similarFoods.map((food, index) => (
+                    <tr key={`rec-${index}`}>
+                      <td className="ps-2">
+                        <div className="d-flex align-items-center gap-1">
+                          {food.documento_localizacion ? (
+                            <img 
+                              src={`/${food.documento_localizacion}`} 
+                              alt={food.Alimento}
+                              className="food-image rounded"
+                              style={{ width: '30px', height: '30px', objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <div className="food-image-placeholder small">
+                              <FaLeaf className="placeholder-icon" />
+                            </div>
+                          )}
+                          <span className="text-truncate" style={{ maxWidth: '80px' }}>{food.Alimento}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <small>{food.Cantidad_Sugerida} {food.Unidad}</small>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-wrap gap-1">
+                          <span className="badge bg-primary-bg text-primary" style={{ fontSize: '0.65rem' }}>
+                            {food.Energia_kcal}kcal
+                          </span>
+                          <span className="badge bg-success-bg text-success" style={{ fontSize: '0.65rem' }}>
+                            P:{food.Proteina_g}g
+                          </span>
+                        </div>
+                        <div className="d-flex flex-wrap gap-1 mt-1">
+                          <span className="badge bg-warning-bg text-warning" style={{ fontSize: '0.65rem' }}>
+                            C:{food.Carbohidratos_g}g
+                          </span>
+                          <span className="badge bg-danger-bg text-danger" style={{ fontSize: '0.65rem' }}>
+                            G:{food.Grasa_g}g
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <button 
+                          className="btn btn-sm btn-primary py-1"
+                          onClick={() => handleAutoAddFood(food, recommendationsFor.tipo_comida)}
+                          disabled={addingFood === food.id}
+                        >
+                          {addingFood === food.id ? (
+                            <>
+                              <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                              <small>Agregando...</small>
+                            </>
+                          ) : (
+                            <>
+                              <FaPlus className="me-1" /> <small>Agregar</small>
+                            </>
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-center py-2 py-sm-4">
+              <FaRandom className="display-4 text-muted mb-2" style={{ fontSize: '2.5rem' }}/>
+              <h5 className="h6">No encontramos alternativas similares</h5>
+              <p className="text-muted small">
+                No hay otros alimentos registrados en la categoría {recommendationsFor?.categoriaAlimento}
+              </p>
+            </div>
+          )}
+        </div>
+        
+        <div className="modal-footer py-2">
+          <button 
+            type="button" 
+            className="btn btn-secondary btn-sm"
+            onClick={() => setShowRecommendations(false)}
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
