@@ -74,7 +74,7 @@ const ReportesProgreso = () => {
     try {
       setLoading(true);
       setError(null);
-      const bitacoraData = await getBitacoraComidas(usuarioSeleccionado.idPersona);
+      const bitacoraData = await getBitacoraComidas(usuarioSeleccionado.id_usuario);
       
       const datosFiltrados = bitacoraData.filter(item => {
         const fechaItem = new Date(item.fecha_registro);
@@ -260,7 +260,7 @@ const ReportesProgreso = () => {
                       <option value="">Seleccione un usuario</option>
                       {usuarios.map(usuario => (
                         <option key={usuario.id_usuario} value={usuario.id_usuario}>
-                          {usuario.nombre} {usuario.apellidos || ''}
+                         {usuario.nombre}
                         </option>
                       ))}
                     </Form.Select>
@@ -521,7 +521,7 @@ const ReportesProgreso = () => {
                       <option value="">Seleccione un usuario</option>
                       {usuarios.map(usuario => (
                         <option key={usuario.id_usuario} value={usuario.id_usuario}>
-                          {usuario.nombre} {usuario.apellidos || ''}
+                          {usuario.nombre} {usuario.id_usuario}
                         </option>
                       ))}
                     </Form.Control>

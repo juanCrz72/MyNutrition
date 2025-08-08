@@ -152,9 +152,9 @@ function Persona() {
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
           >
-            <option value={10}>10 items</option>
-            <option value={25}>25 items</option>
-            <option value={50}>50 items</option>
+            <option value={10}>10 Datos</option>
+            <option value={25}>25 Datos</option>
+            <option value={50}>50 Datos</option>
           </select>
         </div>
         
