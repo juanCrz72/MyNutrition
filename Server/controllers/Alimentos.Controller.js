@@ -3,14 +3,15 @@ import { db } from "../db/connection.js";
 // GET alimentos
 export const getAlimentos = async (req, res) => {
   try {
-    // Consulta alternativa si falla la primera
+    // Consulta mejorada para manejar ambos formatos de idPais
     let [rows] = await db.query(`
       SELECT 
         a.*, 
-        GROUP_CONCAT(p.nombre_pais) AS paises_nombres,
-        GROUP_CONCAT(p.idPais) AS paises_ids
+        GROUP_CONCAT(DISTINCT p.nombre_pais) AS paises_nombres,
+        GROUP_CONCAT(DISTINCT p.idPais) AS paises_ids
       FROM smae_alimentos a
       LEFT JOIN (
+        -- Subconsulta para manejar ids en formato string separado por comas
         SELECT 
           a.id, 
           TRIM(BOTH '"' FROM SUBSTRING_INDEX(SUBSTRING_INDEX(a.idPais, ',', n.n), ',', -1)) AS clean_pais_id
@@ -21,7 +22,24 @@ export const getAlimentos = async (req, res) => {
           SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10
         ) n
         ON n.n <= LENGTH(a.idPais) - LENGTH(REPLACE(a.idPais, ',', '')) + 1
-        WHERE a.idPais IS NOT NULL AND a.idPais != ''
+        WHERE a.idPais IS NOT NULL AND a.idPais != '' AND a.idPais NOT LIKE '[%'
+        
+        UNION ALL
+        
+        -- Subconsulta para manejar ids en formato JSON array
+        SELECT 
+          a.id, 
+          TRIM(BOTH '"' FROM REPLACE(REPLACE(REPLACE(
+            SUBSTRING_INDEX(SUBSTRING_INDEX(a.idPais, ',', n.n), ',', -1),
+            '[', ''), ']', ''), '"', '')) AS clean_pais_id
+        FROM smae_alimentos a
+        JOIN (
+          SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL
+          SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL
+          SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10
+        ) n
+        ON n.n <= (LENGTH(a.idPais) - LENGTH(REPLACE(a.idPais, ',', '')) + 1)
+        WHERE a.idPais IS NOT NULL AND a.idPais != '' AND a.idPais LIKE '[%'
       ) AS parsed ON a.id = parsed.id
       LEFT JOIN cat_paises p ON p.idPais = parsed.clean_pais_id
       GROUP BY a.id

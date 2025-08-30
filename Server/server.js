@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import os from 'os'; // ✅ Reemplaza require('os') por import
 
 // Configuración
-export const port = 3000;
+export const port = process.env.PORT || 3000;  // <-- ahora dinámico
 const host = '0.0.0.0'; // Escucha en todas las interfaces
 
 // Crear servidor HTTP y Socket.io
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
 
 // Iniciar servidor
 httpServer.listen(port, host, () => {
-  console.log(`Servidor corriendo en:`);
+  console.log(`🚀 Servidor corriendo en:`);
   console.log(`- Localhost:     http://localhost:${port}`);
   console.log(`- Red local:     http://${ipAddress}:${port}`);
   console.log(`- IP pública (si aplica): http://195.35.11.187:${port}`);

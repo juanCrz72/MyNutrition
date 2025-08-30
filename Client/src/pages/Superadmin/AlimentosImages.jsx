@@ -134,11 +134,13 @@ function Alimentos() {
   };
 
   // Filtrar datos según búsqueda
-  const filteredData = alimentoList.filter(item =>
+// Filtrar datos según búsqueda y estado activo
+const filteredData = alimentoList.filter(item =>
+  item.activo === 1 && (  // Solo alimentos activos
     (item?.Alimento ?? "").toLowerCase().includes(searchText.toLowerCase()) ||
     (item?.Categoria ?? "").toLowerCase().includes(searchText.toLowerCase())
-  );
-
+  )
+);
   // Paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -407,7 +409,8 @@ function Alimentos() {
                         <td>{alimento.Peso_Bruto_g}g</td>
                         <td>{alimento.Peso_Neto_g}g</td>
                         <td>{alimento.Energia_kcal}</td>
-                        <td>{alimento.activo === 1 ? "ACTIVO" : "INACTIVO"}</td>
+                         <td>{alimento.paises_ids}</td>
+                       {/*  <td>{alimento.activo === 1 ? "ACTIVO" : "INACTIVO"}</td> */}
                         <td>
                           <div className="d-flex gap-2">
                             <button

@@ -310,7 +310,7 @@ export const PacienteBitacora = () => {
             <table className="table table-hover mb-0 meal-table">
               <thead className="table-light">
                 <tr>
-                  <th>Alimento</th>
+                  <th>Alimentos</th>
                   <th>Categoría</th>
                   <th>Nutrientes (Total | Por porción)</th>
                   <th>Peso (Total | Por porción)</th>
@@ -326,6 +326,12 @@ export const PacienteBitacora = () => {
                     <tr key={`desktop-${index}`}>
                       <td>
                         <div className="fw-semibold">{item.Alimento}</div>
+
+{!item.activo && (
+  <div className="alert alert-warning mt-2" role="alert">
+ Este alimento no está activo. Actívalo para que aparezca en el catálogo.
+  </div>
+)}
                         <small className="text-muted">{item.porcion}</small>
                       </td>
                       <td className="text-capitalize">{item.categoriaAlimento.toLowerCase()}</td>
@@ -435,6 +441,11 @@ export const PacienteBitacora = () => {
                         {item.porcion}
                       </span>
                     </div>
+                    {!item.activo && (
+  <div className="alert alert-warning mt-2" role="alert">
+ Este alimento no está activo. Actívalo para que aparezca en el catálogo.
+  </div>
+)}
                   </div>
                 </div>
               );

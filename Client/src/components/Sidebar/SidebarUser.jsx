@@ -69,7 +69,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       path: '/dietaUser',
       submenu: [
         { id: 'plan-alimentacion', name: 'Mi plan', icon: <IoMdNutrition />, path: '/dietaUser' },
-        { id: 'seguimiento', name: 'Seguimiento', icon: <FaChartLine />, path: '/seguimiento-dieta' },
+        //{ id: 'seguimiento', name: 'Seguimiento', icon: <FaChartLine />, path: '/seguimiento-dieta' },
       ]
     },
     { 

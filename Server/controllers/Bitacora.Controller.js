@@ -20,6 +20,7 @@ export const getBitacoraComidas = async (req, res) => {
         sa.Unidad,
         sa.Carbohidratos_g,
         sa.Peso_Neto_g AS peso,
+        sa.activo,
         pd.calorias,
         pd.carbohidratos AS dieta_carbohidratos,
         pd.grasas AS dieta_grasas,
@@ -35,7 +36,7 @@ export const getBitacoraComidas = async (req, res) => {
       LEFT JOIN alimentos_documentos ad 
         ON sa.id = ad.idAlimento AND (ad.eliminado = 0 OR ad.eliminado IS NULL)
       LEFT JOIN persona_dieta pd ON p.idpersona = pd.idPersona AND pd.activo = 1
-      WHERE p.activo = 1 AND u.activo = 1 AND sa.activo = 1
+      WHERE p.activo = 1 AND u.activo = 1
     `;
 
     if (id_usuario) {

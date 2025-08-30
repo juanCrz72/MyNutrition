@@ -39,6 +39,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       submenu: [
        // { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaAppleAlt />, path: '/Alimentos' },
          { id: 'Alimentos', name: 'Catálogo de Alimentos', icon: <FaAppleAlt />, path: '/AlimentosImages' },  
+        { id: 'AlimentosNoActivos', name: 'Aprobar Alimentos', icon: <FaCarrot />, path: '/AlimentosNoActivos' },
 /*         { id: 'DocumentosAlimentos', name: 'Documentos Alimentos', icon: <FaFileUpload />, path: '/DocumentosAlimentos' }, 
         { id: 'AlimentosImages', name: 'Imágenes Alimentos', icon: <FaImages />, path: '/AlimentosImages' }
       */ ]

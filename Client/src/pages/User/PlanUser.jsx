@@ -187,12 +187,12 @@ const PlanesUser = () => {
                     </div>
                     <div className="plan-detail">
                       <span className="plan-icon"><FaCalendarAlt /></span>
-                      Término: {formatDate(plan.termino_plan)}
+                      Termino: {formatDate(plan.termino_plan)}
                     </div>
                   </div>
                   
                <div className="plan-actions">
-  <motion.button
+ {/*  <motion.button
     className="action-icon-btn edit-icon-btn"
     onClick={() => {
       setSelectedPlan(plan);
@@ -205,7 +205,8 @@ const PlanesUser = () => {
     title="Editar plan"
   >
     <FaEdit />
-  </motion.button>
+  </motion.button> */}
+
   <motion.button
     className="action-icon-btn delete-icon-btn"
     onClick={() => {

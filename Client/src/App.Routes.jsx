@@ -29,6 +29,7 @@ import DocumentosPersonas from './pages/Superadmin/DocumentosPersonas.jsx';
 import DocumentosAlimentos from './pages/Superadmin/DocumentosAlimentos.jsx';
 import PersonaImage from './pages/Superadmin/PersonaImage.jsx';
 import AlimentosImages from './pages/Superadmin/AlimentosImages.jsx';
+import AlimentosNoActivos from './pages/Superadmin/AlimentosNoActivos.jsx';
 import GestionUsuarios from './pages/Superadmin/Usuarios.jsx';
 import Reportes from './pages/Superadmin/registroComidas.jsx'; 
 
@@ -157,6 +158,12 @@ export default function AppRoutes() {
       <Route path="/AlimentosImages" element={
         <ProtectedRoute allowedRoles={[1]}>
           <AlimentosImages />
+        </ProtectedRoute>
+      } />
+
+        <Route path="/AlimentosNoActivos" element={
+        <ProtectedRoute allowedRoles={[1]}>
+          <AlimentosNoActivos />
         </ProtectedRoute>
       } />
 
